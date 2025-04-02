@@ -16,9 +16,12 @@ import java.time.Duration;
 public class CreateIotDevice {
     public static void main(String[] args) {
         try {
+            String idNumero = (args != null && args.length > 0) ? args[0] : "1";
+            int num = Integer.parseInt(idNumero);
+            String idFormateado = String.format("%03d", num);
             //Creo entidad IotDevice
             IotDevice device = new IotDevice();
-            device.setId(new URI("urn:ngsi-ld:IotDevice:002"));
+            device.setId(new URI("urn:ngsi-ld:IotDevice:" + idFormateado));
             device.setType(IotDevice.TypeEnum.IOT_DEVICE);
             //device.setType("IotDevice");    (ERROR)
             device.setDescription(new IotDescription().value("IoT device with humidity and temperature sensors"));
@@ -32,7 +35,7 @@ public class CreateIotDevice {
             //petición POST al context broker
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:1026/ngsi-ld/v1/entities")) // Cambia al endpoint de tu broker
+                .uri(URI.create("http://localhost:1026/ngsi-ld/v1/entities")) 
                 .timeout(Duration.ofSeconds(10))
                 .header("Content-Type", "application/json")
                 .header("Link", "<https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld>; rel=\"http://www.w3.org/ns/json-ld#context\"; type=\"application/ld+json\"")
@@ -41,9 +44,13 @@ public class CreateIotDevice {
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println("Response code: " + response.statusCode());
-            System.out.println("Response body: " + response.body());
+            String body = response.body();
+            if (body != null && !body.isBlank()) {
+                System.out.println("Response body: " + body);
+            }
 
         } catch (Exception e) {
+            System.err.println("Error al crear la entidad:");
             e.printStackTrace();
         }
     }
