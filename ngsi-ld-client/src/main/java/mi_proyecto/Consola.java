@@ -12,8 +12,9 @@ public class Consola{
             System.out.println("*****Menú de pruebas para entidades NGSI-LD*****");
             System.out.println("1: Crear entidad IoT");
             System.out.println("2: Crear sensor de humedad");
-            System.out.println("3: Consultar entidades IoT");
-            System.out.println("4: Borrar entidad IoT");
+            System.out.println("3: Crear sensor de temperatura");
+            System.out.println("4: Consultar entidades IoT");
+            System.out.println("5: Borrar entidad IoT");
             
             System.out.println("0: Salir");
             System.out.print("Selecciona una opción: ");
@@ -34,13 +35,19 @@ public class Consola{
                 System.out.println("\n[+] Crear sensor de humedad");
                 System.out.print("Introduce el número de ID: ");
                 String idNum = scanner.nextLine();
-                System.out.println("[+] Ejecutando CreateHumiditySensor con ID: " + idNum + "\n");
+                System.out.println("[+] Ejecutando CreateHumiditySensorEntity con ID: " + idNum + "\n");
                 CreateHumiditySensorEntity.main(new String[]{idNum}); 
-            }else if(opcion == 3) {
+            }else if(opcion == 3){
+                System.out.println("\n[+] Crear sensor de temperarura");
+                System.out.print("Introduce el número de ID: ");
+                String idNum = scanner.nextLine();
+                System.out.println("[+] Ejecutando CreateTemperatureSensorEntity con ID: " + idNum + "\n");
+                CreateTemperatureSensorEntity.main(new String[]{idNum}); 
+            }else if(opcion == 4) {
                 System.out.println("\n[+] Consultar entidades IoT");
                 System.out.println("[+] Ejecutando QueryIotDevices\n");
                 QueryIotEntities.main(null); 
-            }else if(opcion == 4) {
+            }else if(opcion == 5) {
                 System.out.println("\n[+] Borrar entidad IoT");
                 System.out.print("Introduce el número de ID: ");
                 String idNum = scanner.nextLine();
