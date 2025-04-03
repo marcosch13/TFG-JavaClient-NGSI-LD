@@ -6,7 +6,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 
-public class DeleteIotDevice {
+public class DeleteIotEntity {
     public static void main(String[] args) {
         try {
             

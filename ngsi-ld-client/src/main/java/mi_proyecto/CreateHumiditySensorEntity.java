@@ -1,0 +1,56 @@
+package mi_proyecto;
+
+import org.openapitools.client.model.HumiditySensor;
+import org.openapitools.client.model.Humidity;
+
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpRequest.BodyPublishers;
+import java.time.Duration;
+import java.math.BigDecimal;
+
+public class CreateHumiditySensorEntity {
+    public static void main(String[] args) {
+        try {
+            String idNumero = (args != null && args.length > 0) ? args[0] : "1";
+            int num = Integer.parseInt(idNumero);
+            String idFormateado = String.format("%03d", num);
+            //Creo entidad HumiditySensor
+            HumiditySensor sensor = new HumiditySensor();
+            sensor.setId(new URI("urn:ngsi-ld:HumiditySensor:" + idFormateado));
+            sensor.setType(HumiditySensor.TypeEnum.HUMIDITY_SENSOR);
+            sensor.setHumidity(new Humidity()
+                .type(Humidity.TypeEnum.PROPERTY)
+                .value(BigDecimal.valueOf(30.8)) //cual poner?? pongo el del ejemplo de python
+                .unitCode("P1")
+            );
+
+            // Convertir a JSON
+            String json = sensor.toJson();
+            System.out.println("Payload JSON:\n" + json);
+
+            //POST al context broker
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:1026/ngsi-ld/v1/entities"))
+                .timeout(Duration.ofSeconds(10))
+                .header("Content-Type", "application/json")
+                .header("Link", "<https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld>; rel=\"http://www.w3.org/ns/json-ld#context\"; type=\"application/ld+json\"")
+                .POST(BodyPublishers.ofString(json))
+                .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println("Response code: " + response.statusCode());
+            String body = response.body();
+            if (body != null && !body.isBlank()) {
+                System.out.println("Response body: " + body);
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error al crear la entidad HumiditySensor:");
+            e.printStackTrace();
+        }
+    }
+}

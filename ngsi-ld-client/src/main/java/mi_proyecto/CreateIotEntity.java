@@ -13,8 +13,8 @@ import java.net.http.HttpRequest.BodyPublishers;
 //import java.net.http.HttpClient.Version;
 import java.time.Duration;
 
-public class CreateIotDevice {
-    public static void main(String[] args) {
+public class CreateIotEntity{
+    public static void main(String[] args){
         try {
             String idNumero = (args != null && args.length > 0) ? args[0] : "1";
             int num = Integer.parseInt(idNumero);

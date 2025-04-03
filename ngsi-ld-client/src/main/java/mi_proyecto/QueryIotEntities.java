@@ -6,7 +6,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 
-public class QueryIotDevices {
+public class QueryIotEntities {
     public static void main(String[] args) {
         try {
             System.out.println("[+] Consultando entidades de tipo IotDevice...");
