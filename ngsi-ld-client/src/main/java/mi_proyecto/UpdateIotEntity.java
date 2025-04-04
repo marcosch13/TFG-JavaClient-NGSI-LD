@@ -82,7 +82,7 @@ public class UpdateIotEntity{
             if (body != null && !body.isBlank()) {
                 System.out.println("Response body: " + body);
             }
-
+            scanner.close();
         }catch (Exception e) {
             System.err.println("Error al actualizar la entidad:");
             e.printStackTrace();
