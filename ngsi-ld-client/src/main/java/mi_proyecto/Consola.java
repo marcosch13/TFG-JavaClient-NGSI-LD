@@ -61,8 +61,14 @@ public class Consola{
                 String idNum = scanner.nextLine();
                 System.out.println("[+] Ejecutando DeleteIotDevice con ID: " + idNum + "\n");
                 DeleteIotEntity.main(new String[]{idNum}); 
-            }
-            else if(opcion == 0) {
+            }else if(opcion == 7){
+                System.out.println("\n[+] Actualizar entidad IoT con sensores");
+                System.out.print("Introduce los 3 números de ID (idIot IdTemperatura IdHumedad): ");
+                String idNum = scanner.nextLine();
+                String[] ids = idNum.trim().split("\\s+");
+                System.out.println("[+] Ejecutando CreateIotEntityWithSensors con IDs: " + String.join(", ", ids) + "\n");
+                UpdateIotEntity.main(ids);
+            }else if(opcion == 0) {
                 System.out.println("Saliendo del programa...");
             }else{
                 System.out.println("Opción no válida.");
