@@ -2,15 +2,13 @@ package mi_proyecto;
 
 import org.openapitools.client.model.HasHumiditySensor;
 import org.openapitools.client.model.HasTemperatureSensor;
-import org.openapitools.client.model.IotDescription;
-import org.openapitools.client.model.IotDevice;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiResponse;
+import org.openapitools.client.api.ContextInformationProvisionApi;
+import org.openapitools.client.model.Entity;
+import org.openapitools.client.Configuration;
 
 import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpRequest.BodyPublishers;
-import java.time.Duration;
 import java.util.Scanner;
 
 public class UpdateIotEntity{
@@ -39,50 +37,36 @@ public class UpdateIotEntity{
             Scanner scanner = new Scanner(System.in);
             System.out.print("Introduce la descripción para el dispositivo IoT: ");
             String descripcion = scanner.nextLine();    
-            IotDevice device = new IotDevice();
-            device.setType(IotDevice.TypeEnum.IOT_DEVICE);
-            device.setDescription(new IotDescription().value(descripcion));
+
+            Entity fragmento = new Entity();
 
             if(tempSensorId != null){
             //Crear relación con el sensor de temperatura
-            HasTemperatureSensor TempSensor = new HasTemperatureSensor();
-            TempSensor.setType(HasTemperatureSensor.TypeEnum.RELATIONSHIP);
-            TempSensor.setObject("urn:ngsi-ld:TemperatureSensor:" + idFormateado2);
-            device.setHasTemperatureSensor(TempSensor);
+            HasTemperatureSensor tempSensor = new HasTemperatureSensor();
+            tempSensor.setType(HasTemperatureSensor.TypeEnum.RELATIONSHIP);
+            tempSensor.setObject("urn:ngsi-ld:TemperatureSensor:" + idFormateado2);
+            fragmento.putAdditionalProperty("hasTemperatureSensor", tempSensor);
             }
             if(humSensorId != null){
             //Crear relación con el sensor de humedad
-            HasHumiditySensor HumSensor = new HasHumiditySensor();
-            HumSensor.setType(HasHumiditySensor.TypeEnum.RELATIONSHIP);
-            HumSensor.setObject("urn:ngsi-ld:HumiditySensor:" + idFormateado3);
-            device.setHasHumiditySensor(HumSensor);
+            HasHumiditySensor humSensor = new HasHumiditySensor();
+            humSensor.setType(HasHumiditySensor.TypeEnum.RELATIONSHIP);
+            humSensor.setObject("urn:ngsi-ld:HumiditySensor:" + idFormateado3);
+            fragmento.putAdditionalProperty("hasHumiditySensor", humSensor);
             }
 
-          
             
-            
+            fragmento.putAdditionalProperty("description", descripcion);
 
-            //Convertir a JSON
-            String json = device.toJson();
-            System.out.println("Payload JSON:\n" + json);
-            
-            //petición PATCH al context broker
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create("http://localhost:1026/ngsi-ld/v1/entities/urn:ngsi-ld:IotDevice:"+ idFormateado +"/attrs"))  
-            .timeout(Duration.ofSeconds(10))
-            .header("Content-Type", "application/json")
-            .header("Link", "<https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld>; rel=\"http://www.w3.org/ns/json-ld#context\"; type=\"application/ld+json\"")
-            .method("PATCH", BodyPublishers.ofString(json))
-            .build();
+            ApiClient apiClient = Configuration.getDefaultApiClient();
+            apiClient.setBasePath("http://localhost:1026/ngsi-ld/v1");
+            ContextInformationProvisionApi apiInstance = new ContextInformationProvisionApi(apiClient);
 
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println("Response code: " + response.statusCode());
-            String body = response.body();
-            if (body != null && !body.isBlank()) {
-                System.out.println("Response body: " + body);
-            }
-            scanner.close();
+            URI entityId = new URI("urn:ngsi-ld:IotDevice:" + idFormateado);
+            ApiResponse<Void> response = apiInstance.appendAttrsWithHttpInfo(entityId, null, null, null, null, null, fragmento);
+            System.out.println("respuesta: " + response.getStatusCode());
+            
+            
         }catch (Exception e) {
             System.err.println("Error al actualizar la entidad:");
             e.printStackTrace();
