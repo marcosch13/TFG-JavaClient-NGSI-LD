@@ -85,6 +85,7 @@ public class Consola{
                 UpdateHumiditySensor.main(new String[]{idNum}); 
             }else if(opcion == 0) {
                 System.out.println("Saliendo del programa...");
+                System.exit(0);
             }else{
                 System.out.println("Opción no válida.");
             }

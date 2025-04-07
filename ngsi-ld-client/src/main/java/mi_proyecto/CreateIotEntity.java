@@ -32,7 +32,7 @@ public class CreateIotEntity {
             //Paso a entidad NGSI-LD genérica
             QueryEntity200ResponseInner entity = QueryEntity200ResponseInner.fromJson(json);
 
-            // Crear cliente y API
+            // Crear cliente y api
             ApiClient apiClient = Configuration.getDefaultApiClient();
             apiClient.setBasePath("http://localhost:1026/ngsi-ld/v1");
             ContextInformationProvisionApi api = new ContextInformationProvisionApi(apiClient);

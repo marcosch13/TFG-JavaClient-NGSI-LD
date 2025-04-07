@@ -1,16 +1,16 @@
 package mi_proyecto;
 
 import org.openapitools.client.model.IotDevice;
+import org.openapitools.client.model.QueryEntity200ResponseInner;
 import org.openapitools.client.model.IotDescription;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiResponse;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.api.ContextInformationProvisionApi;
 import org.openapitools.client.model.HasHumiditySensor;
 import org.openapitools.client.model.HasTemperatureSensor;
-
 import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpRequest.BodyPublishers;
-import java.time.Duration;
+
 
 public class CreateIotEntityWithSensors{
     public static void main(String[] args){
@@ -33,40 +33,38 @@ public class CreateIotEntityWithSensors{
             device.setDescription(new IotDescription().value("IoT device with humidity and temperature sensors"));
 
             //Crear relación con el sensor de temperatura
-            HasTemperatureSensor TempSensor = new HasTemperatureSensor();
-            TempSensor.setType(HasTemperatureSensor.TypeEnum.RELATIONSHIP);
-            TempSensor.setObject("urn:ngsi-ld:TemperatureSensor:" + idFormateado2);
+            HasTemperatureSensor tempSensor = new HasTemperatureSensor();
+            tempSensor.setType(HasTemperatureSensor.TypeEnum.RELATIONSHIP);
+            tempSensor.setObject("urn:ngsi-ld:TemperatureSensor:" + idFormateado2);
             
             //Crear relación con el sensor de humedad
-            HasHumiditySensor HumSensor = new HasHumiditySensor();
-            HumSensor.setType(HasHumiditySensor.TypeEnum.RELATIONSHIP);
-            HumSensor.setObject("urn:ngsi-ld:HumiditySensor:" + idFormateado3);
+            HasHumiditySensor humSensor = new HasHumiditySensor();
+            humSensor.setType(HasHumiditySensor.TypeEnum.RELATIONSHIP);
+            humSensor.setObject("urn:ngsi-ld:HumiditySensor:" + idFormateado3);
 
             //Añadir las relaciones a la entidad
-            device.setHasTemperatureSensor(TempSensor);
-            device.setHasHumiditySensor(HumSensor);
+            device.setHasTemperatureSensor(tempSensor);
+            device.setHasHumiditySensor(humSensor);
 
             
             //Convertir a JSON
             String json = device.toJson();
             System.out.println("Payload JSON:\n" + json);
 
-            //petición POST al context broker
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:1026/ngsi-ld/v1/entities")) 
-                .timeout(Duration.ofSeconds(10))
-                .header("Content-Type", "application/json")
-                .header("Link", "<https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld>; rel=\"http://www.w3.org/ns/json-ld#context\"; type=\"application/ld+json\"")
-                .POST(BodyPublishers.ofString(json))
-                .build();
+            
+            //Paso a entidad NGSI-LD genérica
+            QueryEntity200ResponseInner entity = QueryEntity200ResponseInner.fromJson(json);
 
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println("Response code: " + response.statusCode());
-            String body = response.body();
-            if (body != null && !body.isBlank()) {
-                System.out.println("Response body: " + body);
-            }
+            // Crear cliente y api
+            ApiClient apiClient = Configuration.getDefaultApiClient();
+            apiClient.setBasePath("http://localhost:1026/ngsi-ld/v1");
+            ContextInformationProvisionApi api = new ContextInformationProvisionApi(apiClient);
+
+            //Crear la entidad usando la API
+             ApiResponse<Void> response = api.createEntityWithHttpInfo(null, null, null, entity);
+
+            //obtener respuesta del context broker y mostrarla
+            System.out.println("Código de respuesta: " + response.getStatusCode());
 
         } catch (Exception e) {
             System.err.println("Error al crear la entidad:");
