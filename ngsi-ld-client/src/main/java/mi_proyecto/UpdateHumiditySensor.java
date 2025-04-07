@@ -18,7 +18,7 @@ public class UpdateHumiditySensor {
             String idFormateado = String.format("%03d", num);
 
             Scanner scanner = new Scanner(System.in);
-            System.out.print("Introduce el nuevo valor de temperatura: ");
+            System.out.print("Introduce el nuevo valor de humedad: ");
             BigDecimal nuevaHumedad = new BigDecimal(scanner.nextLine());
 
             Entity fragmento = new Entity();
