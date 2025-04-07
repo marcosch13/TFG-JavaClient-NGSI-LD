@@ -3,11 +3,10 @@ package mi_proyecto;
 import org.openapitools.client.api.ContextInformationProvisionApi;
 import org.openapitools.client.model.QueryEntity200ResponseInner;
 
-import com.google.gson.Gson;
-
 import org.openapitools.client.model.IotDevice;
 import org.openapitools.client.model.IotDescription;
 import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Configuration;
 
 import java.net.URI;
@@ -39,12 +38,14 @@ public class CreateIotEntity {
             ContextInformationProvisionApi api = new ContextInformationProvisionApi(apiClient);
 
             // Crear la entidad usando la API
-            api.createEntity(false, null, null, entity);
+            //api.createEntity(false, null, null, entity);
+             ApiResponse<Void> response = api.createEntityWithHttpInfo(null, null, null, entity);
 
 
             //obtener respuesta del context broker y mostrarla
-            
-            System.out.println("Entidad creada correctamente: " + device.getId());
+            System.out.println("Código de respuesta: " + response.getStatusCode());
+
+            //System.out.println("Entidad creada correctamente: " + device.getId());
 
         } catch (Exception e) {
             System.err.println("Error al crear la entidad vía API:");
