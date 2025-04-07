@@ -1,5 +1,10 @@
 package mi_proyecto;
 
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiResponse;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.api.ContextInformationProvisionApi;
+import org.openapitools.client.model.Entity;
 import org.openapitools.client.model.Temperature;
 import org.openapitools.client.model.TemperatureSensor;
 
@@ -23,31 +28,20 @@ public class UpdateTemperatureSensor {
             System.out.print("Introduce el nuevo valor de temperatura: ");
             BigDecimal nuevaTemperatura = new BigDecimal(scanner.nextLine());
 
-            TemperatureSensor sensor = new TemperatureSensor();
-            sensor.setTemperature(new Temperature()
-                .type(Temperature.TypeEnum.PROPERTY)
-                .value(nuevaTemperatura) 
-                .unitCode("CEL")
-            );
+            Entity fragmento = new Entity();
 
-            String json = sensor.toJson();
-            System.out.println("Payload JSON:\n" + json);
+            fragmento.putAdditionalProperty("temperature", nuevaTemperatura);
 
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:1026/ngsi-ld/v1/entities/urn:ngsi-ld:TemperatureSensor:" + idFormateado + "/attrs"))
-                .timeout(Duration.ofSeconds(10))
-                .header("Content-Type", "application/json")
-                .header("Link", "<https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld>; rel=\"http://www.w3.org/ns/json-ld#context\"; type=\"application/ld+json\"")
-                .method("PATCH", BodyPublishers.ofString(json))
-                .build();
+            ApiClient apiClient = Configuration.getDefaultApiClient();
+            apiClient.setBasePath("http://localhost:1026/ngsi-ld/v1");
+            ContextInformationProvisionApi apiInstance = new ContextInformationProvisionApi(apiClient);
 
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println("Response code: " + response.statusCode());
-            String body = response.body();
-            if (body != null && !body.isBlank()) {
-                System.out.println("Response body: " + body);
-            }
+            URI entityId = new URI("urn:ngsi-ld:TemperatureSensor:" + idFormateado);
+            ApiResponse<Void> response = apiInstance.appendAttrsWithHttpInfo(entityId, null, null, null, null, null, fragmento);
+            System.out.println("respuesta: " + response.getStatusCode());
+            
+
+            
             
         } catch (Exception e) {
             System.err.println("Error al actualizar el sensor de temperatura:");
