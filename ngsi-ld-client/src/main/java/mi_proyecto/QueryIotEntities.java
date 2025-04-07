@@ -1,6 +1,5 @@
 package mi_proyecto;
 
-import java.net.URI;
 import java.util.List;
 
 import org.openapitools.client.ApiClient;

@@ -5,15 +5,8 @@ import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.api.ContextInformationProvisionApi;
 import org.openapitools.client.model.Entity;
-import org.openapitools.client.model.Temperature;
-import org.openapitools.client.model.TemperatureSensor;
 
 import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpRequest.BodyPublishers;
-import java.time.Duration;
 import java.util.Scanner;
 import java.math.BigDecimal;
 

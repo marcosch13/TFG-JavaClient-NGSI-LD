@@ -5,15 +5,8 @@ import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.api.ContextInformationProvisionApi;
 import org.openapitools.client.model.Entity;
-import org.openapitools.client.model.Humidity;
-import org.openapitools.client.model.HumiditySensor;
 
 import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpRequest.BodyPublishers;
-import java.time.Duration;
 import java.util.Scanner;
 import java.math.BigDecimal;
 
@@ -27,13 +20,6 @@ public class UpdateHumiditySensor {
             Scanner scanner = new Scanner(System.in);
             System.out.print("Introduce el nuevo valor de temperatura: ");
             BigDecimal nuevaHumedad = new BigDecimal(scanner.nextLine());
-
-            /*HumiditySensor sensor = new HumiditySensor();
-            sensor.setHumidity(new Humidity()
-                .type(Humidity.TypeEnum.PROPERTY)
-                .value(nuevaHumedad) 
-                .unitCode("P1")
-            );*/
 
             Entity fragmento = new Entity();
 
