@@ -1,17 +1,13 @@
 package mi_proyecto;
 
 import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.time.Duration;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.api.ContextInformationProvisionApi;
 
-public class DeleteIotEntity {
+public class deleteHumiditySensor {
     public static void main(String[] args) {
         try {
             
@@ -21,7 +17,7 @@ public class DeleteIotEntity {
 
             
             
-            URI entityId = new URI("urn:ngsi-ld:IotDevice:" + idFormateado);
+            URI entityId = new URI("urn:ngsi-ld:HumiditySensor:" + idFormateado);
             System.out.println("[+] Borrando entidad con ID: " + entityId);
 
         

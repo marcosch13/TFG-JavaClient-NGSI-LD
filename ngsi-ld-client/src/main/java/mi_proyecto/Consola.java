@@ -15,11 +15,12 @@ public class Consola{
             System.out.println("3: Crear sensor de humedad");
             System.out.println("4: Crear sensor de temperatura");
             System.out.println("5: Consultar entidades IoT");
-            System.out.println("6: Borrar entidad IoT");
-            System.out.println("7: Actualizar entidad IoT");
-            System.out.println("8: Actualizar sensor de temperatura");
-            System.out.println("9: Actualizar sensor de humedad");
-            
+            System.out.println("6: Actualizar entidad IoT");
+            System.out.println("7: Actualizar sensor de temperatura");
+            System.out.println("8: Actualizar sensor de humedad");
+            System.out.println("9: Borrar entidad IoT");
+            System.out.println("10:Borrar sensor de temperatura");
+            System.out.println("11:Borrar sensor de humedad");
             System.out.println("0: Salir");
             System.out.print("Selecciona una opción: ");
 
@@ -58,31 +59,43 @@ public class Consola{
                 System.out.println("\n[+] Consultar entidades IoT");
                 System.out.println("[+] Ejecutando QueryIotDevices\n");
                 QueryIotEntities.main(null); 
-            }else if(opcion == 6) {
-                System.out.println("\n[+] Borrar entidad IoT");
-                System.out.print("Introduce el número de ID: ");
-                String idNum = scanner.nextLine();
-                System.out.println("[+] Ejecutando DeleteIotDevice con ID: " + idNum + "\n");
-                DeleteIotEntity.main(new String[]{idNum}); 
-            }else if(opcion == 7){
+            }else if(opcion == 6){
                 System.out.println("\n[+] Actualizar entidad IoT con sensores");
                 System.out.print("Introduce los 3 números de ID (idIot IdTemperatura IdHumedad): ");
                 String idNum = scanner.nextLine();
                 String[] ids = idNum.trim().split("\\s+");
-                System.out.println("[+] Ejecutando CreateIotEntityWithSensors con IDs: " + String.join(", ", ids) + "\n");
+                System.out.println("[+] Ejecutando UpdateIotEntity con IDs: " + String.join(", ", ids) + "\n");
                 UpdateIotEntity.main(ids);
-            }else if(opcion == 8){
+            }else if(opcion == 7){
                 System.out.println("\n[+] Actualizar sensor de temperatura");
                 System.out.print("Introduce el número de ID: ");
                 String idNum = scanner.nextLine();
                 System.out.println("[+] Ejecutando UpdateTemperatureSensor con ID: " + idNum + "\n");
                 UpdateTemperatureSensor.main(new String[]{idNum}); 
-            }else if(opcion == 9){
+            }else if(opcion == 8){
                 System.out.println("\n[+] Actualizar sensor de humedad");
                 System.out.print("Introduce el número de ID: ");
                 String idNum = scanner.nextLine();
                 System.out.println("[+] Ejecutando UpdateHUmiditySensor con ID: " + idNum + "\n");
                 UpdateHumiditySensor.main(new String[]{idNum}); 
+            }else if(opcion == 9) {
+                System.out.println("\n[+] Borrar entidad IoT");
+                System.out.print("Introduce el número de ID: ");
+                String idNum = scanner.nextLine();
+                System.out.println("[+] Ejecutando DeleteIotEntity con ID: " + idNum + "\n");
+                DeleteIotEntity.main(new String[]{idNum}); 
+            }else if(opcion == 10) {
+                System.out.println("\n[+] Borrar sensor de temperatura");
+                System.out.print("Introduce el número de ID: ");
+                String idNum = scanner.nextLine();
+                System.out.println("[+] Ejecutando deleteTemperatureSensor con ID: " + idNum + "\n");
+                deleteTemperatureSensor.main(new String[]{idNum}); 
+            }else if(opcion == 11) {
+                System.out.println("\n[+] Borrar sensor de humedad");
+                System.out.print("Introduce el número de ID: ");
+                String idNum = scanner.nextLine();
+                System.out.println("[+] Ejecutando deleteHumiditySensor con ID: " + idNum + "\n");
+                deleteHumiditySensor.main(new String[]{idNum}); 
             }else if(opcion == 0) {
                 System.out.println("Saliendo del programa...");
                 System.exit(0);
