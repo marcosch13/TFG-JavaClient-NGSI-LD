@@ -96,6 +96,9 @@ public class Consola{
                 String idNum = scanner.nextLine();
                 System.out.println("[+] Ejecutando deleteHumiditySensor con ID: " + idNum + "\n");
                 deleteHumiditySensor.main(new String[]{idNum}); 
+            }else if(opcion == 12) {
+                System.out.println("\n[+] Upsert entities");
+                UpsertIotSensors.main(null);
             }else if(opcion == 0) {
                 System.out.println("Saliendo del programa...");
                 System.exit(0);
