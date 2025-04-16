@@ -23,6 +23,8 @@ public class Consola{
             System.out.println("11:Borrar sensor de humedad");
             System.out.println("12:Upsert de entidad/es");
             System.out.println("13:Borrar todas las entidades");
+            System.out.println("14:Actualizar atributos existentes");
+            System.out.println("15:Consultar entidad por ID");
             System.out.println("0: Salir");
             System.out.print("Selecciona una opción: ");
 
@@ -104,6 +106,15 @@ public class Consola{
             }else if(opcion == 13) {
                 System.out.println("\n[+] Borrando todas las entidades");
                 DeleteAllEntities.main(null);
+            }else if(opcion == 14) {
+                System.out.println("\n[+] Actualizar atributos existentes");
+                System.out.print("Introduce el número de ID: ");
+                String idNum = scanner.nextLine();
+                UpdateIotAtributes.main(new String[]{idNum});
+            }else if(opcion == 15) {
+                System.out.print("Introduce el número de ID: ");
+                String idNum = scanner.nextLine();
+                retrieveEntitysById.main(new String[]{idNum});
             }else if(opcion == 0) {
                 System.out.println("Saliendo del programa...");
                 System.exit(0);
