@@ -86,7 +86,7 @@ public class UpsertIotSensors {
                     IotEntity.putAdditionalProperty("hasTemperatureSensor", tempSensor);
                 }
 
-                System.out.print("¿Añadir sensor de humedad? (s/n): ");
+                System.out.print("¿Añadir o modificar sensor de humedad? (s/n): ");
                 if (scanner.nextLine().equalsIgnoreCase("s")) {
                     actualizarHumSensor = true;
                     System.out.print("ID del sensor: ");
@@ -116,9 +116,6 @@ public class UpsertIotSensors {
 
                 //Paso a entidad NGSI-LD genérica
                 QueryEntity200ResponseInner entity = QueryEntity200ResponseInner.fromJson(json);
-                
-                
-
                 entidades.add(entity);
 
                 if(actualizarTempSensor){
@@ -138,13 +135,10 @@ public class UpsertIotSensors {
             ApiResponse<List<String>> response = apiInstance.upsertBatchWithHttpInfo(null, null, null, null, entidades);
 
             System.out.println("\nCódigo de respuesta: " + response.getStatusCode());
-            
-
 
         } catch (Exception e) {
             System.err.println("Error durante el upsert batch:");
             e.printStackTrace();
         }
     }
-    
 }

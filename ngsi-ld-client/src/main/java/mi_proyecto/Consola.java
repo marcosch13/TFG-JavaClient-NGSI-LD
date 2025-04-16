@@ -21,6 +21,8 @@ public class Consola{
             System.out.println("9: Borrar entidad IoT");
             System.out.println("10:Borrar sensor de temperatura");
             System.out.println("11:Borrar sensor de humedad");
+            System.out.println("12:Upsert de entidad/es");
+            System.out.println("13:Borrar todas las entidades");
             System.out.println("0: Salir");
             System.out.print("Selecciona una opción: ");
 
@@ -38,7 +40,7 @@ public class Consola{
                 CreateIotEntity.main(new String[]{idNum}); 
             }else if(opcion == 2){
                 System.out.println("\n[+] Crear entidad IoT con sensores");
-                System.out.print("Introduce los 3 números de ID (idIot IdTemperatura IdHumedad): ");
+                System.out.print("Introduce los 3 números de ID (IotId IdTemperatura IdHumedad): ");
                 String idNum = scanner.nextLine();
                 String[] ids = idNum.trim().split("\\s+");
                 System.out.println("[+] Ejecutando CreateIotEntityWithSensors con IDs: " + String.join(", ", ids) + "\n");
@@ -61,7 +63,7 @@ public class Consola{
                 QueryIotEntities.main(null); 
             }else if(opcion == 6){
                 System.out.println("\n[+] Actualizar entidad IoT con sensores");
-                System.out.print("Introduce los 3 números de ID (idIot IdTemperatura IdHumedad): ");
+                System.out.print("Introduce el ID del dispositivo IoT y de los sensores en caso de querer añadirlos (ej: iotId tempId humId): ");
                 String idNum = scanner.nextLine();
                 String[] ids = idNum.trim().split("\\s+");
                 System.out.println("[+] Ejecutando UpdateIotEntity con IDs: " + String.join(", ", ids) + "\n");
@@ -99,6 +101,9 @@ public class Consola{
             }else if(opcion == 12) {
                 System.out.println("\n[+] Upsert entities");
                 UpsertIotSensors.main(null);
+            }else if(opcion == 13) {
+                System.out.println("\n[+] Borrando todas las entidades");
+                DeleteAllEntities.main(null);
             }else if(opcion == 0) {
                 System.out.println("Saliendo del programa...");
                 System.exit(0);
