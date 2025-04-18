@@ -115,6 +115,16 @@ public class Consola{
                 System.out.print("Introduce el número de ID: ");
                 String idNum = scanner.nextLine();
                 retrieveEntitysById.main(new String[]{idNum});
+            }else if(opcion == 16) {
+                System.out.println("\n[+] Actualizar atributos existentes");
+                System.out.print("Introduce el número de ID: ");
+                String idNum = scanner.nextLine();
+                UpdateHumiditySensorAtributes.main(new String[]{idNum});
+            }else if(opcion == 17) {
+                System.out.println("\n[+] Actualizar atributos existentes");
+                System.out.print("Introduce el número de ID: ");
+                String idNum = scanner.nextLine();
+                UpdateTemperatureSensorAtributes.main(new String[]{idNum});
             }else if(opcion == 0) {
                 System.out.println("Saliendo del programa...");
                 System.exit(0);

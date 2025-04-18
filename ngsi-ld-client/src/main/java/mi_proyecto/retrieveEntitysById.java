@@ -23,18 +23,18 @@ public class retrieveEntitysById {
 
             Scanner scanner = new Scanner(System.in);
 
-            System.out.println("Elige el tipo de entidad (IotDevice, HumiditySensor or TemperatureSensor)");
+            System.out.println("Elige el tipo de entidad (1: IotDevice   2: HumiditySensor    3: TemperatureSensor)");
             String tipo = scanner.nextLine();
             URI entityUri = null;
-            if(tipo.equals("IotDevice")){
+            if(tipo.equals("1")){
                 entityUri = new URI("urn:ngsi-ld:IotDevice:" + idFormateado);
-            }else if(tipo.equals("HumiditySensor")){
+            }else if(tipo.equals("2")){
                 entityUri = new URI("urn:ngsi-ld:HumiditySensor:" + idFormateado);
-            }else if(tipo.equals("TemperatureSensor")){
+            }else if(tipo.equals("3")){
                 entityUri = new URI("urn:ngsi-ld:TemperatureSensor:" + idFormateado);
             }
 
-            System.out.println("\n[+] Consultando entidad con id" + entityUri);
+            System.out.println("\n[+] Consultando entidad con id: " + entityUri);
             try {
                 QueryEntity200ResponseInner entidad = apiInstance.retrieveEntity(
                 entityUri, null, null, null, null, null, null, null, null); 

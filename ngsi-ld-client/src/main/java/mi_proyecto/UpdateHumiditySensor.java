@@ -1,10 +1,13 @@
 package mi_proyecto;
 
 import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.api.ContextInformationConsumptionApi;
 import org.openapitools.client.api.ContextInformationProvisionApi;
 import org.openapitools.client.model.Entity;
+import org.openapitools.client.model.QueryEntity200ResponseInner;
 
 import java.net.URI;
 import java.util.Scanner;
@@ -18,21 +21,35 @@ public class UpdateHumiditySensor {
             String idFormateado = String.format("%03d", num);
 
             Scanner scanner = new Scanner(System.in);
-            System.out.print("Introduce el nuevo valor de humedad: ");
-            BigDecimal nuevaHumedad = new BigDecimal(scanner.nextLine());
-
-            Entity fragmento = new Entity();
-
-            fragmento.putAdditionalProperty("humidity", nuevaHumedad);
 
             ApiClient apiClient = Configuration.getDefaultApiClient();
             apiClient.setBasePath("http://localhost:1026/ngsi-ld/v1");
-            ContextInformationProvisionApi apiInstance = new ContextInformationProvisionApi(apiClient);
+            ContextInformationConsumptionApi consumoApi = new ContextInformationConsumptionApi(apiClient);
+            boolean existe = false;
 
-            URI entityId = new URI("urn:ngsi-ld:HumiditySensor:" + idFormateado);
-            ApiResponse<Void> response = apiInstance.appendAttrsWithHttpInfo(entityId, null, null, null, null, null, fragmento);
-            System.out.println("respuesta: " + response.getStatusCode());
-            
+            try {
+                URI entityUri = new URI("urn:ngsi-ld:HumiditySensor:" + idFormateado);
+                QueryEntity200ResponseInner entidad = consumoApi.retrieveEntity(
+                entityUri, null, null, null, null, null, null, null, null);
+                existe = true;
+            } catch (ApiException e){}
+
+            if (existe) {
+                System.out.print("Introduce el nuevo valor de humedad: ");
+                BigDecimal nuevaHumedad = new BigDecimal(scanner.nextLine());
+
+                Entity fragmento = new Entity();
+
+                fragmento.putAdditionalProperty("humidity", nuevaHumedad);
+
+                ContextInformationProvisionApi apiInstance = new ContextInformationProvisionApi(apiClient);
+
+                URI entityId = new URI("urn:ngsi-ld:HumiditySensor:" + idFormateado);
+                ApiResponse<Void> response = apiInstance.appendAttrsWithHttpInfo(entityId, null, null, null, null, null, fragmento);
+                System.out.println("respuesta: " + response.getStatusCode());
+            }else {
+                System.out.println("La entidad no existe.");
+            }
             
         } catch (Exception e) {
             System.err.println("Error al actualizar el sensor de temperatura:");
