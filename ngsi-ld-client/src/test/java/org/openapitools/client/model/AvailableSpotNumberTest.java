@@ -20,7 +20,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URI;
+import java.time.OffsetDateTime;
 import java.util.Arrays;
+import org.openapitools.client.model.PropertyPreviousValue;
 import org.openapitools.client.model.ProvidedBy;
 import org.openapitools.client.model.Reliability;
 import org.junit.jupiter.api.Disabled;
@@ -41,11 +44,83 @@ public class AvailableSpotNumberTest {
     }
 
     /**
+     * Test the property 'type'
+     */
+    @Test
+    public void typeTest() {
+        // TODO: test type
+    }
+
+    /**
      * Test the property 'value'
      */
     @Test
     public void valueTest() {
         // TODO: test value
+    }
+
+    /**
+     * Test the property 'observedAt'
+     */
+    @Test
+    public void observedAtTest() {
+        // TODO: test observedAt
+    }
+
+    /**
+     * Test the property 'unitCode'
+     */
+    @Test
+    public void unitCodeTest() {
+        // TODO: test unitCode
+    }
+
+    /**
+     * Test the property 'datasetId'
+     */
+    @Test
+    public void datasetIdTest() {
+        // TODO: test datasetId
+    }
+
+    /**
+     * Test the property 'createdAt'
+     */
+    @Test
+    public void createdAtTest() {
+        // TODO: test createdAt
+    }
+
+    /**
+     * Test the property 'modifiedAt'
+     */
+    @Test
+    public void modifiedAtTest() {
+        // TODO: test modifiedAt
+    }
+
+    /**
+     * Test the property 'deletedAt'
+     */
+    @Test
+    public void deletedAtTest() {
+        // TODO: test deletedAt
+    }
+
+    /**
+     * Test the property 'instanceId'
+     */
+    @Test
+    public void instanceIdTest() {
+        // TODO: test instanceId
+    }
+
+    /**
+     * Test the property 'previousValue'
+     */
+    @Test
+    public void previousValueTest() {
+        // TODO: test previousValue
     }
 
     /**

@@ -51,7 +51,7 @@ import org.openapitools.client.JSON;
 /**
  * NGSI-LD ListRelationship type to identify the route of the vehicle (i.e., the list of identifier of NGSI-LD Entities of type City). 
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-04-25T10:47:39.074561198Z[Etc/UTC]", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-04-25T11:21:26.751408096Z[Etc/UTC]", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class Route {
   public static final String SERIALIZED_NAME_OBJECT_LIST = "objectList";
   @SerializedName(SERIALIZED_NAME_OBJECT_LIST)

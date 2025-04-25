@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * NGSI-LD Relationship type to identify the entity that provides something (i.e., the identifier of an NGSI-LD Entity of particular type). 
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-04-25T10:47:39.074561198Z[Etc/UTC]", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-04-25T11:21:26.751408096Z[Etc/UTC]", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class ProvidedBy {
   /**
    * Node type. 

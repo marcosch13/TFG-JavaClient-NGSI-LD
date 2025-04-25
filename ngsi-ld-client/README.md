@@ -2,7 +2,7 @@
 
 NGSI-LD OAS
 - API version: 1.7.1
-  - Build date: 2025-04-25T10:47:39.074561198Z[Etc/UTC]
+  - Build date: 2025-04-25T11:21:26.751408096Z[Etc/UTC]
   - Generator version: 7.13.0-SNAPSHOT
 
 OpenAPI Specification for NGSI-LD API.

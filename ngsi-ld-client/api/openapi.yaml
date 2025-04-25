@@ -9491,9 +9491,8 @@ components:
       description: |
         NGSI-LD Entity Type that represents a parking.
     AvailableSpotNumber:
-      additionalProperties: false
       allOf:
-      - $ref: '#components/schemas/Property'
+      - $ref: '#/components/schemas/Property'
       - properties:
           value:
             type: number

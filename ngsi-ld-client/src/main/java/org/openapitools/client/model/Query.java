@@ -52,7 +52,7 @@ import org.openapitools.client.JSON;
 /**
  * 5.2.23 This datatype represents the information that is required in order to convey a query when a \&quot;Query Entities\&quot; operation is to be performed (as per clause 5.7.2). 
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-04-25T10:47:39.074561198Z[Etc/UTC]", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-04-25T11:21:26.751408096Z[Etc/UTC]", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class Query {
   /**
    * JSON-LD @type. 

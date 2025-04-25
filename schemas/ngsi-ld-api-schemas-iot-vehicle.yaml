@@ -5477,7 +5477,7 @@ components:
       description: | 
         NGSI-LD Property Type. The available spot number.
       allOf:
-        - $ref: '#components/schemas/Property'
+        - $ref: '#/components/schemas/Property'
         - type: object
           properties: 
             value:
@@ -5488,7 +5488,6 @@ components:
               $ref: '#/components/schemas/ProvidedBy'
           required:
             - value 
-      additionalProperties: false
     Reliability:
       description: | 
         NGSI-LD Property Type. The reliability of the available spot number.

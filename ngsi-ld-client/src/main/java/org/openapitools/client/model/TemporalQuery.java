@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * 5.2.21 This datatype represents a temporal query. 
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-04-25T10:47:39.074561198Z[Etc/UTC]", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-04-25T11:21:26.751408096Z[Etc/UTC]", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class TemporalQuery {
   /**
    * Allowed values: \&quot;before\&quot;, \&quot;after\&quot; and \&quot;between\&quot;. 

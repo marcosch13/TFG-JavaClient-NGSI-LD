@@ -21,7 +21,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URI;
+import java.time.OffsetDateTime;
 import java.util.Arrays;
+import org.openapitools.client.model.PropertyPreviousValue;
 import org.openapitools.client.model.ProvidedBy;
 import org.openapitools.client.model.Reliability;
 
@@ -51,12 +54,107 @@ import org.openapitools.client.JSON;
 /**
  * NGSI-LD Property Type. The available spot number. 
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-04-25T10:47:39.074561198Z[Etc/UTC]", comments = "Generator version: 7.13.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2025-04-25T11:21:26.751408096Z[Etc/UTC]", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class AvailableSpotNumber {
+  /**
+   * Node type. 
+   */
+  @JsonAdapter(TypeEnum.Adapter.class)
+  public enum TypeEnum {
+    PROPERTY("Property");
+
+    private String value;
+
+    TypeEnum(String value) {
+      this.value = value;
+    }
+
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    public static TypeEnum fromValue(String value) {
+      for (TypeEnum b : TypeEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+
+    public static class Adapter extends TypeAdapter<TypeEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final TypeEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public TypeEnum read(final JsonReader jsonReader) throws IOException {
+        String value =  jsonReader.nextString();
+        return TypeEnum.fromValue(value);
+      }
+    }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      TypeEnum.fromValue(value);
+    }
+  }
+
+  public static final String SERIALIZED_NAME_TYPE = "type";
+  @SerializedName(SERIALIZED_NAME_TYPE)
+  @javax.annotation.Nullable
+  private TypeEnum type = TypeEnum.PROPERTY;
+
   public static final String SERIALIZED_NAME_VALUE = "value";
   @SerializedName(SERIALIZED_NAME_VALUE)
   @javax.annotation.Nonnull
   private BigDecimal value;
+
+  public static final String SERIALIZED_NAME_OBSERVED_AT = "observedAt";
+  @SerializedName(SERIALIZED_NAME_OBSERVED_AT)
+  @javax.annotation.Nullable
+  private OffsetDateTime observedAt;
+
+  public static final String SERIALIZED_NAME_UNIT_CODE = "unitCode";
+  @SerializedName(SERIALIZED_NAME_UNIT_CODE)
+  @javax.annotation.Nullable
+  private String unitCode;
+
+  public static final String SERIALIZED_NAME_DATASET_ID = "datasetId";
+  @SerializedName(SERIALIZED_NAME_DATASET_ID)
+  @javax.annotation.Nullable
+  private URI datasetId;
+
+  public static final String SERIALIZED_NAME_CREATED_AT = "createdAt";
+  @SerializedName(SERIALIZED_NAME_CREATED_AT)
+  @javax.annotation.Nullable
+  private OffsetDateTime createdAt;
+
+  public static final String SERIALIZED_NAME_MODIFIED_AT = "modifiedAt";
+  @SerializedName(SERIALIZED_NAME_MODIFIED_AT)
+  @javax.annotation.Nullable
+  private OffsetDateTime modifiedAt;
+
+  public static final String SERIALIZED_NAME_DELETED_AT = "deletedAt";
+  @SerializedName(SERIALIZED_NAME_DELETED_AT)
+  @javax.annotation.Nullable
+  private OffsetDateTime deletedAt;
+
+  public static final String SERIALIZED_NAME_INSTANCE_ID = "instanceId";
+  @SerializedName(SERIALIZED_NAME_INSTANCE_ID)
+  @javax.annotation.Nullable
+  private URI instanceId;
+
+  public static final String SERIALIZED_NAME_PREVIOUS_VALUE = "previousValue";
+  @SerializedName(SERIALIZED_NAME_PREVIOUS_VALUE)
+  @javax.annotation.Nullable
+  private PropertyPreviousValue previousValue;
 
   public static final String SERIALIZED_NAME_RELIABILITY = "reliability";
   @SerializedName(SERIALIZED_NAME_RELIABILITY)
@@ -70,6 +168,32 @@ public class AvailableSpotNumber {
 
   public AvailableSpotNumber() {
   }
+
+  public AvailableSpotNumber(
+     URI instanceId
+  ) {
+    this();
+    this.instanceId = instanceId;
+  }
+
+  public AvailableSpotNumber type(@javax.annotation.Nullable TypeEnum type) {
+    this.type = type;
+    return this;
+  }
+
+  /**
+   * Node type. 
+   * @return type
+   */
+  @javax.annotation.Nullable
+  public TypeEnum getType() {
+    return type;
+  }
+
+  public void setType(@javax.annotation.Nullable TypeEnum type) {
+    this.type = type;
+  }
+
 
   public AvailableSpotNumber value(@javax.annotation.Nonnull BigDecimal value) {
     this.value = value;
@@ -87,6 +211,150 @@ public class AvailableSpotNumber {
 
   public void setValue(@javax.annotation.Nonnull BigDecimal value) {
     this.value = value;
+  }
+
+
+  public AvailableSpotNumber observedAt(@javax.annotation.Nullable OffsetDateTime observedAt) {
+    this.observedAt = observedAt;
+    return this;
+  }
+
+  /**
+   * It is defined as the temporal Property at which a certain Property or Relationship became valid or was observed. For example, a temperature Value was measured by the sensor at this point in time. 
+   * @return observedAt
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getObservedAt() {
+    return observedAt;
+  }
+
+  public void setObservedAt(@javax.annotation.Nullable OffsetDateTime observedAt) {
+    this.observedAt = observedAt;
+  }
+
+
+  public AvailableSpotNumber unitCode(@javax.annotation.Nullable String unitCode) {
+    this.unitCode = unitCode;
+    return this;
+  }
+
+  /**
+   * Property Value&#39;s unit code. 
+   * @return unitCode
+   */
+  @javax.annotation.Nullable
+  public String getUnitCode() {
+    return unitCode;
+  }
+
+  public void setUnitCode(@javax.annotation.Nullable String unitCode) {
+    this.unitCode = unitCode;
+  }
+
+
+  public AvailableSpotNumber datasetId(@javax.annotation.Nullable URI datasetId) {
+    this.datasetId = datasetId;
+    return this;
+  }
+
+  /**
+   * It allows identifying a set or group of property values. 
+   * @return datasetId
+   */
+  @javax.annotation.Nullable
+  public URI getDatasetId() {
+    return datasetId;
+  }
+
+  public void setDatasetId(@javax.annotation.Nullable URI datasetId) {
+    this.datasetId = datasetId;
+  }
+
+
+  public AvailableSpotNumber createdAt(@javax.annotation.Nullable OffsetDateTime createdAt) {
+    this.createdAt = createdAt;
+    return this;
+  }
+
+  /**
+   * It is defined as the temporal Property at which the Entity, Property or Relationship was entered into an NGSI-LD system.  Entity creation timestamp. See clause 4.8. 
+   * @return createdAt
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(@javax.annotation.Nullable OffsetDateTime createdAt) {
+    this.createdAt = createdAt;
+  }
+
+
+  public AvailableSpotNumber modifiedAt(@javax.annotation.Nullable OffsetDateTime modifiedAt) {
+    this.modifiedAt = modifiedAt;
+    return this;
+  }
+
+  /**
+   * It is defined as the temporal Property at which the Entity, Property or Relationship was last modified in an NGSI-LD system, e.g. in order to correct a previously entered incorrect value.  Entity last modification timestamp. See clause 4.8. 
+   * @return modifiedAt
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getModifiedAt() {
+    return modifiedAt;
+  }
+
+  public void setModifiedAt(@javax.annotation.Nullable OffsetDateTime modifiedAt) {
+    this.modifiedAt = modifiedAt;
+  }
+
+
+  public AvailableSpotNumber deletedAt(@javax.annotation.Nullable OffsetDateTime deletedAt) {
+    this.deletedAt = deletedAt;
+    return this;
+  }
+
+  /**
+   * It is defined as the temporal Property at which the Entity, Property or Relationship was deleted from an NGSI-LD system.  Entity deletion timestamp. See clause 4.8. It is only used in notifications reporting deletions and in the Temporal Representation of Entities (clause 4.5.6), Properties (clause 4.5.7), Relationships (clause 4.5.8) and LanguageProperties (clause 5.2.32). 
+   * @return deletedAt
+   */
+  @javax.annotation.Nullable
+  public OffsetDateTime getDeletedAt() {
+    return deletedAt;
+  }
+
+  public void setDeletedAt(@javax.annotation.Nullable OffsetDateTime deletedAt) {
+    this.deletedAt = deletedAt;
+  }
+
+
+  /**
+   * A URI uniquely identifying a Property instance, as mandated by (see clause 4.5.7). System generated. 
+   * @return instanceId
+   */
+  @javax.annotation.Nullable
+  public URI getInstanceId() {
+    return instanceId;
+  }
+
+
+
+  public AvailableSpotNumber previousValue(@javax.annotation.Nullable PropertyPreviousValue previousValue) {
+    this.previousValue = previousValue;
+    return this;
+  }
+
+  /**
+   * Get previousValue
+   * @return previousValue
+   */
+  @javax.annotation.Nullable
+  public PropertyPreviousValue getPreviousValue() {
+    return previousValue;
+  }
+
+  public void setPreviousValue(@javax.annotation.Nullable PropertyPreviousValue previousValue) {
+    this.previousValue = previousValue;
   }
 
 
@@ -127,6 +395,50 @@ public class AvailableSpotNumber {
     this.providedBy = providedBy;
   }
 
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  private Map<String, Object> additionalProperties;
+
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   *
+   * @param key name of the property
+   * @param value value of the property
+   * @return the AvailableSpotNumber instance itself
+   */
+  public AvailableSpotNumber putAdditionalProperty(String key, Object value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<String, Object>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   *
+   * @return a map of objects
+   */
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   *
+   * @param key name of the property
+   * @return an object
+   */
+  public Object getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
+  }
 
 
   @Override
@@ -138,23 +450,43 @@ public class AvailableSpotNumber {
       return false;
     }
     AvailableSpotNumber availableSpotNumber = (AvailableSpotNumber) o;
-    return Objects.equals(this.value, availableSpotNumber.value) &&
+    return Objects.equals(this.type, availableSpotNumber.type) &&
+        Objects.equals(this.value, availableSpotNumber.value) &&
+        Objects.equals(this.observedAt, availableSpotNumber.observedAt) &&
+        Objects.equals(this.unitCode, availableSpotNumber.unitCode) &&
+        Objects.equals(this.datasetId, availableSpotNumber.datasetId) &&
+        Objects.equals(this.createdAt, availableSpotNumber.createdAt) &&
+        Objects.equals(this.modifiedAt, availableSpotNumber.modifiedAt) &&
+        Objects.equals(this.deletedAt, availableSpotNumber.deletedAt) &&
+        Objects.equals(this.instanceId, availableSpotNumber.instanceId) &&
+        Objects.equals(this.previousValue, availableSpotNumber.previousValue) &&
         Objects.equals(this.reliability, availableSpotNumber.reliability) &&
-        Objects.equals(this.providedBy, availableSpotNumber.providedBy);
+        Objects.equals(this.providedBy, availableSpotNumber.providedBy)&&
+        Objects.equals(this.additionalProperties, availableSpotNumber.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(value, reliability, providedBy);
+    return Objects.hash(type, value, observedAt, unitCode, datasetId, createdAt, modifiedAt, deletedAt, instanceId, previousValue, reliability, providedBy, additionalProperties);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AvailableSpotNumber {\n");
+    sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    value: ").append(toIndentedString(value)).append("\n");
+    sb.append("    observedAt: ").append(toIndentedString(observedAt)).append("\n");
+    sb.append("    unitCode: ").append(toIndentedString(unitCode)).append("\n");
+    sb.append("    datasetId: ").append(toIndentedString(datasetId)).append("\n");
+    sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
+    sb.append("    modifiedAt: ").append(toIndentedString(modifiedAt)).append("\n");
+    sb.append("    deletedAt: ").append(toIndentedString(deletedAt)).append("\n");
+    sb.append("    instanceId: ").append(toIndentedString(instanceId)).append("\n");
+    sb.append("    previousValue: ").append(toIndentedString(previousValue)).append("\n");
     sb.append("    reliability: ").append(toIndentedString(reliability)).append("\n");
     sb.append("    providedBy: ").append(toIndentedString(providedBy)).append("\n");
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -177,7 +509,16 @@ public class AvailableSpotNumber {
   static {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
+    openapiFields.add("type");
     openapiFields.add("value");
+    openapiFields.add("observedAt");
+    openapiFields.add("unitCode");
+    openapiFields.add("datasetId");
+    openapiFields.add("createdAt");
+    openapiFields.add("modifiedAt");
+    openapiFields.add("deletedAt");
+    openapiFields.add("instanceId");
+    openapiFields.add("previousValue");
     openapiFields.add("reliability");
     openapiFields.add("providedBy");
 
@@ -199,14 +540,6 @@ public class AvailableSpotNumber {
         }
       }
 
-      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
-      // check to see if the JSON string contains additional fields
-      for (Map.Entry<String, JsonElement> entry : entries) {
-        if (!AvailableSpotNumber.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `AvailableSpotNumber` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
-        }
-      }
-
       // check to make sure all required properties/fields are present in the JSON string
       for (String requiredField : AvailableSpotNumber.openapiRequiredFields) {
         if (jsonElement.getAsJsonObject().get(requiredField) == null) {
@@ -214,6 +547,26 @@ public class AvailableSpotNumber {
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
+      if ((jsonObj.get("type") != null && !jsonObj.get("type").isJsonNull()) && !jsonObj.get("type").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `type` to be a primitive type in the JSON string but got `%s`", jsonObj.get("type").toString()));
+      }
+      // validate the optional field `type`
+      if (jsonObj.get("type") != null && !jsonObj.get("type").isJsonNull()) {
+        TypeEnum.validateJsonElement(jsonObj.get("type"));
+      }
+      if ((jsonObj.get("unitCode") != null && !jsonObj.get("unitCode").isJsonNull()) && !jsonObj.get("unitCode").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `unitCode` to be a primitive type in the JSON string but got `%s`", jsonObj.get("unitCode").toString()));
+      }
+      if ((jsonObj.get("datasetId") != null && !jsonObj.get("datasetId").isJsonNull()) && !jsonObj.get("datasetId").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `datasetId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("datasetId").toString()));
+      }
+      if ((jsonObj.get("instanceId") != null && !jsonObj.get("instanceId").isJsonNull()) && !jsonObj.get("instanceId").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `instanceId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("instanceId").toString()));
+      }
+      // validate the optional field `previousValue`
+      if (jsonObj.get("previousValue") != null && !jsonObj.get("previousValue").isJsonNull()) {
+        PropertyPreviousValue.validateJsonElement(jsonObj.get("previousValue"));
+      }
       // validate the optional field `reliability`
       if (jsonObj.get("reliability") != null && !jsonObj.get("reliability").isJsonNull()) {
         Reliability.validateJsonElement(jsonObj.get("reliability"));
@@ -239,6 +592,28 @@ public class AvailableSpotNumber {
            @Override
            public void write(JsonWriter out, AvailableSpotNumber value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             obj.remove("additionalProperties");
+             // serialize additional properties
+             if (value.getAdditionalProperties() != null) {
+               for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
+                 if (entry.getValue() instanceof String)
+                   obj.addProperty(entry.getKey(), (String) entry.getValue());
+                 else if (entry.getValue() instanceof Number)
+                   obj.addProperty(entry.getKey(), (Number) entry.getValue());
+                 else if (entry.getValue() instanceof Boolean)
+                   obj.addProperty(entry.getKey(), (Boolean) entry.getValue());
+                 else if (entry.getValue() instanceof Character)
+                   obj.addProperty(entry.getKey(), (Character) entry.getValue());
+                 else {
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
+                 }
+               }
+             }
              elementAdapter.write(out, obj);
            }
 
@@ -246,7 +621,28 @@ public class AvailableSpotNumber {
            public AvailableSpotNumber read(JsonReader in) throws IOException {
              JsonElement jsonElement = elementAdapter.read(in);
              validateJsonElement(jsonElement);
-             return thisAdapter.fromJsonTree(jsonElement);
+             JsonObject jsonObj = jsonElement.getAsJsonObject();
+             // store additional fields in the deserialized instance
+             AvailableSpotNumber instance = thisAdapter.fromJsonTree(jsonObj);
+             for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {
+               if (!openapiFields.contains(entry.getKey())) {
+                 if (entry.getValue().isJsonPrimitive()) { // primitive type
+                   if (entry.getValue().getAsJsonPrimitive().isString())
+                     instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsString());
+                   else if (entry.getValue().getAsJsonPrimitive().isNumber())
+                     instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsNumber());
+                   else if (entry.getValue().getAsJsonPrimitive().isBoolean())
+                     instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
+                   else
+                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                 } else if (entry.getValue().isJsonArray()) {
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
+                 } else { // JSON object
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
+                 }
+               }
+             }
+             return instance;
            }
 
        }.nullSafe();
