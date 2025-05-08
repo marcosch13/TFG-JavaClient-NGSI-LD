@@ -162,7 +162,7 @@ public class createEntity {
 
                 //meter id y comprobar que no existe antes de crear...
                 try {
-                    URI entityUri3 = new URI("urn:ngsi-ld:OffstreetParking:" + nombreParking);
+                    URI entityUri3 = new URI("urn:ngsi-ld:OffStreetParking:" + nombreParking);
                     QueryEntity200ResponseInner entidad = consumoApi.retrieveEntity(
                     entityUri3, null, null, null, null, null, null, null, null);
                     existeParking = true;

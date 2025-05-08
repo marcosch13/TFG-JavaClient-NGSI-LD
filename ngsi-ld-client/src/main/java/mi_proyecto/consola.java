@@ -11,6 +11,7 @@ public class consola {
         while(opcion != 0){
             System.out.println("*****Menú de pruebas para entidades NGSI-LD*****");
             System.out.println("1: Crear entidad");
+            System.out.println("2: Crear vehículo");
             System.out.println("5:consultar entidades");
             System.out.println("0: Salir");
             System.out.print("Selecciona una opción: ");
@@ -26,6 +27,11 @@ public class consola {
                 String idV = scanner.nextLine(); 
                 String[] ids = idV.trim().split("\\s+");
                 createEntity.main(ids);
+
+            }else if(opcion == 2) {
+
+                System.out.println("Crear vehículo");
+                createVehicle.main(null);
 
             }else if(opcion == 5) {
 

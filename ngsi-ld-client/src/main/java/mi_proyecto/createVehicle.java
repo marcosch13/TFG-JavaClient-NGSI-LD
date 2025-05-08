@@ -15,13 +15,6 @@ import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.api.ContextInformationConsumptionApi;
 import org.openapitools.client.api.ContextInformationProvisionApi;
-import org.openapitools.client.model.BrandName;
-import org.openapitools.client.model.City;
-import org.openapitools.client.model.IsParked;
-import org.openapitools.client.model.Passengers;
-import org.openapitools.client.model.Person;
-import org.openapitools.client.model.ProvidedBy;
-import org.openapitools.client.model.QueryEntity200ResponseInner;
 import org.openapitools.client.model.*;
 
 
@@ -48,8 +41,22 @@ public class createVehicle {
             boolean existePerson = false;
             boolean existeCity = false;
 
+            String nombreParkingComprobado = null;
             System.out.println("En que parking desea registrar el vehiculo?");
             String nombreParking = scanner.nextLine();
+            try {
+                URI entityUri3 = new URI("urn:ngsi-ld:OffStreetParking:" + nombreParking);
+                QueryEntity200ResponseInner entidad = consumoApi.retrieveEntity(
+                entityUri3, null, null, null, null, null, null, null, null);
+                existeParking = true;
+            } catch (ApiException e){}
+            if(existeParking){
+                nombreParkingComprobado = nombreParking;
+            }else{
+                System.out.println("El parking no existe, por favor registrelo primero.");
+                return;
+            }
+            
 
 
         //Entidades Person:
@@ -60,6 +67,7 @@ public class createVehicle {
                 for(int i = 0; i < numPersonas; i++){
                     System.out.print("Introduce el nombre de la persona: ");
                     String nombre = scanner.nextLine();
+                    existePerson = false;
 
                     try {
                         URI entityUri4 = new URI("urn:ngsi-ld:Person:" + nombre);
@@ -125,10 +133,10 @@ public class createVehicle {
                 String nombrePropietario = scanner.nextLine();
 
                 IsParked isParked = new IsParked();
-                URI entityUri6 = new URI("urn:ngsi-ld:OffstreetParking:" + nombreParking);
+                URI entityUri6 = new URI("urn:ngsi-ld:OffStreetParking:" + nombreParkingComprobado);
                 isParked.setObject(entityUri6);
                 isParked.setObjectType(new URI("OffStreetParking")); //esta bien?? recibe una uri pero que uri hay que poner?
-                //como pongo el observedAt?
+                isParked.setObservedAt(observedAt);
 
                 ProvidedBy providedBy2 = new ProvidedBy();
                 providedBy2.setObject(new URI("urn:ngsi-ld:Person:" + nombrePropietario));
@@ -157,9 +165,20 @@ public class createVehicle {
 
                 System.out.println("¿Por cuantas ciudades pasa tu ruta?");
                 int numCiudadesRuta = Integer.parseInt(scanner.nextLine());
+                
+                /*List<Object> rutaUris = new ArrayList<>();
+                for (int i = 0; i < numCiudadesRuta; i++) {
+                    System.out.print("Introduce el nombre de la " + (i + 1) + "ª ciudad: ");
+                    String nombreCiudad = scanner.nextLine();
+
+                    rutaUris.add("urn:ngsi-ld:City:" + nombreCiudad);
+
+                }
+                route.setObjectList(rutaUris);
+                route.setObjectType(new URI("City"));*/
 
                  
-                List<Map<String, String>> rutaUris = new ArrayList<>();
+                /*List<Map<String, String>> rutaUris = new ArrayList<>();
 
                 for (int i = 0; i < numCiudadesRuta; i++) {
                     System.out.print("Introduce el nombre de la " + (i + 1) + "ª ciudad: ");
@@ -177,7 +196,18 @@ public class createVehicle {
                 innerValue.put("objectList", rutaUris);
                 innerValue.put("objectType", "City");
 
-                routeAttr.put("value", innerValue);
+                routeAttr.put("value", innerValue);*/
+
+                List<String> rutaUris = new ArrayList<>();
+                for (int i = 0; i < numCiudadesRuta; i++) {
+                    System.out.print("Introduce el nombre de la " + (i+1) + "ª ciudad: ");
+                    String nombreCiudad = scanner.nextLine();
+                    rutaUris.add("urn:ngsi-ld:City:" + nombreCiudad);
+                }
+
+                Map<String,Object> routeAttr = new HashMap<>();
+                routeAttr.put("type", "Relationship");
+                routeAttr.put("object", rutaUris);
                 
                 
 
@@ -219,7 +249,7 @@ public class createVehicle {
 
 
                 Vehicle vehicle = new Vehicle(); 
-                //vehicle.setRoute(route); 
+                 
                     System.out.print("Introduce la matrícula del vehículo: ");
                     String matricula = scanner.nextLine();
                     
@@ -233,7 +263,7 @@ public class createVehicle {
                     //vehicle.setStreet();
                     vehicle.setIsParked(isParked);
                     vehicle.setPassengers(passengers);
-                    //vehicle.setRoute(route);
+                    
                     System.out.println("Introduce la categoría del vehículo: ");
                     String categoria = scanner.nextLine();
 
@@ -244,10 +274,16 @@ public class createVehicle {
                     vehicle.putAdditionalProperty("category", categoryAttr);
 
                     //vehicle.setTyreTreadDepths(new TyreTreadDepths().valueList(Arrays.asList("300", "300", "120", "120")));
-                    Map<String, Object> tyreAttr = new HashMap<>();
+                    /*Map<String, Object> tyreAttr = new HashMap<>();
                     tyreAttr.put("type", "Property");
                     tyreAttr.put("value", Arrays.asList("300", "300", "120", "120"));
                     tyreAttr.put("unitCode", "MMT"); 
+
+                    //vehicle.putAdditionalProperty("tyreTreadDepths", tyreAttr);*/
+                    Map<String,Object> tyreAttr = new HashMap<>();
+                    tyreAttr.put("type",  "Property");
+                    tyreAttr.put("value", Arrays.asList("300","300","120","120"));
+                    tyreAttr.put("unitCode", "MMT");
 
                     vehicle.putAdditionalProperty("tyreTreadDepths", tyreAttr);
 

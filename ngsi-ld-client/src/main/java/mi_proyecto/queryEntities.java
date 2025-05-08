@@ -13,7 +13,7 @@ public class queryEntities {
         try {
 
 
-            String[] tipos = { "Company", "Camera", "OffStreetParking", "City", "Person"};
+            String[] tipos = { "Company", "Camera", "OffStreetParking", "City", "Person", "Vehicle" };
             
 
 
