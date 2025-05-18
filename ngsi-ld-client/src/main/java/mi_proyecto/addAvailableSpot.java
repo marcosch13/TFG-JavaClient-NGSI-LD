@@ -5,6 +5,7 @@ import java.net.URI;
 import java.time.OffsetDateTime;
 import java.util.Scanner;
 import java.util.Arrays;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
@@ -81,8 +82,15 @@ public class addAvailableSpot {
 
                 availableSpotNumber.setProvidedBy(providedBy);
 
-                Entity fragmento = new Entity();
-                fragmento.putAdditionalProperty("availableSpotNumbers", Arrays.asList(availableSpotNumber));
+                OffStreetParking fragment0 = new OffStreetParking();
+                fragment0.addAvailableSpotNumbersItem( availableSpotNumber );
+
+                
+                ObjectMapper objectMapper = new ObjectMapper();
+                Entity fragmento = objectMapper.convertValue(fragment0, Entity.class);
+                
+                
+                //fragmento.putAdditionalProperty("availableSpotNumbers", Arrays.asList(availableSpotNumber));
 
 
 
