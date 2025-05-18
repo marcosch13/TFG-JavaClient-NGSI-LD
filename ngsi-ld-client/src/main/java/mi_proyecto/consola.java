@@ -10,7 +10,7 @@ public class consola {
 
         while(opcion != 0){
             System.out.println("*****Menú de pruebas para entidades NGSI-LD*****");
-            System.out.println("1: Crear entidad");
+            System.out.println("1: Crear parking");
             System.out.println("2: Crear vehículo");
             System.out.println("5:consultar entidades");
             System.out.println("0: Salir");
@@ -22,11 +22,8 @@ public class consola {
                 opcion = -1;
             }if(opcion == 1){
 
-                System.out.println("\n[+] Crear entidad");
-                System.out.print("Introduce el ID de tu compañía, cámara, spotNumber con espacios entre si: ");
-                String idV = scanner.nextLine(); 
-                String[] ids = idV.trim().split("\\s+");
-                createEntity.main(ids);
+                System.out.println("\n[+] Crear parking"); 
+                createParking.main(null);
 
             }else if(opcion == 2) {
 

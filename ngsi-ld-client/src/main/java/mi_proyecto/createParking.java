@@ -23,38 +23,23 @@ import java.util.ArrayList;
 
 
 
-public class createEntity {
+public class createParking {
 
     public static void main(String[] args){
         try {
-            
-
-            
-
-            
-
 
             OffsetDateTime observedAt = OffsetDateTime.now().withNano(0);
-
-
-
-
             ApiClient apiClient = Configuration.getDefaultApiClient();
             apiClient.setBasePath("http://localhost:1026/ngsi-ld/v1");
             ContextInformationConsumptionApi consumoApi = new ContextInformationConsumptionApi(apiClient);
             ContextInformationProvisionApi apiInstance = new ContextInformationProvisionApi(apiClient);
             boolean existeCompany = false;
-            boolean existeCamara = false;
             boolean existeParking = false;
-            boolean existePerson = false;
-            boolean existeCity = false;
         
-
-
-             //Entidad Company:
+            //Entidad Company:
              
                 Scanner scanner = new Scanner(System.in);
-                System.out.print("Introduce el ID de la compañía: ");
+                System.out.print("Introduce el nombre de la compañía: ");
                 String idCompany = scanner.nextLine();
 
                 try {
@@ -77,20 +62,18 @@ public class createEntity {
 
                     String json = company.toJson();
                     QueryEntity200ResponseInner entity = QueryEntity200ResponseInner.fromJson(json);
-
-                    
-
                     ApiResponse<Void> response = apiInstance.createEntityWithHttpInfo(null, null, null, entity);
 
                     System.out.println("Código de respuesta de company: " + response.getStatusCode());
-                    
                 }
             
-                
-
-            //Entidad camara:    HACER PARA VARIAS CÁMARAS
+            //Entidad camara:  
+            System.out.println("¿Cuántas cámaras quieres añadir?");
+            int numCamaras = Integer.parseInt(scanner.nextLine());
+            for (int i = 0; i < numCamaras; i++) {
                 System.out.print("Introduce el ID de la cámara: ");
                 String idCamara = scanner.nextLine();
+                boolean existeCamara = false;
                 try {
                     URI entityUri2 = new URI("urn:ngsi-ld:Camera:C" + idCamara);
                     QueryEntity200ResponseInner entidad = consumoApi.retrieveEntity(
@@ -102,21 +85,19 @@ public class createEntity {
                     System.out.println("La cámara ya existe.");
                 }else{
                     Camera camera = new Camera();
-                        camera.putAdditionalProperty("id", "urn:ngsi-ld:Camera:C" + idCamara);
-                        camera.putAdditionalProperty("type", "Camera");
+                    camera.putAdditionalProperty("id", "urn:ngsi-ld:Camera:C" + idCamara);
+                    camera.putAdditionalProperty("type", "Camera");
                     Name nombreCamara = new Name();
                     nombreCamara.setValue("Camara " + idCamara); 
                     camera.setName(nombreCamara);
 
                     String jsonC = camera.toJson();
-
                     QueryEntity200ResponseInner entityC = QueryEntity200ResponseInner.fromJson(jsonC);
-
                     ApiResponse<Void> responseC = apiInstance.createEntityWithHttpInfo(null, null, null, entityC);
-
                     System.out.println("Código de respuesta de company: " + responseC.getStatusCode());
-                    
                 }
+            }
+                
 
             //Entidad OffStreetParking:
                 System.out.print("Introduce el nombre del parking: ");
@@ -125,28 +106,38 @@ public class createEntity {
                 System.out.print("Introduce el número total de plazas: ");
                 int numPlazas = Integer.parseInt(scanner.nextLine());
 
-                System.out.print("Introduce el spotNumber disponible: ");
+                System.out.print("Introduce un spotNumber disponible: ");
                 int spotNumber1 = Integer.parseInt(scanner.nextLine());
                 BigDecimal spotNumber = BigDecimal.valueOf(spotNumber1);
 
+                System.out.println("Introduce el id de la cámara que registra el AvailableSpot: ");
+                String idCamara = scanner.nextLine();
+
+                boolean existeCamara = false;
+                try {
+                    URI entityUri2 = new URI("urn:ngsi-ld:Camera:C" + idCamara);
+                    QueryEntity200ResponseInner entidad = consumoApi.retrieveEntity(
+                    entityUri2, null, null, null, null, null, null, null, null);
+                    existeCamara = true;
+                } catch (ApiException e){}
+
                 AvailableSpotNumber availableSpotNumber = new AvailableSpotNumber();
-                availableSpotNumber.setValue(spotNumber);
-                availableSpotNumber.setReliability(new Reliability().value(new BigDecimal(0.9)));//VER BIEN QUE ES LA RELIABILITY
-                availableSpotNumber.setObservedAt(observedAt); 
+                if(existeCamara){
+                    availableSpotNumber.setValue(spotNumber);
+                    availableSpotNumber.setReliability(new Reliability().value(new BigDecimal(0.9)));//VER BIEN QUE ES LA RELIABILITY
+                    availableSpotNumber.setObservedAt(observedAt); 
                 
-                
+                    URI entityUriProvidedBy = new URI("urn:ngsi-ld:Camera:C" + idCamara);
+                    ProvidedBy providedBy = new ProvidedBy();
+                    providedBy.setObject(entityUriProvidedBy);
+                    //providedBy.putAdditionalProperty("type", "Relationship"); no se puede y no se como ponerlo o si es estrictamente necesario
 
-                URI entityUriProvidedBy = new URI("urn:ngsi-ld:Camera:C" + idCamara);
+                    availableSpotNumber.setProvidedBy(providedBy);
+                }else{
+                    System.out.println("La cámara no existe.");
+                }
 
-                ProvidedBy providedBy = new ProvidedBy();
-                providedBy.setObject(entityUriProvidedBy);
-                //providedBy.putAdditionalProperty("type", "Relationship"); no se puede y no se como ponerlo o si es estrictamente necesario
-
-                availableSpotNumber.setProvidedBy(providedBy);
-
-
-
-
+                //meter por el usuario??********************************************************************************************************
                 GeometryPoint parkingLocation = new GeometryPoint();
                 parkingLocation.setType(GeometryPoint.TypeEnum.POINT);
                 parkingLocation.setCoordinates(Arrays.asList(
