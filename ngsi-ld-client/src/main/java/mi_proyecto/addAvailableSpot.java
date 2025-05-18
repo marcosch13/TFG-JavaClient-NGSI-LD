@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.net.URI;
 import java.time.OffsetDateTime;
 import java.util.Scanner;
+import java.util.Arrays;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
@@ -44,13 +45,14 @@ public class addAvailableSpot {
             int numSpots = Integer.parseInt(scanner.nextLine());
             
             for(int i = 0; i < numSpots; i++) {
+                System.out.println("Añadiendo spot " + (i+1) + " de " + numSpots);
                 System.out.print("Introduce el id de la cámara que registra el AvailableSpot: ");
                 String idCamara = scanner.nextLine();
                 
                 // Comprobar si la cámara existe
                 boolean existeCamara = false;
                 try {
-                    URI entityUri2 = new URI("urn:ngsi-ld:Camera:" + idCamara);
+                    URI entityUri2 = new URI("urn:ngsi-ld:Camera:C" + idCamara);
                     QueryEntity200ResponseInner entidad = consumoApi.retrieveEntity(
                     entityUri2, null, null, null, null, null, null, null, null);
                     existeCamara = true;
@@ -80,7 +82,7 @@ public class addAvailableSpot {
                 availableSpotNumber.setProvidedBy(providedBy);
 
                 Entity fragmento = new Entity();
-                fragmento.putAdditionalProperty("availableSpotNumber", availableSpotNumber);
+                fragmento.putAdditionalProperty("availableSpotNumbers", Arrays.asList(availableSpotNumber));
 
 
 
