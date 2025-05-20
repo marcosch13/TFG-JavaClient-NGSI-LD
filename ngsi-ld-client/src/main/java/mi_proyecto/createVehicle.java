@@ -122,7 +122,7 @@ public class createVehicle {
             //Atributo providedBy:
             System.out.println("Nombre del propietario del vehiculo:");
             String nombrePropietario = scanner.nextLine();
-            ProvidedBy providedBy = new ProvidedBy(); //cuidado posible error
+            ProvidedBy providedBy = new ProvidedBy(); 
             providedBy.setObject(new URI("urn:ngsi-ld:Person:" + nombrePropietario));
             
             //Atributo isParked:
@@ -194,9 +194,14 @@ public class createVehicle {
             categoryAttr.put("value", categoria);
             vehicle.putAdditionalProperty("category", categoryAttr);
 
+            System.out.println("Introduce la profundidad de los neumáticos delanteros: ");
+            String nuevoValorDelanteros = scanner.nextLine();
+            System.out.println("Introduce la profundidad de los neumáticos traseros: ");
+            String nuevoValorTraseros = scanner.nextLine();
+            
             Map<String,Object> tyreAttr = new HashMap<>();
             tyreAttr.put("type",  "Property");
-            tyreAttr.put("value", Arrays.asList("300","300","120","120"));
+            tyreAttr.put("value", Arrays.asList(nuevoValorDelanteros,nuevoValorDelanteros,nuevoValorTraseros,nuevoValorTraseros));
             tyreAttr.put("unitCode", "MMT");
             vehicle.putAdditionalProperty("tyreTreadDepths", tyreAttr);
 
