@@ -15,6 +15,7 @@ public class consola {
             System.out.println("3: Actualizar availableSpotNumbers");
             System.out.println("4: Borrar todas las entidades");
             System.out.println("5:consultar entidades");
+            System.out.println("6:actualizar parking");
             System.out.println("0: Salir");
             System.out.print("Selecciona una opción: ");
 
@@ -42,6 +43,11 @@ public class consola {
 
                 System.out.println("Consultando entidades");
                 queryEntities.main(null);
+
+            }else if(opcion == 6) {
+
+                System.out.println("Actualizando parking");
+                updateParking.main(null);
 
             }else if(opcion == 0) {
                 System.out.println("Saliendo del programa...");

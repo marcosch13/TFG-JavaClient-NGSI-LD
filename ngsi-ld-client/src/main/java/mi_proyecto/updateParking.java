@@ -52,16 +52,15 @@ public class updateParking{
             Entity editable = Entity.fromJson(entidad.toJson());
             
             Map<String, Object> atributos = editable.getAdditionalProperties();
-            for (String key : atributos.keySet()) {
-                System.out.println("Atributo:" + key);
-            }
+            
             System.out.println("¿Cuantas propiedades quieres actualizar?");
             int numPropiedades = Integer.parseInt(scanner.nextLine());
             for (int i = 0; i < numPropiedades; i++) {
+                System.out.println("Propiedades disponibles: " + atributos.keySet());
                 System.out.print("¿Qué propiedad quieres actualizar?: ");
                 String propiedad = scanner.nextLine();
                 if (atributos.containsKey(propiedad)) {
-                    if(propiedad.equals("name")){
+                    if(propiedad.equals("name")){ //el id no se puede cambiar...
                         Name name = new Name();
                         System.out.println("Introduce el nuevo nombre del parking");
                         String nuevoValor = scanner.nextLine();
@@ -73,6 +72,26 @@ public class updateParking{
                         BigDecimal nuevoValor = new BigDecimal(scanner.nextLine());  
                         totalSpotNumber.setValue(nuevoValor);
                         editable.putAdditionalProperty("totalSpotNumber", totalSpotNumber);
+                    }else if(propiedad.equals("operatedBy")){
+                        System.out.println("Introduce el nombre de la compañia que opera el parking");
+                        String idCompany = scanner.nextLine();
+
+                        boolean existeCompany = false;
+                        try {
+                            URI entityUri = new URI("urn:ngsi-ld:Company:" + idCompany);
+                            QueryEntity200ResponseInner entidadComprobar = consumoApi.retrieveEntity(
+                            entityUri, null, null, null, null, null, null, null, null);
+                            existeCompany = true;
+                        } catch (ApiException e){}
+                        if(existeCompany){
+                            
+                            OperatedBy operatedBy = new OperatedBy();
+                            operatedBy.setObject("urn:ngsi-ld:Company:" + idCompany);
+                            editable.putAdditionalProperty("operatedBy", operatedBy);
+                            
+                        }else{
+                            System.out.println("La compañia no existe.");
+                        }
                     }
                 }else {
                     System.out.println("Esa propiedad no existe en la entidad.");
