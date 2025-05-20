@@ -179,7 +179,6 @@ public class updateVehicle {
         
         
 
-        System.out.println("[brandName, passengers, route, street, isParked, category, tyreTreadDepths]");
         }catch (Exception e) {
             System.err.println("Error al actualizar la entidad:");
             e.printStackTrace();
