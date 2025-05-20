@@ -42,15 +42,15 @@ public class addAvailableSpot {
                 return;
             }
 
-            System.out.println("Cuantos spots disponibles quieres añadir?");
+            System.out.println("Indica los spots disponibles del parking");
             int numSpots = Integer.parseInt(scanner.nextLine());
-            
+            OffStreetParking fragment0 = new OffStreetParking();
             for(int i = 0; i < numSpots; i++) {
                 System.out.println("Añadiendo spot " + (i+1) + " de " + numSpots);
                 System.out.print("Introduce el id de la cámara que registra el AvailableSpot: ");
                 String idCamara = scanner.nextLine();
                 
-                // Comprobar si la cámara existe
+                //Comprobar si la cámara existe
                 boolean existeCamara = false;
                 try {
                     URI entityUri2 = new URI("urn:ngsi-ld:Camera:C" + idCamara);
@@ -82,22 +82,27 @@ public class addAvailableSpot {
 
                 availableSpotNumber.setProvidedBy(providedBy);
 
-                OffStreetParking fragment0 = new OffStreetParking();
+                
                 fragment0.addAvailableSpotNumbersItem( availableSpotNumber );
 
                 
-                ObjectMapper objectMapper = new ObjectMapper();
-                Entity fragmento = objectMapper.convertValue(fragment0, Entity.class);
+                
                 
                 
                 //fragmento.putAdditionalProperty("availableSpotNumbers", Arrays.asList(availableSpotNumber));
 
 
 
-                ApiResponse<Void> responsePr = apiInstance.appendAttrsWithHttpInfo(entityUri3, null, null, null, null, null, fragmento);
-
-                System.out.println("Código de respuesta: " + responsePr.getStatusCode());
+                
             }
+            Entity fragmento = new Entity();
+            fragmento.putAdditionalProperty("availableSpotNumbers", fragment0.getAvailableSpotNumbers());
+
+            ApiResponse<Void> responsePr = apiInstance.updateEntityWithHttpInfo(entityUri3, null, null, null, null, fragmento);
+
+            System.out.println("Código de respuesta: " + responsePr.getStatusCode());
+
+
 
             
 
