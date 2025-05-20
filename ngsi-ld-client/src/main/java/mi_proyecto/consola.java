@@ -17,6 +17,7 @@ public class consola {
             System.out.println("5:consultar entidades");
             System.out.println("6:actualizar parking");
             System.out.println("7:actualizar vehículo");
+            System.out.println("8: Consultar entidad por id");
             System.out.println("0: Salir");
             System.out.print("Selecciona una opción: ");
 
@@ -50,11 +51,14 @@ public class consola {
                 System.out.println("Actualizando parking");
                 updateParking.main(null);
 
-            }
-            else if(opcion == 7) {
+            }else if(opcion == 7) {
                 
                 System.out.println("Actualizando vehículo");
                 updateVehicle.main(null);
+
+            }else if(opcion == 8) {
+                
+                retrieveEntitiesById.main(null);
 
             }else if(opcion == 0) {
                 System.out.println("Saliendo del programa...");
