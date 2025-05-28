@@ -56,6 +56,8 @@ public class updateVehicle {
                 entityUri3, null, null, null, null, null, null, null, null);
             
             Entity editable = Entity.fromJson(entidad.toJson());
+
+            //imprimir entidad para poder verla antes de modificarla
             
             Map<String, Object> atributos = editable.getAdditionalProperties();
             
