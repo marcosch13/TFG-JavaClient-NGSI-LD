@@ -25,6 +25,9 @@ public class Consola{
             System.out.println("13:Borrar todas las entidades");
             System.out.println("14:Actualizar atributos existentes");
             System.out.println("15:Consultar entidad por ID");
+            System.out.println("16");
+            System.out.println("17");
+            System.out.println("Crear suscripción a cambios en los sensores de humedad");
             System.out.println("0: Salir");
             System.out.print("Selecciona una opción: ");
 
@@ -125,6 +128,10 @@ public class Consola{
                 System.out.print("Introduce el número de ID: ");
                 String idNum = scanner.nextLine();
                 UpdateTemperatureSensorAtributes.main(new String[]{idNum});
+            }else if(opcion == 18) {
+                System.out.println("Crear suscripción a cambios en los sensores de humedad");
+                AddSuscription.main(null);
+                
             }else if(opcion == 0) {
                 System.out.println("Saliendo del programa...");
                 System.exit(0);
