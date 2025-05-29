@@ -18,17 +18,23 @@ public class AddSuscription {
         try {
 
             ApiClient apiClient = Configuration.getDefaultApiClient();
-            apiClient.setBasePath("http://localhost:1026/ngsi-ld/v1");
+            apiClient.setBasePath("http://localhost:9090/ngsi-ld/v1");
             ContextInformationSubscriptionApi subscriptionApi = new ContextInformationSubscriptionApi(apiClient);
 
 
             Endpoint endpoint = new Endpoint();
             endpoint.setUri(new URI("http://scorpio-notifier-tester:8084/notify"));
             //endpoint.setAccept(AcceptEnum.APPLICATION_LD_JSON);
+            //endpoint.setUri(new URI("http://localhost:8084/notify"));
+            endpoint.setNotifierInfo(null); 
+            endpoint.setReceiverInfo(null); 
+
 
             NotificationParams notificationParams = new NotificationParams();
             notificationParams.setEndpoint(endpoint);
             notificationParams.setFormat(NotificationParams.FormatEnum.NORMALIZED);
+            notificationParams.setAttributes(Arrays.asList("humidity")); 
+
             //profe: attributes=["temperature", "humidity"], sysAttrs=True
             
 

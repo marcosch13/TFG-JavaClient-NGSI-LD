@@ -17,7 +17,7 @@ public class QueryIotEntities {
 
 
             ApiClient apiClient = Configuration.getDefaultApiClient();
-            apiClient.setBasePath("http://localhost:1026/ngsi-ld/v1");
+            apiClient.setBasePath("http://localhost:9090/ngsi-ld/v1");
             ContextInformationConsumptionApi apiInstance = new ContextInformationConsumptionApi(apiClient);
 
             for (String tipo : tipos) {
