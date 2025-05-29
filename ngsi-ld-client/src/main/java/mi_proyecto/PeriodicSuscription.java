@@ -1,18 +1,20 @@
 package mi_proyecto;
 
-import org.openapitools.client.model.*;
-import org.openapitools.client.model.Endpoint.AcceptEnum;
-
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.Arrays;
+import java.util.Scanner;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.api.*;
+import org.openapitools.client.api.ContextInformationSubscriptionApi;
+import org.openapitools.client.model.CreateSubscriptionRequest;
+import org.openapitools.client.model.Endpoint;
+import org.openapitools.client.model.EntitySelector;
+import org.openapitools.client.model.NotificationParams;
 
+public class PeriodicSuscription {
 
-
-public class AddSuscription {
     public static void main(String[] args) {
 
         try {
@@ -24,10 +26,8 @@ public class AddSuscription {
 
             Endpoint endpoint = new Endpoint();
             endpoint.setUri(new URI("http://scorpio-notifier-tester:8084/notify"));
-            //endpoint.setAccept(AcceptEnum.APPLICATION_LD_JSON);
-            //endpoint.setUri(new URI("http://localhost:8084/notify"));
-            endpoint.setNotifierInfo(null); 
-            endpoint.setReceiverInfo(null); 
+            endpoint.setNotifierInfo(null); //si no me da error
+            endpoint.setReceiverInfo(null); //si no me da error
 
 
             NotificationParams notificationParams = new NotificationParams();
@@ -37,23 +37,40 @@ public class AddSuscription {
 
             //profe: attributes=["temperature", "humidity"], sysAttrs=True
             
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("A que tipo de sensor quieres suscribirte? \n1: humedad \n2: temperatura ");
+            String tipoEntidad = scanner.nextLine();
 
-            EntitySelector humidityEntity = new EntitySelector();
-            humidityEntity.setType("HumiditySensor");
+            String tipo = "";
+            if(tipoEntidad.equals("humedad")){
+                tipo = "HumiditySensor";
+            }else if(tipoEntidad.equals("temperatura")){
+                tipo = "TemperatureSensor";
+            }
+            EntitySelector Entity = new EntitySelector();
+            Entity.setType(tipo);
 
-            EntitySelector temperatureEntity = new EntitySelector();
-            temperatureEntity.setType("TemperatureSensor");
+            System.out.println("Introduce el número final de ID de la entidad: ");
+            String NumeroId = scanner.nextLine();
 
+            String letra = "";
+            if (tipoEntidad.equals("humedad")) {
+                letra = "H";
+            }else if (tipoEntidad.equals("temperatura")) {
+                letra = "T";
+            }
 
             CreateSubscriptionRequest subscription = new CreateSubscriptionRequest();
 
             subscription.setType(CreateSubscriptionRequest.TypeEnum.SUBSCRIPTION);
+            subscription.setId(new URI("urn:ngsi-ld:Subscription:Periodic:" + letra + NumeroId));
             subscription.setNotification(notificationParams);
-            subscription.setEntities(Arrays.asList(humidityEntity, temperatureEntity));
-            subscription.setDescription("Subscripción a cambios en los sensores");
-            subscription.setWatchedAttributes(Arrays.asList("humidity", "temperature"));
+            subscription.setEntities(Arrays.asList(Entity));
+            subscription.setDescription("Subscripción periodica a :");
+            subscription.setTimeInterval(new BigDecimal(60));
             subscription.setIsActive(true);
             subscription.setNotificationTrigger(null);
+            subscription.setWatchedAttributes(null);
 
             System.out.println("Suscripción JSON:\n" + subscription.toJson());
 
@@ -67,4 +84,5 @@ public class AddSuscription {
 
         
     }
+    
 }
