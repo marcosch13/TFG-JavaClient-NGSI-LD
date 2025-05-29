@@ -25,10 +25,16 @@ public class AddSuscription {
             Endpoint endpoint = new Endpoint();
             endpoint.setUri(new URI("http://scorpio-notifier-tester:8084/notify"));
             //endpoint.setAccept(AcceptEnum.APPLICATION_LD_JSON);
+            //endpoint.setUri(new URI("http://localhost:8084/notify"));
+            endpoint.setNotifierInfo(null); 
+            endpoint.setReceiverInfo(null); 
+
 
             NotificationParams notificationParams = new NotificationParams();
             notificationParams.setEndpoint(endpoint);
             notificationParams.setFormat(NotificationParams.FormatEnum.NORMALIZED);
+            notificationParams.setAttributes(Arrays.asList("humidity")); 
+
             //profe: attributes=["temperature", "humidity"], sysAttrs=True
             
 
