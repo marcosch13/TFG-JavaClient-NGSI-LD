@@ -29,6 +29,7 @@ public class Consola{
             System.out.println("17");
             System.out.println("18:Crear suscripción basada en cambios");
             System.out.println("19:Crear suscripción periódica");
+            System.out.println("20:Consultar suscripciones");
             System.out.println("0: Salir");
             System.out.print("Selecciona una opción: ");
 
@@ -135,6 +136,10 @@ public class Consola{
             }else if(opcion == 19) {
                 System.out.println("Crear suscripción periodica");
                 PeriodicSuscription.main(null);
+            }
+            else if(opcion == 20) {
+                System.out.println("Consultar suscripciones");
+                QuerySuscriptions.main(null);
             }else if(opcion == 0) {
                 System.out.println("Saliendo del programa...");
                 System.exit(0);
