@@ -33,22 +33,25 @@ public class AddSuscription {
             NotificationParams notificationParams = new NotificationParams();
             notificationParams.setEndpoint(endpoint);
             notificationParams.setFormat(NotificationParams.FormatEnum.NORMALIZED);
-            notificationParams.setAttributes(Arrays.asList("humidity")); 
+            notificationParams.setAttributes(Arrays.asList("humidity", "temperature")); 
 
             //profe: attributes=["temperature", "humidity"], sysAttrs=True
             
 
-            EntitySelector EntidadesSeleccionadas = new EntitySelector();
-            EntidadesSeleccionadas.setType("HumiditySensor");
+            EntitySelector humidityEntity = new EntitySelector();
+            humidityEntity.setType("HumiditySensor");
+
+            EntitySelector temperatureEntity = new EntitySelector();
+            temperatureEntity.setType("TemperatureSensor");
 
 
             CreateSubscriptionRequest subscription = new CreateSubscriptionRequest();
 
             subscription.setType(CreateSubscriptionRequest.TypeEnum.SUBSCRIPTION);
             subscription.setNotification(notificationParams);
-            subscription.setEntities(Arrays.asList(EntidadesSeleccionadas));
-            subscription.setDescription("Subscripción a cambios en los sensores de humedad");
-            subscription.setWatchedAttributes(Arrays.asList("humidity"));
+            subscription.setEntities(Arrays.asList(humidityEntity, temperatureEntity));
+            subscription.setDescription("Subscripción a cambios en los sensores");
+            subscription.setWatchedAttributes(Arrays.asList("humidity", "temperature"));
             subscription.setIsActive(true);
             subscription.setNotificationTrigger(null);
 

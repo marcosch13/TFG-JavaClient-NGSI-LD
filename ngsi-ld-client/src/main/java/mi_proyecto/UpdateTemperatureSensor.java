@@ -23,7 +23,7 @@ public class UpdateTemperatureSensor {
             Scanner scanner = new Scanner(System.in);
 
             ApiClient apiClient = Configuration.getDefaultApiClient();
-            apiClient.setBasePath("http://localhost:1026/ngsi-ld/v1");
+            apiClient.setBasePath("http://localhost:9090/ngsi-ld/v1");
             ContextInformationConsumptionApi consumoApi = new ContextInformationConsumptionApi(apiClient);
             boolean existe = false;
 
