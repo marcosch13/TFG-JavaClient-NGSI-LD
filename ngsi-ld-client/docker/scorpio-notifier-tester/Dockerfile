@@ -30,13 +30,10 @@ COPY src/main/java/org/openapitools/client/model /ngsi-ld-models
 
 
 # Copy app artifacts
-#COPY docker/${APP_NAME}/pyproject.toml docker/${APP_NAME}/poetry.lock ./             ESTE ARCHIVO NO ESTÁ
+#COPY docker/${APP_NAME}/pyproject.toml docker/${APP_NAME}/poetry.lock ./     EL ARCHIVO poetry.lock ARCHIVO NO ESTÁ
 COPY docker/${APP_NAME}/pyproject.toml ./
 COPY docker/${APP_NAME}/poetry.toml ./
 RUN poetry install --no-root
-
-
-
 RUN poetry export -f requirements.txt --without-hashes | /venv/bin/pip install -r /dev/stdin
 
 
