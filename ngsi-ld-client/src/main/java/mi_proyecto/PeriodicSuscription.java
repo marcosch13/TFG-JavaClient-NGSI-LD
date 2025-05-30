@@ -67,7 +67,7 @@ public class PeriodicSuscription {
             subscription.setNotification(notificationParams);
             subscription.setEntities(Arrays.asList(Entity));
             subscription.setDescription("Subscripción periodica a :");
-            subscription.setTimeInterval(new BigDecimal(60));
+            subscription.setTimeInterval(new BigDecimal(60));//esepcificar por el usuario
             subscription.setIsActive(true);
             subscription.setNotificationTrigger(null);
             subscription.setWatchedAttributes(null);

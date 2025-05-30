@@ -34,7 +34,7 @@ public class OnChangeSuscription {
             notificationParams.setEndpoint(endpoint);
             notificationParams.setFormat(NotificationParams.FormatEnum.NORMALIZED);
             notificationParams.setAttributes(Arrays.asList("humidity", "temperature")); 
-
+            //poner sysattrs ponerlo a true y probar
             //profe: attributes=["temperature", "humidity"], sysAttrs=True
             
 
