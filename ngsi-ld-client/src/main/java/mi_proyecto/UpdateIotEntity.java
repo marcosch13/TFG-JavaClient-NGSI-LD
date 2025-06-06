@@ -2,6 +2,7 @@ package mi_proyecto;
 
 import org.openapitools.client.model.HasHumiditySensor;
 import org.openapitools.client.model.HasTemperatureSensor;
+import org.openapitools.client.model.IotDevice;
 import org.openapitools.client.model.QueryEntity200ResponseInner;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
@@ -17,28 +18,16 @@ import java.util.Scanner;
 public class UpdateIotEntity{
     public static void main(String[] args){
         try {
-
+            Scanner scanner = new Scanner(System.in);
             String idNumero = (args != null && args.length > 0) ? args[0] : "1";
-            String tempSensorId = (args != null && args.length > 1) ? args[1]: null;
-            String humSensorId = (args != null && args.length > 2) ? args[2] : null;
-
+            
             int num = Integer.parseInt(idNumero);
             String idFormateado = String.format("%03d", num);
-            String idFormateado2 = null;
-            String idFormateado3 = null;
-
-            if(tempSensorId != null){
-                int num2 = Integer.parseInt(tempSensorId);
-                idFormateado2 = String.format("%03d", num2);
-            }
-            
-            if(humSensorId != null){
-                int num3 = Integer.parseInt(humSensorId);
-                idFormateado3 = String.format("%03d", num3);
-            }
 
             ApiClient apiClient = Configuration.getDefaultApiClient();
             apiClient.setBasePath("http://localhost:1026/ngsi-ld/v1");
+            apiClient.addDefaultHeader("Link", "<http://context-catalog:8080/context.jsonld>; rel=\"http://www.w3.org/ns/json-ld#context\"; type=\"application/ld+json\"");
+            apiClient.addDefaultHeader("Accept", "application/ld+json");
             ContextInformationConsumptionApi consumoApi = new ContextInformationConsumptionApi(apiClient);
             boolean existe = false;
 
@@ -51,29 +40,30 @@ public class UpdateIotEntity{
 
             if (existe) {
 
-            Scanner scanner = new Scanner(System.in);
-            System.out.print("Introduce la descripción para el dispositivo IoT: ");
-            String descripcion = scanner.nextLine();    
+                System.out.print("¿Qué propiedad quieres añadir a la entidad? :  hasTemperatureSensor, hasHumiditySensor");
+                String propiedad = scanner.nextLine();
 
-            Entity fragmento = new Entity();
+                Entity fragmento = new Entity();
 
-            if(tempSensorId != null){
-            //Crear relación con el sensor de temperatura
-            HasTemperatureSensor tempSensor = new HasTemperatureSensor();
-            tempSensor.setType(HasTemperatureSensor.TypeEnum.RELATIONSHIP);
-            tempSensor.setObject("urn:ngsi-ld:TemperatureSensor:" + idFormateado2);
-            fragmento.putAdditionalProperty("hasTemperatureSensor", tempSensor);
-            }
-            if(humSensorId != null){
-            //Crear relación con el sensor de humedad
-            HasHumiditySensor humSensor = new HasHumiditySensor();
-            humSensor.setType(HasHumiditySensor.TypeEnum.RELATIONSHIP);
-            humSensor.setObject("urn:ngsi-ld:HumiditySensor:" + idFormateado3);
-            fragmento.putAdditionalProperty("hasHumiditySensor", humSensor);
-            }
-
-            
-            fragmento.putAdditionalProperty("description", descripcion);
+                if(propiedad.equals("hasTemperatureSensor")){
+                    System.out.println("Introduce el id del sensor de temperatura: ");
+                    String identificador = scanner.nextLine();
+                    HasTemperatureSensor tempSensor = new HasTemperatureSensor();
+                    tempSensor.setType(HasTemperatureSensor.TypeEnum.RELATIONSHIP);
+                    tempSensor.setObject("urn:ngsi-ld:TemperatureSensor:" + identificador);
+                    fragmento.putAdditionalProperty("hasTemperatureSensor", tempSensor);
+                }else if(propiedad.equals("hasHumiditySensor")){
+                    System.out.println("Introduce el id del sensor de humedad: ");
+                    String identificador = scanner.nextLine();
+                    HasHumiditySensor humSensor = new HasHumiditySensor();
+                    humSensor.setType(HasHumiditySensor.TypeEnum.RELATIONSHIP);
+                    humSensor.setObject("urn:ngsi-ld:HumiditySensor:" + identificador);
+                    fragmento.putAdditionalProperty("hasHumiditySensor", humSensor);
+                }/*else if(propiedad.equals("description")){
+                    System.out.print("Introduce la descripción para el dispositivo IoT: ");
+                    String descripcion = scanner.nextLine();   
+                    fragmento.putAdditionalProperty("description", descripcion);
+                }*/
 
             
             ContextInformationProvisionApi apiInstance = new ContextInformationProvisionApi(apiClient);

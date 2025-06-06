@@ -67,12 +67,11 @@ public class Consola{
                 System.out.println("[+] Ejecutando QueryIotDevices\n");
                 QueryIotEntities.main(null); 
             }else if(opcion == 6){
-                System.out.println("\n[+] Actualizar entidad IoT con sensores");
-                System.out.print("Introduce el ID del dispositivo IoT y de los sensores en caso de querer añadirlos (ej: iotId tempId humId): ");
+                System.out.println("\n[+] Actualizar entidad IoT");
+                System.out.print("Introduce el ID del dispositivo IoT ");
+                System.out.print("Introduce el número de ID: ");
                 String idNum = scanner.nextLine();
-                String[] ids = idNum.trim().split("\\s+");
-                System.out.println("[+] Ejecutando UpdateIotEntity con IDs: " + String.join(", ", ids) + "\n");
-                UpdateIotEntity.main(ids);
+                UpdateIotEntity.main(new String[]{idNum});
             }else if(opcion == 7){
                 System.out.println("\n[+] Actualizar sensor de temperatura");
                 System.out.print("Introduce el número de ID: ");
