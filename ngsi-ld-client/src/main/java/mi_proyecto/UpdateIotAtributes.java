@@ -24,6 +24,8 @@ public class UpdateIotAtributes {
 
             ApiClient apiClient = Configuration.getDefaultApiClient();
             apiClient.setBasePath("http://localhost:1026/ngsi-ld/v1");
+            apiClient.addDefaultHeader("Link", "<http://context-catalog:8080/context.jsonld>; rel=\"http://www.w3.org/ns/json-ld#context\"; type=\"application/ld+json\"");
+            apiClient.addDefaultHeader("Accept", "application/ld+json");
             ContextInformationConsumptionApi consumoApi = new ContextInformationConsumptionApi(apiClient);
             ContextInformationProvisionApi apiInstance = new ContextInformationProvisionApi(apiClient);
 
@@ -75,8 +77,11 @@ public class UpdateIotAtributes {
                     editableIot.setDescription(new IotDescription().value(nuevoValor));
                 }
                 Entity entidadActualizada = Entity.fromJson(editableIot.toJson());
+                System.out.println("URI objetivo: " + entityUri.toString());
+                System.out.println("ID en payload: " + entidadActualizada.getId());
+
                 
-                ApiResponse<Void> response = apiInstance.updateEntityWithHttpInfo(entidad.getId(), null, null, null, null,entidadActualizada);
+                ApiResponse<Void> response = apiInstance.updateEntityWithHttpInfo(entityUri, null, null, null, null,entidadActualizada);
 
                 System.out.println("Código de respuesta: " + response.getStatusCode());
             } else {
