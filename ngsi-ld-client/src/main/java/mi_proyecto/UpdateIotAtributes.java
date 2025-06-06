@@ -10,10 +10,8 @@ import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.api.ContextInformationConsumptionApi;
 import org.openapitools.client.api.ContextInformationProvisionApi;
-import org.openapitools.client.model.Entity;
-import org.openapitools.client.model.HasHumiditySensor;
-import org.openapitools.client.model.HasTemperatureSensor;
-import org.openapitools.client.model.QueryEntity200ResponseInner;
+import org.openapitools.client.model.*;
+
 
 public class UpdateIotAtributes {
     public static void main(String[] args){
@@ -46,6 +44,7 @@ public class UpdateIotAtributes {
                 entityUri, null, null, null, null, null, null, null, null);
             
             Entity editable = Entity.fromJson(entidad.toJson());
+            IotDevice editableIot = IotDevice.fromJson(editable.toJson());
             
             Map<String, Object> atributos = editable.getAdditionalProperties();
             for (String key : atributos.keySet()) {
@@ -64,6 +63,7 @@ public class UpdateIotAtributes {
                     tempSensor.setType(HasTemperatureSensor.TypeEnum.RELATIONSHIP);
                     tempSensor.setObject("urn:ngsi-ld:TemperatureSensor:" + nuevoValor);
                     editable.putAdditionalProperty("hasTemperatureSensor", tempSensor);
+                    editableIot.setHasTemperatureSensor(tempSensor);
                 }else if(propiedad.equals("hasHumiditySensor")){
                     HasHumiditySensor humSensor = new HasHumiditySensor();
                     humSensor.setType(HasHumiditySensor.TypeEnum.RELATIONSHIP);
