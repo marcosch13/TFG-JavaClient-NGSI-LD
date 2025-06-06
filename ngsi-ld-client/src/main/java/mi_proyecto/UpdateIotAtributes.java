@@ -44,7 +44,7 @@ public class UpdateIotAtributes {
                 entityUri, null, null, null, null, null, null, null, null);
             
             Entity editable = Entity.fromJson(entidad.toJson());
-            IotDevice editableIot = IotDevice.fromJson(editable.toJson());
+            IotDevice editableIot = IotDevice.fromJson(entidad.toJson());
             
             Map<String, Object> atributos = editable.getAdditionalProperties();
             for (String key : atributos.keySet()) {
@@ -62,19 +62,21 @@ public class UpdateIotAtributes {
                     HasTemperatureSensor tempSensor = new HasTemperatureSensor();
                     tempSensor.setType(HasTemperatureSensor.TypeEnum.RELATIONSHIP);
                     tempSensor.setObject("urn:ngsi-ld:TemperatureSensor:" + nuevoValor);
-                    editable.putAdditionalProperty("hasTemperatureSensor", tempSensor);
+                    //editable.putAdditionalProperty("hasTemperatureSensor", tempSensor);
                     editableIot.setHasTemperatureSensor(tempSensor);
                 }else if(propiedad.equals("hasHumiditySensor")){
                     HasHumiditySensor humSensor = new HasHumiditySensor();
                     humSensor.setType(HasHumiditySensor.TypeEnum.RELATIONSHIP);
                     humSensor.setObject("urn:ngsi-ld:HumiditySensor:" + nuevoValor);
-                    editable.putAdditionalProperty("hasHumiditySensor", humSensor);
+                    //editable.putAdditionalProperty("hasHumiditySensor", humSensor);
+                    editableIot.setHasHumiditySensor(humSensor);
                 }else{
-                    editable.putAdditionalProperty(propiedad, nuevoValor);
+                    //editable.putAdditionalProperty(propiedad, nuevoValor);
+                    editableIot.setDescription(new IotDescription().value(nuevoValor));
                 }
-
+                Entity entidadActualizada = Entity.fromJson(editableIot.toJson());
                 
-                ApiResponse<Void> response = apiInstance.updateEntityWithHttpInfo(entidad.getId(), null, null, null, null,editable);
+                ApiResponse<Void> response = apiInstance.updateEntityWithHttpInfo(entidad.getId(), null, null, null, null,entidadActualizada);
 
                 System.out.println("Código de respuesta: " + response.getStatusCode());
             } else {

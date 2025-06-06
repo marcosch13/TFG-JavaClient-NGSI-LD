@@ -41,25 +41,27 @@ public class UpdateIotEntity{
             if (existe) {
 
                 System.out.print("¿Qué propiedad quieres añadir a la entidad? :  hasTemperatureSensor, hasHumiditySensor");
-                String propiedad = scanner.nextLine();
+                String propiedadElegida = scanner.nextLine();
 
                 Entity fragmento = new Entity();
 
-                if(propiedad.equals("hasTemperatureSensor")){
+                if(propiedadElegida.equals("hasTemperatureSensor")){
                     System.out.println("Introduce el id del sensor de temperatura: ");
                     String identificador = scanner.nextLine();
                     HasTemperatureSensor tempSensor = new HasTemperatureSensor();
                     tempSensor.setType(HasTemperatureSensor.TypeEnum.RELATIONSHIP);
                     tempSensor.setObject("urn:ngsi-ld:TemperatureSensor:" + identificador);
                     fragmento.putAdditionalProperty("hasTemperatureSensor", tempSensor);
-                }else if(propiedad.equals("hasHumiditySensor")){
+                }else if(propiedadElegida.equals("hasHumiditySensor")){
                     System.out.println("Introduce el id del sensor de humedad: ");
                     String identificador = scanner.nextLine();
                     HasHumiditySensor humSensor = new HasHumiditySensor();
                     humSensor.setType(HasHumiditySensor.TypeEnum.RELATIONSHIP);
                     humSensor.setObject("urn:ngsi-ld:HumiditySensor:" + identificador);
                     fragmento.putAdditionalProperty("hasHumiditySensor", humSensor);
-                }/*else if(propiedad.equals("description")){
+                }
+                
+                /*else if(propiedad.equals("description")){
                     System.out.print("Introduce la descripción para el dispositivo IoT: ");
                     String descripcion = scanner.nextLine();   
                     fragmento.putAdditionalProperty("description", descripcion);
