@@ -64,21 +64,16 @@ public class UpdateIotAtributes {
                     HasTemperatureSensor tempSensor = new HasTemperatureSensor();
                     tempSensor.setType(HasTemperatureSensor.TypeEnum.RELATIONSHIP);
                     tempSensor.setObject("urn:ngsi-ld:TemperatureSensor:" + nuevoValor);
-                    //editable.putAdditionalProperty("hasTemperatureSensor", tempSensor);
                     editableIot.setHasTemperatureSensor(tempSensor);
                 }else if(propiedad.equals("hasHumiditySensor")){
                     HasHumiditySensor humSensor = new HasHumiditySensor();
                     humSensor.setType(HasHumiditySensor.TypeEnum.RELATIONSHIP);
                     humSensor.setObject("urn:ngsi-ld:HumiditySensor:" + nuevoValor);
-                    //editable.putAdditionalProperty("hasHumiditySensor", humSensor);
                     editableIot.setHasHumiditySensor(humSensor);
                 }else{
-                    //editable.putAdditionalProperty(propiedad, nuevoValor);
                     editableIot.setDescription(new IotDescription().value(nuevoValor));
                 }
                 Entity entidadActualizada = Entity.fromJson(editableIot.toJson());
-                System.out.println("URI objetivo: " + entityUri.toString());
-                System.out.println("ID en payload: " + entidadActualizada.getId());
 
                 
                 ApiResponse<Void> response = apiInstance.updateEntityWithHttpInfo(entityUri, null, null, null, null,entidadActualizada);
