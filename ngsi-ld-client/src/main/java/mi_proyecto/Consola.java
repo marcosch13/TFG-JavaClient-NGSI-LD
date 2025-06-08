@@ -116,7 +116,7 @@ public class Consola{
             }else if(opcion == 15) {
                 System.out.print("Introduce el número de ID: ");
                 String idNum = scanner.nextLine();
-                retrieveEntitysById.main(new String[]{idNum});
+                retrieveEntityById.main(new String[]{idNum});
             }else if(opcion == 16) {
                 System.out.println("\n[+] Actualizar atributos existentes");
                 System.out.print("Introduce el número de ID: ");

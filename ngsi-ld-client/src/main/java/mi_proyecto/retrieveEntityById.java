@@ -9,7 +9,7 @@ import org.openapitools.client.Configuration;
 import org.openapitools.client.api.ContextInformationConsumptionApi;
 import org.openapitools.client.model.QueryEntity200ResponseInner;
 
-public class retrieveEntitysById {
+public class retrieveEntityById {
 
     public static void main(String[] args) {
         try {

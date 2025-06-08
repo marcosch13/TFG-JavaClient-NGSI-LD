@@ -3,6 +3,7 @@ package mi_proyecto;
 import java.net.URI;
 import java.util.Map;
 import java.util.Scanner;
+import java.math.BigDecimal;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
@@ -10,10 +11,8 @@ import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.api.ContextInformationConsumptionApi;
 import org.openapitools.client.api.ContextInformationProvisionApi;
-import org.openapitools.client.model.Entity;
-import org.openapitools.client.model.HasHumiditySensor;
-import org.openapitools.client.model.HasTemperatureSensor;
-import org.openapitools.client.model.QueryEntity200ResponseInner;
+import org.openapitools.client.model.*;
+
 
 public class UpdateHumiditySensorAtributes {
     public static void main(String[] args){
@@ -26,6 +25,8 @@ public class UpdateHumiditySensorAtributes {
 
             ApiClient apiClient = Configuration.getDefaultApiClient();
             apiClient.setBasePath("http://localhost:1026/ngsi-ld/v1");
+            apiClient.addDefaultHeader("Link", "<http://context-catalog:8080/context.jsonld>; rel=\"http://www.w3.org/ns/json-ld#context\"; type=\"application/ld+json\"");
+            apiClient.addDefaultHeader("Accept", "application/ld+json");
             ContextInformationConsumptionApi consumoApi = new ContextInformationConsumptionApi(apiClient);
             ContextInformationProvisionApi apiInstance = new ContextInformationProvisionApi(apiClient);
 
@@ -45,9 +46,10 @@ public class UpdateHumiditySensorAtributes {
                 QueryEntity200ResponseInner entidad = consumoApi.retrieveEntity(
                 entityUri, null, null, null, null, null, null, null, null);
             
-            Entity editable = Entity.fromJson(entidad.toJson());
+            HumiditySensor editableHum = HumiditySensor.fromJson(entidad.toJson());
+            Entity entity = Entity.fromJson(entidad.toJson());
             
-            Map<String, Object> atributos = editable.getAdditionalProperties();
+            Map<String, Object> atributos = entity.getAdditionalProperties();
             for (String key : atributos.keySet()) {
                 System.out.println("Atributo:" + key);
             }
@@ -58,11 +60,21 @@ public class UpdateHumiditySensorAtributes {
             if (atributos.containsKey(propiedad)) {
                 System.out.print("Introduce el nuevo valor para '" + propiedad + "': ");
                 String nuevoValor = scanner.nextLine();
-                editable.putAdditionalProperty(propiedad, nuevoValor);
+                if (propiedad.equals("humidity")) {
+                    BigDecimal nuevoValorHum = new BigDecimal(nuevoValor);
+                    editableHum.setHumidity(new Humidity()
+                    .type(Humidity.TypeEnum.PROPERTY)
+                    .value(nuevoValorHum)
+                    .unitCode("P1")
+                );
+                } else {
+                    editableHum.putAdditionalProperty(propiedad, nuevoValor);
                 }
+            }
 
-                
-                ApiResponse<Void> response = apiInstance.updateEntityWithHttpInfo(entidad.getId(), null, null, null, null,editable);
+                Entity entidadActualizada = Entity.fromJson(editableHum.toJson());
+
+                ApiResponse<Void> response = apiInstance.updateEntityWithHttpInfo(entidad.getId(), null, null, null, null,entidadActualizada);
 
                 System.out.println("Código de respuesta: " + response.getStatusCode());
             } else {

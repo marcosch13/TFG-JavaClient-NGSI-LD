@@ -14,6 +14,7 @@ import org.openapitools.client.model.*;
 
 
 public class UpdateIotAtributes {
+    @SuppressWarnings("ConvertToStringSwitch")
     public static void main(String[] args){
         try {
             Scanner scanner = new Scanner(System.in);
@@ -41,50 +42,49 @@ public class UpdateIotAtributes {
             if (existe) {
 
 
-            URI entityUri = new URI("urn:ngsi-ld:IotDevice:" + idFormateado);
-                QueryEntity200ResponseInner entidad = consumoApi.retrieveEntity(
-                entityUri, null, null, null, null, null, null, null, null);
-            
-            Entity editable = Entity.fromJson(entidad.toJson());
-            IotDevice editableIot = IotDevice.fromJson(entidad.toJson());
-            
-            Map<String, Object> atributos = editable.getAdditionalProperties();
-            for (String key : atributos.keySet()) {
-                System.out.println("Atributo:" + key);
-            }
-
-            System.out.print("¿Qué propiedad quieres actualizar?: ");
-            String propiedad = scanner.nextLine();
-
-            if (atributos.containsKey(propiedad)) {
-                System.out.print("Introduce el nuevo valor para '" + propiedad + "': ");
-                String nuevoValor = scanner.nextLine();
-
-                if(propiedad.equals("hasTemperatureSensor")){
-                    HasTemperatureSensor tempSensor = new HasTemperatureSensor();
-                    tempSensor.setType(HasTemperatureSensor.TypeEnum.RELATIONSHIP);
-                    tempSensor.setObject("urn:ngsi-ld:TemperatureSensor:" + nuevoValor);
-                    editableIot.setHasTemperatureSensor(tempSensor);
-                }else if(propiedad.equals("hasHumiditySensor")){
-                    HasHumiditySensor humSensor = new HasHumiditySensor();
-                    humSensor.setType(HasHumiditySensor.TypeEnum.RELATIONSHIP);
-                    humSensor.setObject("urn:ngsi-ld:HumiditySensor:" + nuevoValor);
-                    editableIot.setHasHumiditySensor(humSensor);
-                }else{
-                    editableIot.setDescription(new IotDescription().value(nuevoValor));
-                }
-                Entity entidadActualizada = Entity.fromJson(editableIot.toJson());
-
+                URI entityUri = new URI("urn:ngsi-ld:IotDevice:" + idFormateado);
+                    QueryEntity200ResponseInner entidad = consumoApi.retrieveEntity(
+                    entityUri, null, null, null, null, null, null, null, null);
                 
-                ApiResponse<Void> response = apiInstance.updateEntityWithHttpInfo(entityUri, null, null, null, null,entidadActualizada);
+                
+                IotDevice editableIot = IotDevice.fromJson(entidad.toJson());
+                
+                Map<String, Object> atributos = editableIot.getAdditionalProperties();
+                for (String key : atributos.keySet()) {
+                    System.out.println("Atributo:" + key);
+                }
 
-                System.out.println("Código de respuesta: " + response.getStatusCode());
-            } else {
-                System.out.println("Esa propiedad no existe en la entidad.");
-            }
-        }
+                System.out.print("¿Qué propiedad quieres actualizar?: ");
+                String propiedad = scanner.nextLine();
 
-            
+                if (atributos.containsKey(propiedad)) {
+                    System.out.print("Introduce el nuevo valor para '" + propiedad + "': ");
+                    String nuevoValor = scanner.nextLine();
+
+                    if(propiedad.equals("hasTemperatureSensor")){
+                        HasTemperatureSensor tempSensor = new HasTemperatureSensor();
+                        tempSensor.setType(HasTemperatureSensor.TypeEnum.RELATIONSHIP);
+                        tempSensor.setObject("urn:ngsi-ld:TemperatureSensor:" + nuevoValor);
+                        editableIot.setHasTemperatureSensor(tempSensor);
+                    }else if(propiedad.equals("hasHumiditySensor")){
+                        HasHumiditySensor humSensor = new HasHumiditySensor();
+                        humSensor.setType(HasHumiditySensor.TypeEnum.RELATIONSHIP);
+                        humSensor.setObject("urn:ngsi-ld:HumiditySensor:" + nuevoValor);
+                        editableIot.setHasHumiditySensor(humSensor);
+                    }else{
+                        editableIot.setDescription(new IotDescription().value(nuevoValor));
+                    }
+                    
+                    Entity entidadActualizada = Entity.fromJson(editableIot.toJson());
+
+                    ApiResponse<Void> response = apiInstance.updateEntityWithHttpInfo(
+                        entityUri, null, null, null, null,entidadActualizada);
+
+                    System.out.println("Código de respuesta: " + response.getStatusCode());
+                } else {
+                    System.out.println("Esa propiedad no existe en la entidad.");
+                }
+            } 
         }catch (Exception e) {
             System.err.println("Error al actualizar la entidad:");
             e.printStackTrace();
