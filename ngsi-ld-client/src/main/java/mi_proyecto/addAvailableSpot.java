@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.net.URI;
 import java.time.OffsetDateTime;
 import java.util.Scanner;
-
+import java.util.List;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
@@ -23,17 +23,23 @@ public class addAvailableSpot {
 
             ApiClient apiClient = Configuration.getDefaultApiClient();
             apiClient.setBasePath("http://localhost:1026/ngsi-ld/v1");
+            apiClient.addDefaultHeader("Link", "<http://context-catalog:8080/context.jsonld>; rel=\"http://www.w3.org/ns/json-ld#context\"; type=\"application/ld+json\"");
+            apiClient.addDefaultHeader("Accept", "application/ld+json");
             ContextInformationConsumptionApi consumoApi = new ContextInformationConsumptionApi(apiClient);
             ContextInformationProvisionApi apiInstance = new ContextInformationProvisionApi(apiClient);
+
             boolean existeParking = false;
             System.out.println("En que parking desea registrar un AvailableSpotNumber?");
             String nombreParking = scanner.nextLine();
+
             URI entityUri3 = new URI("urn:ngsi-ld:OffStreetParking:" + nombreParking);
+            QueryEntity200ResponseInner entidadParking = null;
             try {
-                QueryEntity200ResponseInner entidadParking = consumoApi.retrieveEntity(
+                entidadParking = consumoApi.retrieveEntity(
                 entityUri3, null, null, null, null, null, null, null, null);
                 existeParking = true;
             } catch (ApiException e){}
+
             if(existeParking){
                 System.out.println("El nombre del parking es corecto");
             }else{
@@ -41,6 +47,22 @@ public class addAvailableSpot {
                 return;
             }
 
+            OffStreetParking entidadRecuperada = OffStreetParking.fromJson(entidadParking.toJson());
+            
+
+            List<AvailableSpotNumber> spots = entidadRecuperada.getAvailableSpotNumbers();
+            if (spots != null) {
+                for (AvailableSpotNumber spot : spots) {
+                    System.out.println("Spot disponible: " + spot.getValue()); 
+                }
+            } else {
+                System.out.println("No hay spots disponibles");
+            }
+
+
+
+            
+            /* 
             System.out.println("Indica los spots disponibles del parking");
             int numSpots = Integer.parseInt(scanner.nextLine());
             OffStreetParking fragment0 = new OffStreetParking();
@@ -96,10 +118,12 @@ public class addAvailableSpot {
             }
             Entity fragmento = new Entity();
             fragmento.putAdditionalProperty("availableSpotNumbers", fragment0.getAvailableSpotNumbers());
+            */
 
-            ApiResponse<Void> responsePr = apiInstance.updateEntityWithHttpInfo(entityUri3, null, null, null, null, fragmento);
 
-            System.out.println("Código de respuesta: " + responsePr.getStatusCode());
+            //ApiResponse<Void> responsePr = apiInstance.updateEntityWithHttpInfo(entityUri3, null, null, null, null, fragmento);
+
+            //System.out.println("Código de respuesta: " + responsePr.getStatusCode());
 
 
 
