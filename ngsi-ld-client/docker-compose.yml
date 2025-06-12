@@ -32,19 +32,5 @@ services:
     command: --nojournal
     volumes:
       - mongo-db:/data
-  scorpio-notifier-tester:
-    build:
-      context: .
-      dockerfile: ./docker/scorpio-notifier-tester/Dockerfile
-    hostname: scorpio-notifier
-    container_name: scorpio-notifier
-    expose:
-      - "8084"
-    ports:
-      - "8084:8084"
-    volumes:
-      - ./docker/scorpio-notifier-tester/scorpio_notifier_tester:/opt/scorpio-notifier-tester/scorpio_notifier_tester
-    depends_on:
-      - orion
 volumes:
   mongo-db: ~

@@ -46,10 +46,10 @@ public class UpdateIotAtributes {
                     QueryEntity200ResponseInner entidad = consumoApi.retrieveEntity(
                     entityUri, null, null, null, null, null, null, null, null);
                 
-                
+                Entity entity = Entity.fromJson(entidad.toJson());
                 IotDevice editableIot = IotDevice.fromJson(entidad.toJson());
                 
-                Map<String, Object> atributos = editableIot.getAdditionalProperties();
+                Map<String, Object> atributos = entity.getAdditionalProperties();
                 for (String key : atributos.keySet()) {
                     System.out.println("Atributo:" + key);
                 }
