@@ -1,0 +1,9 @@
+{
+    "@context": {
+        "IotDevice": "https://iot-sensors.org/iot/IotDevice",
+        "name": "https://iot-sensors.org/iot/IotDevice/name",
+        "description": "https://iot-sensors.org/iot/IotDevice/description",
+        "hasTemperatureSensor": "https://iot-sensors.org/iot/IotDevice/hasTemperatureSensor",
+        "hasHumiditySensor": "https://iot-sensors.org/iot/IotDevice/hasHumiditySensor"
+    }
+}

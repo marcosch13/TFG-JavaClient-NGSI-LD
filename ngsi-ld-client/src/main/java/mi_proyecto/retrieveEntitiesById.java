@@ -15,6 +15,8 @@ public class retrieveEntitiesById {
 
             ApiClient apiClient = Configuration.getDefaultApiClient();
             apiClient.setBasePath("http://localhost:1026/ngsi-ld/v1");
+            apiClient.addDefaultHeader("Link", "<http://context-catalog:8080/context.jsonld>; rel=\"http://www.w3.org/ns/json-ld#context\"; type=\"application/ld+json\"");
+            apiClient.addDefaultHeader("Accept", "application/ld+json");
             ContextInformationConsumptionApi apiInstance = new ContextInformationConsumptionApi(apiClient);
 
             Scanner scanner = new Scanner(System.in);

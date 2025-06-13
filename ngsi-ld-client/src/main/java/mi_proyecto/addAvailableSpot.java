@@ -47,22 +47,7 @@ public class addAvailableSpot {
                 return;
             }
 
-            OffStreetParking entidadRecuperada = OffStreetParking.fromJson(entidadParking.toJson());
             
-
-            List<AvailableSpotNumber> spots = entidadRecuperada.getAvailableSpotNumbers();
-            if (spots != null) {
-                for (AvailableSpotNumber spot : spots) {
-                    System.out.println("Spot disponible: " + spot.getValue()); 
-                }
-            } else {
-                System.out.println("No hay spots disponibles");
-            }
-
-
-
-            
-            /* 
             System.out.println("Indica los spots disponibles del parking");
             int numSpots = Integer.parseInt(scanner.nextLine());
             OffStreetParking fragment0 = new OffStreetParking();
@@ -99,7 +84,6 @@ public class addAvailableSpot {
 
                 ProvidedBy providedBy = new ProvidedBy();
                 providedBy.setObject(entityUriProvidedBy);
-                //providedBy.putAdditionalProperty("type", "Relationship"); no se puede y no se como ponerlo o si es estrictamente necesario
 
                 availableSpotNumber.setProvidedBy(providedBy);
 
@@ -107,23 +91,17 @@ public class addAvailableSpot {
                 fragment0.addAvailableSpotNumbersItem( availableSpotNumber );
 
                 
-                
-                
-                
-                //fragmento.putAdditionalProperty("availableSpotNumbers", Arrays.asList(availableSpotNumber));
-
-
-
-                
             }
+
+            
             Entity fragmento = new Entity();
             fragmento.putAdditionalProperty("availableSpotNumbers", fragment0.getAvailableSpotNumbers());
-            */
+            
 
 
-            //ApiResponse<Void> responsePr = apiInstance.updateEntityWithHttpInfo(entityUri3, null, null, null, null, fragmento);
+            ApiResponse<Void> responsePr = apiInstance.updateEntityWithHttpInfo(entityUri3, null, null, null, null, fragmento);
 
-            //System.out.println("Código de respuesta: " + responsePr.getStatusCode());
+            System.out.println("Código de respuesta: " + responsePr.getStatusCode());
 
 
 

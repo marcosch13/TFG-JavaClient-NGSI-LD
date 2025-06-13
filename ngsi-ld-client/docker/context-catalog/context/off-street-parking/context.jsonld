@@ -1,0 +1,10 @@
+{
+    "@context": {
+        "OffStreetParking": "https://vehicles.org/vehicles/OffStreetParking",
+        "name": "https://vehicles.org/vehicles/OffStreetParking/name",
+        "operatedBy": "https://vehicles.org/vehicles/OffStreetParking/operatedBy",
+        "availableSpotNumber": "https://vehicles.org/vehicles/OffStreetParking/availableSpotNumber",
+        "totalSpotNumber": "https://vehicles.org/vehicles/OffStreetParking/totalSpotNumber",
+        "localtion": "https://vehicles.org/vehicles/OffStreetParking/location"
+    }
+}

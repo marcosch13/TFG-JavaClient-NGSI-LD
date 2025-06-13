@@ -28,6 +28,8 @@ public class createVehicle {
 
         ApiClient apiClient = Configuration.getDefaultApiClient();
         apiClient.setBasePath("http://localhost:1026/ngsi-ld/v1");
+        apiClient.addDefaultHeader("Link", "<http://context-catalog:8080/context.jsonld>; rel=\"http://www.w3.org/ns/json-ld#context\"; type=\"application/ld+json\"");
+        apiClient.addDefaultHeader("Accept", "application/ld+json");
         ContextInformationConsumptionApi consumoApi = new ContextInformationConsumptionApi(apiClient);
         ContextInformationProvisionApi apiInstance = new ContextInformationProvisionApi(apiClient);
         boolean existeParking = false;
@@ -204,6 +206,8 @@ public class createVehicle {
             tyreAttr.put("value", Arrays.asList(nuevoValorDelanteros,nuevoValorDelanteros,nuevoValorTraseros,nuevoValorTraseros));
             tyreAttr.put("unitCode", "MMT");
             vehicle.putAdditionalProperty("tyreTreadDepths", tyreAttr);
+
+
 
             vehicle.putAdditionalProperty("route", routeAttr);
 
