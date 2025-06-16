@@ -19,6 +19,8 @@ public class pruebasLatenciaClienteHttp {
     
         try (PrintWriter writer = new PrintWriter(new FileWriter(archivo))) {
             writer.println("iteracion;latencia_ms");
+
+            HttpClient client = HttpClient.newHttpClient();
     
             for (int i = 0; i < repeticiones; i++) {
                 try {
@@ -27,7 +29,7 @@ public class pruebasLatenciaClienteHttp {
     
                     //query entidad
                     
-                    HttpClient client = HttpClient.newHttpClient();
+                    
 
                     String entityId = "urn:ngsi-ld:IotDevice:001";
                     
