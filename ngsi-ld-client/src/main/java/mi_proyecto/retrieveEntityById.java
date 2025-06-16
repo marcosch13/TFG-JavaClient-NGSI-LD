@@ -36,7 +36,7 @@ public class retrieveEntityById {
                 entityUri = new URI("urn:ngsi-ld:TemperatureSensor:" + idFormateado);
             }
 
-            System.out.println("\n[+] Consultando entidad con id: " + entityUri);
+            System.out.println("\n Consultando entidad con id: " + entityUri);
             try {
                 QueryEntity200ResponseInner entidad = apiInstance.retrieveEntity(
                 entityUri, null, null, null, null, null, null, null, null); 

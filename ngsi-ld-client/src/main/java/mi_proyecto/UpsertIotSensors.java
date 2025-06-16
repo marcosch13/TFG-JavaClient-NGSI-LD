@@ -18,6 +18,13 @@ public class UpsertIotSensors {
 
     public static void main(String[] args) {
         try {
+
+            ApiClient apiClient = Configuration.getDefaultApiClient();
+            apiClient.setBasePath("http://localhost:1026/ngsi-ld/v1");
+            apiClient.addDefaultHeader("Link", "<http://context-catalog:8080/context.jsonld>; rel=\"http://www.w3.org/ns/json-ld#context\"; type=\"application/ld+json\"");
+            apiClient.addDefaultHeader("Accept", "application/ld+json");
+            ContextInformationConsumptionApi consumoApi = new ContextInformationConsumptionApi(apiClient);
+            ContextInformationProvisionApi apiInstance = new ContextInformationProvisionApi(apiClient);
             
             Scanner scanner = new Scanner(System.in);
             List<QueryEntity200ResponseInner> entidades = new ArrayList<>();
@@ -36,11 +43,7 @@ public class UpsertIotSensors {
                 String idFormateado = String.format("%03d", Integer.parseInt(idNum));
                 List<URI> entityIds = Collections.singletonList(new URI("urn:ngsi-ld:IotDevice:" + idFormateado));
 
-                ApiClient apiClient = Configuration.getDefaultApiClient();
-                apiClient.setBasePath("http://localhost:1026/ngsi-ld/v1");
-                apiClient.addDefaultHeader("Link", "<http://context-catalog:8080/context.jsonld>; rel=\"http://www.w3.org/ns/json-ld#context\"; type=\"application/ld+json\"");
-                apiClient.addDefaultHeader("Accept", "application/ld+json");
-                ContextInformationConsumptionApi consumoApi = new ContextInformationConsumptionApi(apiClient);
+                
 
                 List<QueryEntity200ResponseInner> entidadesQuery = consumoApi.queryEntity(
                     entityIds, "IotDevice", null, null, null, null, null, null, null,
@@ -56,10 +59,10 @@ public class UpsertIotSensors {
                     IotEntity.setId(new URI("urn:ngsi-ld:IotDevice:" + idFormateado));
                 }
                 TemperatureSensor tempEntity = new TemperatureSensor();
-                tempEntity.setType(TemperatureSensor.TypeEnum.TEMPERATURE_SENSOR);
+                
 
                 HumiditySensor humEntity = new HumiditySensor();
-                humEntity.setType(HumiditySensor.TypeEnum.HUMIDITY_SENSOR);
+                
 
                 System.out.print("¿Añadir o modificar descripción? (s/n): ");
                 if (scanner.nextLine().equalsIgnoreCase("s")) {
@@ -81,6 +84,7 @@ public class UpsertIotSensors {
                         .value(nuevaTemperatura) 
                         .unitCode("CEL"));
                     tempEntity.setId(new URI("urn:ngsi-ld:TemperatureSensor:" + tempId));
+                    tempEntity.setType(TemperatureSensor.TypeEnum.TEMPERATURE_SENSOR);
 
                     HasTemperatureSensor tempSensor = new HasTemperatureSensor();
                     tempSensor.setType(HasTemperatureSensor.TypeEnum.RELATIONSHIP);
@@ -102,6 +106,7 @@ public class UpsertIotSensors {
                     .unitCode("P1"));
 
                     humEntity.setId(new URI("urn:ngsi-ld:HumiditySensor:" + humId));
+                    humEntity.setType(HumiditySensor.TypeEnum.HUMIDITY_SENSOR);
 
                     HasHumiditySensor humSensor = new HasHumiditySensor();
                     humSensor.setType(HasHumiditySensor.TypeEnum.RELATIONSHIP);
@@ -133,13 +138,18 @@ public class UpsertIotSensors {
                 }
             }
 
-            ApiClient apiClient = Configuration.getDefaultApiClient();
-            apiClient.setBasePath("http://localhost:1026/ngsi-ld/v1");
-            ContextInformationProvisionApi apiInstance = new ContextInformationProvisionApi(apiClient);
+            
+            
 
             ApiResponse<List<String>> response = apiInstance.upsertBatchWithHttpInfo(null, null, null, null, entidades);
+            
+            
 
             System.out.println("\nCódigo de respuesta: " + response.getStatusCode());
+            
+            
+
+            
 
         } catch (Exception e) {
             System.err.println("Error durante el upsert batch:");
