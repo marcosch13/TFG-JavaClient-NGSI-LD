@@ -12,6 +12,7 @@ import org.openapitools.client.model.CreateSubscriptionRequest;
 import org.openapitools.client.model.Endpoint;
 import org.openapitools.client.model.EntitySelector;
 import org.openapitools.client.model.NotificationParams;
+import org.openapitools.client.ApiResponse;
 
 public class PeriodicSuscription {
 
@@ -21,6 +22,8 @@ public class PeriodicSuscription {
 
             ApiClient apiClient = Configuration.getDefaultApiClient();
             apiClient.setBasePath("http://localhost:9090/ngsi-ld/v1");
+            apiClient.addDefaultHeader("Link", "<http://context-catalog:8080/context.jsonld>; rel=\"http://www.w3.org/ns/json-ld#context\"; type=\"application/ld+json\"");
+            apiClient.addDefaultHeader("Accept", "application/ld+json");
             ContextInformationSubscriptionApi subscriptionApi = new ContextInformationSubscriptionApi(apiClient);
 
 
@@ -38,7 +41,7 @@ public class PeriodicSuscription {
             //profe: attributes=["temperature", "humidity"], sysAttrs=True
             
             Scanner scanner = new Scanner(System.in);
-            System.out.println("A que tipo de sensor quieres suscribirte? \n1: humedad \n2: temperatura ");
+            System.out.println("A que tipo de sensor quieres suscribirte? \n humedad \n temperatura ");
             String tipoEntidad = scanner.nextLine();
 
             String tipo = "";
@@ -67,14 +70,14 @@ public class PeriodicSuscription {
             subscription.setNotification(notificationParams);
             subscription.setEntities(Arrays.asList(Entity));
             subscription.setDescription("Subscripción periodica a :");
-            subscription.setTimeInterval(new BigDecimal(60));//esepcificar por el usuario
+            subscription.setTimeInterval(new BigDecimal(10));//esepcificar por el usuario
             subscription.setIsActive(true);
             subscription.setNotificationTrigger(null);
             subscription.setWatchedAttributes(null);
 
             System.out.println("Suscripción JSON:\n" + subscription.toJson());
 
-            var response = subscriptionApi.createSubscriptionWithHttpInfo(null, null, null, subscription);
+            ApiResponse<Void> response = subscriptionApi.createSubscriptionWithHttpInfo(null, null, null, subscription);
             System.out.println("Response: " + response.getData());
             
         } catch (Exception e) {
