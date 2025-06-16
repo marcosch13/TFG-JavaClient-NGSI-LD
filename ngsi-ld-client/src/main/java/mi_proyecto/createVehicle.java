@@ -74,7 +74,8 @@ public class createVehicle {
                     System.out.println("La persona ya estaba registrada.");
                 }else{
                     Person person = new Person();
-                    person.putAdditionalProperty("id", "urn:ngsi-ld:Person:" + nombre);
+                    URI entityUri2 = new URI("urn:ngsi-ld:Person:" + nombre);
+                    person.setId(entityUri2);
                     person.setType(Person.TypeEnum.PERSON);
                     person.setName(new Name().value(nombre));
     
@@ -106,7 +107,8 @@ public class createVehicle {
                 if(existeCity){
                     System.out.println("La ciudad ya está registrada.");
                 }else{
-                    city.putAdditionalProperty("id", "urn:ngsi-ld:City:" + nombreCiudad);
+                    URI entityUri7 = new URI("urn:ngsi-ld:City:" + nombreCiudad);
+                    city.setId(entityUri7);
                     city.setType(City.TypeEnum.CITY);
                     city.setName(new Name().value(nombreCiudad));
 
@@ -170,8 +172,9 @@ public class createVehicle {
             //Resto de atributos del vehículo     
             System.out.print("Introduce la matrícula del vehículo: ");
             String matricula = scanner.nextLine();
-            
-            vehicle.putAdditionalProperty("id", "urn:ngsi-ld:Vehicle:" + matricula);
+
+            URI entityUri8 = new URI("urn:ngsi-ld:Vehicle:" + matricula);
+            vehicle.setId(entityUri8);
             vehicle.setType(Vehicle.TypeEnum.VEHICLE);
             System.out.println("Introduce la marca del vehículo: ");
             String marca = scanner.nextLine();
