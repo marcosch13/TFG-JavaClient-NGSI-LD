@@ -20,7 +20,7 @@ public class UpsertIotSensors {
         try {
 
             ApiClient apiClient = Configuration.getDefaultApiClient();
-            apiClient.setBasePath("http://localhost:1026/ngsi-ld/v1");
+            apiClient.setBasePath("http://localhost:9090/ngsi-ld/v1");
             apiClient.addDefaultHeader("Link", "<http://context-catalog:8080/context.jsonld>; rel=\"http://www.w3.org/ns/json-ld#context\"; type=\"application/ld+json\"");
             apiClient.addDefaultHeader("Accept", "application/ld+json");
             ContextInformationConsumptionApi consumoApi = new ContextInformationConsumptionApi(apiClient);
@@ -146,6 +146,19 @@ public class UpsertIotSensors {
             
 
             System.out.println("\nCódigo de respuesta: " + response.getStatusCode());
+            
+            if(response.getData() == null || response.getData().isEmpty()) {
+                System.out.println("La respuesta está vacía. No hay datos para procesar.");
+                
+            }else{
+                List<String> responseBody = response.getData();
+                System.out.println("Elementos creados correctamente:");
+                for (String item : responseBody) {
+                    System.out.println(item);
+                }
+            }
+            
+
             
             
 
