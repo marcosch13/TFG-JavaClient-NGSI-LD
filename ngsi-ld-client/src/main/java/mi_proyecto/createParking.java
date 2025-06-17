@@ -60,7 +60,9 @@ public class createParking {
                 }else{
                     Company company = new Company();
                     company.setType(Company.TypeEnum.COMPANY);
-                    company.putAdditionalProperty("id", "urn:ngsi-ld:Company:" + idCompany);
+                    URI companyUri = new URI("urn:ngsi-ld:Company:" + idCompany);
+                    company.setId(companyUri);
+                    
 
                     Name nombre = new Name();
                     nombre.setValue("Compañía " + idCompany);
@@ -91,8 +93,9 @@ public class createParking {
                     System.out.println("La cámara ya existe.");
                 }else{
                     Camera camera = new Camera();
-                    camera.putAdditionalProperty("id", "urn:ngsi-ld:Camera:C" + idCamara);
-                    camera.putAdditionalProperty("type", "Camera");
+                    URI cameraUri = new URI("urn:ngsi-ld:Camera:C" + idCamara);
+                    camera.setId(cameraUri);
+                    camera.setType(Camera.TypeEnum.CAMERA);
                     Name nombreCamara = new Name();
                     nombreCamara.setValue("Camara " + idCamara); 
                     camera.setName(nombreCamara);
@@ -136,7 +139,7 @@ public class createParking {
                     URI entityUriProvidedBy = new URI("urn:ngsi-ld:Camera:C" + idCamara);
                     ProvidedBy providedBy = new ProvidedBy();
                     providedBy.setObject(entityUriProvidedBy);
-                    //providedBy.putAdditionalProperty("type", "Relationship"); no se puede y no se como ponerlo o si es estrictamente necesario
+                    providedBy.setType(ProvidedBy.TypeEnum.RELATIONSHIP); 
 
                     availableSpotNumber.setProvidedBy(providedBy);
                 }else{
