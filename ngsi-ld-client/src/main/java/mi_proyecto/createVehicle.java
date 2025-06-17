@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.time.ZoneOffset;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
@@ -24,12 +25,14 @@ public class createVehicle {
         try {
 
         Scanner scanner = new Scanner(System.in);
-        OffsetDateTime observedAt = OffsetDateTime.now().withNano(0);
+        //OffsetDateTime observedAt = OffsetDateTime.now().withNano(0);
+        OffsetDateTime observedAt = OffsetDateTime.now(ZoneOffset.UTC).withNano(0);
+
 
         ApiClient apiClient = Configuration.getDefaultApiClient();
-        apiClient.setBasePath("http://localhost:1026/ngsi-ld/v1");
-        apiClient.addDefaultHeader("Link", "<http://context-catalog:8080/context.jsonld>; rel=\"http://www.w3.org/ns/json-ld#context\"; type=\"application/ld+json\"");
-        apiClient.addDefaultHeader("Accept", "application/ld+json");
+            apiClient.setBasePath("http://localhost:9090/ngsi-ld/v1");
+            apiClient.addDefaultHeader("Link", "<http://context-catalog:8080/context.jsonld>; rel=\"http://www.w3.org/ns/json-ld#context\"; type=\"application/ld+json\"");
+            apiClient.addDefaultHeader("Accept", "application/ld+json");
         ContextInformationConsumptionApi consumoApi = new ContextInformationConsumptionApi(apiClient);
         ContextInformationProvisionApi apiInstance = new ContextInformationProvisionApi(apiClient);
         boolean existeParking = false;
@@ -158,16 +161,20 @@ public class createVehicle {
             System.out.println("¿Por cuantas ciudades pasa tu ruta?");
             int numCiudadesRuta = Integer.parseInt(scanner.nextLine());
 
-            List<String> rutaUris = new ArrayList<>();
+            Route route = new Route();
+            List<Object> rutaUris = new ArrayList<>();
+
+            //List<String> rutaUris = new ArrayList<>();
             for (int i = 0; i < numCiudadesRuta; i++) {
                 System.out.print("Introduce el nombre de la " + (i+1) + "ª ciudad: ");
                 String nombreCiudad = scanner.nextLine();
                 rutaUris.add("urn:ngsi-ld:City:" + nombreCiudad);
             }
-            Map<String,Object> routeAttr = new HashMap<>();
-            routeAttr.put("type", "Relationship");
-            routeAttr.put("object", rutaUris);
-
+            //Map<String,Object> routeAttr = new HashMap<>();
+            //routeAttr.put("type", "Relationship");
+            //routeAttr.put("object", rutaUris);
+            route.setObjectList(rutaUris);
+            vehicle.setRoute(route);
 
             //Resto de atributos del vehículo     
             System.out.print("Introduce la matrícula del vehículo: ");
@@ -182,37 +189,57 @@ public class createVehicle {
             System.out.println("Introduce la calle: "); 
             String calle = scanner.nextLine();
             
-            Map<String,Object> street = new HashMap<>();
+            /*Map<String,Object> street = new HashMap<>();
             street.put("type",  "Property");
             Map<String,String> lm = new HashMap<>();
             lm.put("@none", calle);
             street.put("value", lm);
-            vehicle.putAdditionalProperty("street", street);
+            vehicle.putAdditionalProperty("street", street);*/
+            Street street = new Street();
+            street.setType(Street.TypeEnum.LANGUAGE_PROPERTY);
+            Map<String, String> streetLanguageMap = new HashMap<>();
+            streetLanguageMap.put("es", calle);
+            street.setLanguageMap(streetLanguageMap);
+            vehicle.setStreet(street);
+
+
             
             vehicle.setIsParked(isParked);
             vehicle.setPassengers(passengers);
             
             System.out.println("Introduce la categoría del vehículo: ");
             String categoria = scanner.nextLine();
-            Map<String, Object> categoryAttr = new HashMap<>();
+            /*Map<String, Object> categoryAttr = new HashMap<>();
             categoryAttr.put("type", "Property");
             categoryAttr.put("value", categoria);
-            vehicle.putAdditionalProperty("category", categoryAttr);
+            vehicle.putAdditionalProperty("category", categoryAttr);*/
+
+            Category category = new Category();
+            category.setVocab(categoria);
+            vehicle.setCategory(category);
 
             System.out.println("Introduce la profundidad de los neumáticos delanteros: ");
             String nuevoValorDelanteros = scanner.nextLine();
             System.out.println("Introduce la profundidad de los neumáticos traseros: ");
             String nuevoValorTraseros = scanner.nextLine();
             
-            Map<String,Object> tyreAttr = new HashMap<>();
+            /*Map<String,Object> tyreAttr = new HashMap<>();
             tyreAttr.put("type",  "Property");
             tyreAttr.put("value", Arrays.asList(nuevoValorDelanteros,nuevoValorDelanteros,nuevoValorTraseros,nuevoValorTraseros));
             tyreAttr.put("unitCode", "MMT");
-            vehicle.putAdditionalProperty("tyreTreadDepths", tyreAttr);
+            vehicle.putAdditionalProperty("tyreTreadDepths", tyreAttr);*/
+
+            TyreTreadDepths depths = new TyreTreadDepths();
+            depths.addValueListItem(nuevoValorDelanteros);
+            depths.addValueListItem(nuevoValorDelanteros);
+            depths.addValueListItem(nuevoValorTraseros);
+            depths.addValueListItem(nuevoValorTraseros);
+            vehicle.setTyreTreadDepths(depths);
+            
 
 
 
-            vehicle.putAdditionalProperty("route", routeAttr);
+            //vehicle.putAdditionalProperty("route", routeAttr);
 
         String jsonV = vehicle.toJson();
         System.out.println("JSON del vehículo: " + jsonV);

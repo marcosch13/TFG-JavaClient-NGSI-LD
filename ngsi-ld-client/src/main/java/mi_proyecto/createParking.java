@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.time.ZoneOffset;
 
 import java.util.List;
 import java.util.Map;
@@ -28,11 +29,12 @@ public class createParking {
     public static void main(String[] args){
         try {
 
-            OffsetDateTime observedAt = OffsetDateTime.now().withNano(0);
+            //OffsetDateTime observedAt = OffsetDateTime.now().withNano(0);
+            OffsetDateTime observedAt = OffsetDateTime.now(ZoneOffset.UTC).withNano(0);
 
 
             ApiClient apiClient = Configuration.getDefaultApiClient();
-            apiClient.setBasePath("http://localhost:1026/ngsi-ld/v1");
+            apiClient.setBasePath("http://localhost:9090/ngsi-ld/v1");
             apiClient.addDefaultHeader("Link", "<http://context-catalog:8080/context.jsonld>; rel=\"http://www.w3.org/ns/json-ld#context\"; type=\"application/ld+json\"");
             apiClient.addDefaultHeader("Accept", "application/ld+json");
             ContextInformationConsumptionApi consumoApi = new ContextInformationConsumptionApi(apiClient);
