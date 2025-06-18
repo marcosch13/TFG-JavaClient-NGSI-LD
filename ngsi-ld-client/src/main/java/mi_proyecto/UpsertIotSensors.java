@@ -75,7 +75,9 @@ public class UpsertIotSensors {
                 if (scanner.nextLine().equalsIgnoreCase("s")) {
                     actualizarTempSensor = true;
                     System.out.print("Introduce el numero final del ID del sensor: ");
-                    String tempId = scanner.nextLine(); //meter el formateo?dijimos que no hacia falta
+                    String tempId = scanner.nextLine(); 
+                    int numT = Integer.parseInt(tempId);
+                    String idFormateadoT = String.format("%03d", numT);
 
                     System.out.print("Introduce el valor de la temperatura: ");
                     BigDecimal nuevaTemperatura = new BigDecimal(scanner.nextLine());
@@ -83,7 +85,7 @@ public class UpsertIotSensors {
                         .type(Temperature.TypeEnum.PROPERTY)
                         .value(nuevaTemperatura) 
                         .unitCode("CEL"));
-                    tempEntity.setId(new URI("urn:ngsi-ld:TemperatureSensor:" + tempId));
+                    tempEntity.setId(new URI("urn:ngsi-ld:TemperatureSensor:" + idFormateadoT));
                     tempEntity.setType(TemperatureSensor.TypeEnum.TEMPERATURE_SENSOR);
 
                     HasTemperatureSensor tempSensor = new HasTemperatureSensor();
@@ -97,6 +99,8 @@ public class UpsertIotSensors {
                     actualizarHumSensor = true;
                     System.out.print("ID del sensor: ");
                     String humId = scanner.nextLine();
+                    int numH = Integer.parseInt(humId);
+                    String idFormateadoH = String.format("%03d", numH);
 
                     System.out.print("Introduce el valor de humedad: ");
                     BigDecimal nuevaHumedad = new BigDecimal(scanner.nextLine());
@@ -105,7 +109,7 @@ public class UpsertIotSensors {
                     .value(nuevaHumedad)
                     .unitCode("P1"));
 
-                    humEntity.setId(new URI("urn:ngsi-ld:HumiditySensor:" + humId));
+                    humEntity.setId(new URI("urn:ngsi-ld:HumiditySensor:" + idFormateadoH));
                     humEntity.setType(HumiditySensor.TypeEnum.HUMIDITY_SENSOR);
 
                     HasHumiditySensor humSensor = new HasHumiditySensor();
@@ -152,7 +156,8 @@ public class UpsertIotSensors {
                 
             }else{
                 List<String> responseBody = response.getData();
-                System.out.println("Elementos creados correctamente:");
+                System.out.println(responseBody);
+                System.out.println("Entidades creadas:");
                 for (String item : responseBody) {
                     System.out.println(item);
                 }
