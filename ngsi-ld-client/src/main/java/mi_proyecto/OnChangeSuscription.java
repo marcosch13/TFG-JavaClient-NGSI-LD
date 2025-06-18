@@ -46,29 +46,29 @@ public class OnChangeSuscription {
             
             System.out.println("A que tipo de entidad quieres suscribirte? \n Iot \n humedad \n temperatura ");
             String tipoEntidad = scanner.nextLine();
+            String letra = "";
 
             String tipo = "";
             if(tipoEntidad.equals("humedad")){
                 tipo = "HumiditySensor";
+                letra = "H";
             }else if(tipoEntidad.equals("temperatura")){
                 tipo = "TemperatureSensor";
+                letra = "T";
             }else if(tipoEntidad.equals("Iot")){
                 tipo = "IotDevice";
+                letra = "I";
             }
-            EntitySelector Entity = new EntitySelector();
-            Entity.setType(tipo);
+            
 
             System.out.println("Introduce el número final de ID de la entidad: ");
             String NumeroId = scanner.nextLine();
+            String NumeroIdFormateado = String.format("%03d", Integer.parseInt(NumeroId));
+            URI entityUri = new URI("urn:ngsi-ld:" + tipo + ":"  +NumeroIdFormateado);
 
-            String letra = "";
-            if (tipoEntidad.equals("humedad")) {
-                letra = "H";
-            }else if (tipoEntidad.equals("temperatura")) {
-                letra = "T";
-            }else if (tipoEntidad.equals("Iot")) {
-                letra = "I";
-            }
+            EntitySelector Entity = new EntitySelector();
+            Entity.setType(tipo);
+            Entity.setId(entityUri);
 
 
             CreateSubscriptionRequest subscription = new CreateSubscriptionRequest();
@@ -85,7 +85,7 @@ public class OnChangeSuscription {
             System.out.println("Suscripción JSON:\n" + subscription.toJson());
 
             ApiResponse<Void> response = subscriptionApi.createSubscriptionWithHttpInfo(null, null, null, subscription);
-            System.out.println("Response: " + response.getData());
+            System.out.println("Response: " + response.getStatusCode());
             
         } catch (Exception e) {
             e.printStackTrace();
