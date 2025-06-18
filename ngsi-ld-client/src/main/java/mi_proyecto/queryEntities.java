@@ -24,12 +24,12 @@ public class queryEntities {
             ContextInformationConsumptionApi apiInstance = new ContextInformationConsumptionApi(apiClient);
 
             for (String tipo : tipos) {
-                System.out.println("\n[+] Consultando entidades de tipo " + tipo + "...");
+                System.out.println("\n -->Consultando entidades de tipo " + tipo + "...");
                 List<QueryEntity200ResponseInner> entidades = apiInstance.queryEntity(
                     null, tipo, null, null, null, null, null, null, null,
                     null, null, null, null, null, null, null, null, null, null);
                 
-                    System.out.println("→ Total: " + entidades.size() + " entidades encontradas.");
+                    System.out.println(" ->Total: " + entidades.size() + " entidades encontradas.");
                         for (QueryEntity200ResponseInner entidad : entidades) {
                             System.out.println(entidad.toJson());
                         }
