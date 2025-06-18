@@ -6,21 +6,28 @@ import java.io.PrintWriter;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.time.Duration;
 
-public class pruebasLatenciaClienteHttp {
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiResponse;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.api.ContextInformationConsumptionApi;
+import org.openapitools.client.api.ContextInformationProvisionApi;
+import org.openapitools.client.model.*;
+
+public class pruebasLatenciaApiQuery {
 
     public static void main(String[] args) {
         int repeticiones = 1000;
-        String archivo = "latenciasClienteHttp.csv";
+        String archivo = "latenciasApiQuery.csv";
     
         try (PrintWriter writer = new PrintWriter(new FileWriter(archivo))) {
-            writer.println("iteracion;latencia_ms");
+            writer.println("iteracion,latencia_ms");
 
-            HttpClient client = HttpClient.newHttpClient();
+            ApiClient apiClient = Configuration.getDefaultApiClient();
+            apiClient.setBasePath("http://localhost:9090/ngsi-ld/v1");
+            apiClient.addDefaultHeader("Link", "<http://context-catalog:8080/context.jsonld>; rel=\"http://www.w3.org/ns/json-ld#context\"; type=\"application/ld+json\"");
+            apiClient.addDefaultHeader("Accept", "application/ld+json");
+            ContextInformationConsumptionApi apiInstance = new ContextInformationConsumptionApi(apiClient);
     
             for (int i = 0; i < repeticiones; i++) {
                 try {
@@ -31,21 +38,13 @@ public class pruebasLatenciaClienteHttp {
                     
                     
 
-                    String entityId = "urn:ngsi-ld:IotDevice:001";
-                    
+                    URI entityId = new URI("urn:ngsi-ld:IotDevice:001");
 
-                    HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://localhost:1026/ngsi-ld/v1/entities?id=" + entityId))
-                    .timeout(Duration.ofSeconds(10))
-                    .header("Accept", "application/ld+json")
-                    .GET()
-                    .build();
-
-                    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-                    
-
-                    
+                    List<URI> idList = Collections.singletonList(entityId);
+                    List<QueryEntity200ResponseInner> response = apiInstance.queryEntity(
+                        idList, null, null, null, null, null, null, null, null, null, null, 
+                        null, null, null, null, null, null, null, null
+                    );
 
 
 

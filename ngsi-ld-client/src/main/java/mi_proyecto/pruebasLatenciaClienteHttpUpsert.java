@@ -32,16 +32,7 @@ public class pruebasLatenciaClienteHttpUpsert {
 
             HttpClient client = HttpClient.newHttpClient();
 
-            
-    
-            for (int i = 0; i < repeticiones; i++) {
-                try {
-                    long inicio = System.nanoTime();
-
-
-
-
-                String entityJson = """
+            String entityJson = """
                     [
                     {
                         "id": "urn:ngsi-ld:IotDevice:001",
@@ -65,13 +56,24 @@ public class pruebasLatenciaClienteHttpUpsert {
                     ]
                     """;
 
-                HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create("http://localhost:1026/ngsi-ld/v1/entityOperations/upsert"))
+                    HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create("http://localhost:9090/ngsi-ld/v1/entityOperations/upsert"))
                         .timeout(Duration.ofSeconds(10))
                         .header("Content-Type", "application/ld+json")
                         .header("Accept", "application/ld+json")
                         .POST(HttpRequest.BodyPublishers.ofString(entityJson))
                         .build();
+    
+            for (int i = 0; i < repeticiones; i++) {
+                try {
+                    long inicio = System.nanoTime();
+
+
+
+
+                
+
+                
 
                 HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
                     

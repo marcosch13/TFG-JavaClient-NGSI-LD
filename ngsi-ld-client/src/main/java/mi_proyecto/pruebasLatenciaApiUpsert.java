@@ -29,16 +29,9 @@ public class pruebasLatenciaApiUpsert {
             apiClient.addDefaultHeader("Link", "<http://context-catalog:8080/context.jsonld>; rel=\"http://www.w3.org/ns/json-ld#context\"; type=\"application/ld+json\"");
             apiClient.addDefaultHeader("Accept", "application/ld+json");
             ContextInformationProvisionApi apiInstance = new ContextInformationProvisionApi(apiClient);
-    
-            for (int i = 0; i < repeticiones; i++) {
-                try {
-                    long inicio = System.nanoTime();
-                    
-                    
-                    
 
-                    
-                    HasTemperatureSensor tempSensor = new HasTemperatureSensor();
+
+            HasTemperatureSensor tempSensor = new HasTemperatureSensor();
                     tempSensor.setType(HasTemperatureSensor.TypeEnum.RELATIONSHIP);
                     tempSensor.setObject("urn:ngsi-ld:TemperatureSensor:001");
                     HasHumiditySensor humSensor = new HasHumiditySensor();
@@ -62,7 +55,17 @@ public class pruebasLatenciaApiUpsert {
 
                     entidades.add(entity);
 
-                    apiInstance.upsertBatchWithHttpInfo(null, null, null, null, entidades);
+    
+            for (int i = 0; i < repeticiones; i++) {
+                try {
+                    long inicio = System.nanoTime();
+                    
+                    
+                    
+
+                    
+                    
+                    ApiResponse<List<String>> response = apiInstance.upsertBatchWithHttpInfo(null, null, null, null, entidades);
 
 
 
