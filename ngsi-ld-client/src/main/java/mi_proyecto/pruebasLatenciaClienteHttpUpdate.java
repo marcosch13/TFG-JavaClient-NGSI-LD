@@ -21,11 +21,11 @@ import org.openapitools.client.api.ContextInformationConsumptionApi;
 import org.openapitools.client.api.ContextInformationProvisionApi;
 import org.openapitools.client.model.*;
 
-public class pruebasLatenciaClienteHttpUpsert {
+public class pruebasLatenciaClienteHttpUpdate {
 
     public static void main(String[] args) {
         int repeticiones = 1000;
-        String archivo = "latenciasHttpUpsert.csv";
+        String archivo = "latenciasHttpUpdate.csv";
     
         try (PrintWriter writer = new PrintWriter(new FileWriter(archivo))) {
             writer.println("iteracion,latencia_ms");
@@ -41,36 +41,34 @@ public class pruebasLatenciaClienteHttpUpsert {
 
 
 
-                String entityJson = """
-                    [
-                    {
-                        "id": "urn:ngsi-ld:IotDevice:001",
-                        "type": "IotDevice",
-                        "description": {
-                            "type": "Property",
-                            "value": "IoT device with humidity and temperature sensors"
-                        },
-                        "hasTemperatureSensor": {
-                            "type": "Relationship",
-                            "object": "urn:ngsi-ld:TemperatureSensor:001"
-                        },
-                        "hasHumiditySensor": {
-                            "type": "Relationship",
-                            "object": "urn:ngsi-ld:HumiditySensor:001"
-                        },
-                        "@context": [
-                            "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
-                        ]
-                    }
-                    ]
-                    """;
-
+                    String entityJson = """
+                        {
+                            "id": "urn:ngsi-ld:IotDevice:001",
+                            "type": "IotDevice",
+                            "description": {
+                                "type": "Property",
+                                "value": "IoT device with humidity and temperature sensors"
+                            },
+                            "hasTemperatureSensor": {
+                                "type": "Relationship",
+                                "object": "urn:ngsi-ld:TemperatureSensor:001"
+                            },
+                            "hasHumiditySensor": {
+                                "type": "Relationship",
+                                "object": "urn:ngsi-ld:HumiditySensor:001"
+                            },
+                            "@context": [
+                                "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+                            ]
+                        }
+                        """;
+                    
                 HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create("http://localhost:1026/ngsi-ld/v1/entityOperations/upsert"))
+                        .uri(URI.create("http://localhost:1026/ngsi-ld/v1/entities/urn:ngsi-ld:IotDevice:001/attrs"))
                         .timeout(Duration.ofSeconds(10))
                         .header("Content-Type", "application/ld+json")
                         .header("Accept", "application/ld+json")
-                        .POST(HttpRequest.BodyPublishers.ofString(entityJson))
+                        .method("PATCH", HttpRequest.BodyPublishers.ofString(entityJson))
                         .build();
 
                 HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
