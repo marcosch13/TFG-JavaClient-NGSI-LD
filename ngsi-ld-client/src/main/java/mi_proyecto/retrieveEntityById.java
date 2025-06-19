@@ -1,7 +1,6 @@
 package mi_proyecto;
 
 import java.net.URI;
-import java.util.List;
 import java.util.Scanner;
 
 import org.openapitools.client.ApiClient;
@@ -11,11 +10,12 @@ import org.openapitools.client.model.QueryEntity200ResponseInner;
 
 public class retrieveEntityById {
 
+    @SuppressWarnings("ConvertToStringSwitch")
     public static void main(String[] args) {
         try {
-            String idNumero = (args != null && args.length > 0) ? args[0] : "1";
-            int num = Integer.parseInt(idNumero);
-            String idFormateado = String.format("%03d", num);
+            //String idNumero = (args != null && args.length > 0) ? args[0] : "1";
+            //int num = Integer.parseInt(idNumero);
+            //String idFormateado = String.format("%03d", num);
 
             ApiClient apiClient = Configuration.getDefaultApiClient();
             apiClient.setBasePath("http://localhost:1026/ngsi-ld/v1");
@@ -25,8 +25,13 @@ public class retrieveEntityById {
 
             Scanner scanner = new Scanner(System.in);
 
-            System.out.println("Elige el tipo de entidad (1: IotDevice   2: HumiditySensor    3: TemperatureSensor)");
+            System.out.println("Elige el tipo de entidad (1: IotDevice  2: HumiditySensor  3: TemperatureSensor)");
             String tipo = scanner.nextLine();
+            System.out.println("Indica el número final del id de la entidad: ");
+            String id = scanner.nextLine();
+            int idNumero = Integer.parseInt(id);
+            String idFormateado = String.format("%03d", idNumero);
+
             URI entityUri = null;
             if(tipo.equals("1")){
                 entityUri = new URI("urn:ngsi-ld:IotDevice:" + idFormateado);
