@@ -45,6 +45,24 @@ public class CreateIotEntityWithSensors{
                 existe = true;
             } catch (ApiException e){}
 
+            boolean existeTempSensor = false;
+            try {
+                URI entityUri = new URI("urn:ngsi-ld:TemperatureSensor:" + idFormateado2);
+                QueryEntity200ResponseInner entidad1 = consumoApi.retrieveEntity(
+                entityUri, null, null, null, null, null, null, null, null);
+                existeTempSensor = true;
+            } catch (ApiException e){}
+
+            boolean existeHumSensor = false;
+            try {
+                URI entityUri = new URI("urn:ngsi-ld:HumiditySensor:" + idFormateado3);
+                QueryEntity200ResponseInner entidad1 = consumoApi.retrieveEntity(
+                entityUri, null, null, null, null, null, null, null, null);
+                existeHumSensor = true;
+            } catch (ApiException e){}
+
+
+
             if (existe) {
                 System.out.println("La entidad ya existe. ¿Desea sobreescribirla? (s/n)");
                 if (scanner.nextLine().equalsIgnoreCase("s")) {
@@ -56,25 +74,29 @@ public class CreateIotEntityWithSensors{
                 }
             }else{
 
-                //Creo entidad IotDevice
+                //Crear entidad IotDevice
                 IotDevice device = new IotDevice();
                 device.setId(new URI("urn:ngsi-ld:IotDevice:" + idFormateado));
                 device.setType(IotDevice.TypeEnum.IOT_DEVICE);
                 device.setDescription(new IotDescription().value("IoT device with humidity and temperature sensors"));
 
                 //Crear relación con el sensor de temperatura
-                HasTemperatureSensor tempSensor = new HasTemperatureSensor();
+                if(existeTempSensor){
+                    HasTemperatureSensor tempSensor = new HasTemperatureSensor();
                 tempSensor.setType(HasTemperatureSensor.TypeEnum.RELATIONSHIP);
                 tempSensor.setObject("urn:ngsi-ld:TemperatureSensor:" + idFormateado2);
-                
-                //Crear relación con el sensor de humedad
-                HasHumiditySensor humSensor = new HasHumiditySensor();
-                humSensor.setType(HasHumiditySensor.TypeEnum.RELATIONSHIP);
-                humSensor.setObject("urn:ngsi-ld:HumiditySensor:" + idFormateado3);
-
-                //Añadir las relaciones a la entidad
                 device.setHasTemperatureSensor(tempSensor);
-                device.setHasHumiditySensor(humSensor);
+                }
+
+                //Crear relación con el sensor de humedad
+                if(existeHumSensor){
+                    HasHumiditySensor humSensor = new HasHumiditySensor();
+                    humSensor.setType(HasHumiditySensor.TypeEnum.RELATIONSHIP);
+                    humSensor.setObject("urn:ngsi-ld:HumiditySensor:" + idFormateado3);
+                    device.setHasHumiditySensor(humSensor);
+                }
+                
+                
 
                 
                 //Convertir a JSON
