@@ -15,7 +15,7 @@ import org.openapitools.client.api.ContextInformationConsumptionApi;
 import org.openapitools.client.api.ContextInformationProvisionApi;
 import org.openapitools.client.model.*;
 
-public class pruebasLatenciaApiUpsert {
+public class pruebasLatenciaApiUpdate {
 
     public static void main(String[] args) {
         int repeticiones = 1000;
@@ -31,7 +31,14 @@ public class pruebasLatenciaApiUpsert {
             ContextInformationProvisionApi apiInstance = new ContextInformationProvisionApi(apiClient);
 
 
-            HasTemperatureSensor tempSensor = new HasTemperatureSensor();
+            
+    
+            for (int i = 0; i < repeticiones; i++) {
+                try {
+                    long inicio = System.nanoTime();
+                    
+                    
+                    HasTemperatureSensor tempSensor = new HasTemperatureSensor();
                     tempSensor.setType(HasTemperatureSensor.TypeEnum.RELATIONSHIP);
                     tempSensor.setObject("urn:ngsi-ld:TemperatureSensor:001");
                     HasHumiditySensor humSensor = new HasHumiditySensor();
@@ -46,26 +53,18 @@ public class pruebasLatenciaApiUpsert {
                     device.setHasTemperatureSensor(tempSensor);
                     device.setHasHumiditySensor(humSensor);
 
-                    List<QueryEntity200ResponseInner> entidades = new ArrayList<>();
+                    
+                    Entity entidadActualizada = Entity.fromJson(device.toJson());
 
 
-                    String json = device.toJson();
                     
-                    QueryEntity200ResponseInner entity = QueryEntity200ResponseInner.fromJson(json);
 
-                    entidades.add(entity);
-
-    
-            for (int i = 0; i < repeticiones; i++) {
-                try {
-                    long inicio = System.nanoTime();
-                    
-                    
-                    
+                    ApiResponse<Void> response = apiInstance.updateEntityWithHttpInfo(
+                        id, null, null, null, null,entidadActualizada);
 
                     
                     
-                    ApiResponse<List<String>> response = apiInstance.upsertBatchWithHttpInfo(null, null, null, null, entidades);
+                    
 
 
 
