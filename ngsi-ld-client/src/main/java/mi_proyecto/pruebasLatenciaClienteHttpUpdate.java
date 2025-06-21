@@ -58,7 +58,7 @@ public class pruebasLatenciaClienteHttpUpdate {
                                 "object": "urn:ngsi-ld:HumiditySensor:001"
                             },
                             "@context": [
-                                "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+                                "http://context-catalog:8080/context.jsonld"
                             ]
                         }
                         """;
@@ -74,8 +74,10 @@ public class pruebasLatenciaClienteHttpUpdate {
                 HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
                     
                     
-                   
+                System.out.println("Respuesta de la API: " + response.statusCode());   
+                
 
+               
 
 
                     

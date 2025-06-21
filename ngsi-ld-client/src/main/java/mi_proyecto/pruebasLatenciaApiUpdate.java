@@ -63,7 +63,7 @@ public class pruebasLatenciaApiUpdate {
                         id, null, null, null, null,entidadActualizada);
 
 
-
+                    System.out.println("Respuesta de la API: " + response.getStatusCode());
                     
                     long fin = System.nanoTime();
     
