@@ -19,7 +19,7 @@ public class pruebasLatenciaApiUpdate {
 
     public static void main(String[] args) {
         int repeticiones = 1000;
-        String archivo = "latenciasApiUpsert.csv";
+        String archivo = "latenciasApiUpdate.csv";
     
         try (PrintWriter writer = new PrintWriter(new FileWriter(archivo))) {
             writer.println("iteracion,latencia_ms");
@@ -63,7 +63,7 @@ public class pruebasLatenciaApiUpdate {
                         id, null, null, null, null,entidadActualizada);
 
                     
-                    
+                    //System.out.println("Response code"+ i + ": " + response.getStatusCode());
                     
 
 

@@ -15,7 +15,7 @@ public class pruebasLatenciaClienteHttpQuery {
 
     public static void main(String[] args) {
         int repeticiones = 1000;
-        String archivo = "latenciasClienteHttp.csv";
+        String archivo = "latenciasClienteHttpQuery.csv";
     
         try (PrintWriter writer = new PrintWriter(new FileWriter(archivo))) {
             writer.println("iteracion;latencia_ms");
@@ -45,7 +45,7 @@ public class pruebasLatenciaClienteHttpQuery {
                     HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
                     
-
+                    //System.out.println("Response code"+ i+1 + ": " + response.statusCode());
                     
 
 

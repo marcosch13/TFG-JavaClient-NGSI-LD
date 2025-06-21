@@ -46,7 +46,8 @@ public class pruebasLatenciaApiQuery {
                         null, null, null, null, null, null, null, null
                     );
 
-
+                    
+                    //System.out.println("Número de entidades devueltas: " + response.size());
 
     
                     //Instant timestampFin = Instant.now();
