@@ -46,38 +46,32 @@ public class UpdateTemperatureSensorAtributes {
                     entityUri, null, null, null, null, null, null, null, null);
                 
                 TemperatureSensor editableTemp = TemperatureSensor.fromJson(entidad.toJson());
-                Entity entity = Entity.fromJson(entidad.toJson());
                 
-                Map<String, Object> atributos = entity.getAdditionalProperties();
-                for (String key : atributos.keySet()) {
-                    System.out.println("Atributo:" + key);
-                }
+               
+                System.out.println("Atributo: temperature: " );
+                
+                
 
-                System.out.print("¿Qué propiedad quieres actualizar?: ");
-                String propiedad = scanner.nextLine();
+                
 
-                if (atributos.containsKey(propiedad)) {
-                    System.out.print("Introduce el nuevo valor para '" + propiedad + "': ");
-                    String nuevoValor = scanner.nextLine();
-                    if (propiedad.equals("temperature")) {
-                        int nuevoValorTemp = Integer.parseInt(scanner.nextLine());
-                        editableTemp.setTemperature(new Temperature()
-                        .type(Temperature.TypeEnum.PROPERTY)
-                        .value(BigDecimal.valueOf(nuevoValorTemp)) 
-                        .unitCode("CEL"));
-                    }else{
-                        editableTemp.putAdditionalProperty(propiedad, nuevoValor);
-                    }
-                }
+                
+                System.out.print("Introduce el nuevo valor de la temperatura: " );
+                String nuevoValor = scanner.nextLine();
+                int nuevoValorTemp = Integer.parseInt(nuevoValor);
+                editableTemp.setTemperature(new Temperature()
+                    .type(Temperature.TypeEnum.PROPERTY)
+                    .value(BigDecimal.valueOf(nuevoValorTemp)) 
+                    .unitCode("CEL"));
+                
 
-                    Entity entidadActualizada = Entity.fromJson(editableTemp.toJson());
+                Entity entidadActualizada = Entity.fromJson(editableTemp.toJson());
 
                     
-                    ApiResponse<Void> response = apiInstance.updateEntityWithHttpInfo(entidad.getId(), null, null, null, null,entidadActualizada);
+                ApiResponse<Void> response = apiInstance.updateEntityWithHttpInfo(entidad.getId(), null, null, null, null,entidadActualizada);
 
-                    System.out.println("Código de respuesta: " + response.getStatusCode());
+                System.out.println("Código de respuesta: " + response.getStatusCode());
             } else {
-                System.out.println("Esa propiedad no existe en la entidad.");
+                System.out.println("Esa entidad no existe");
             }
             
         }catch (Exception e) {

@@ -54,14 +54,15 @@ public class UpdateIotAtributes {
                 } 
                 if (editableIot.getHasTemperatureSensor() != null) {
                     System.out.println("hasTemperatureSensor: ");
-                }   
+                }  
+                System.out.println("description: ");
 
                 
 
                 System.out.print("¿Qué propiedad quieres actualizar?: ");
                 String propiedad = scanner.nextLine();
 
-                if (propiedad.equals("hasHumiditySensor") || propiedad.equals("hasTemperatureSensor")) {
+                if (propiedad.equals("hasHumiditySensor") || propiedad.equals("hasTemperatureSensor") || propiedad.equals("description")) {
                     System.out.print("Introduce el nuevo valor para '" + propiedad + "': ");
                     String nuevoValor = scanner.nextLine();
 

@@ -47,38 +47,30 @@ public class UpdateHumiditySensorAtributes {
                 entityUri, null, null, null, null, null, null, null, null);
             
             HumiditySensor editableHum = HumiditySensor.fromJson(entidad.toJson());
-            Entity entity = Entity.fromJson(entidad.toJson());
             
-            Map<String, Object> atributos = entity.getAdditionalProperties();
-            for (String key : atributos.keySet()) {
-                System.out.println("Atributo:" + key);
-            }
+            System.out.println("Atributo: humidity: " );
 
-            System.out.print("¿Qué propiedad quieres actualizar?: ");
-            String propiedad = scanner.nextLine();
-
-            if (atributos.containsKey(propiedad)) {
-                System.out.print("Introduce el nuevo valor para '" + propiedad + "': ");
+           
+                System.out.print("Introduce el nuevo valor de la humedad: ");
                 String nuevoValor = scanner.nextLine();
-                if (propiedad.equals("humidity")) {
-                    BigDecimal nuevoValorHum = new BigDecimal(nuevoValor);
-                    editableHum.setHumidity(new Humidity()
+                
+                BigDecimal nuevoValorHum = new BigDecimal(nuevoValor);
+                editableHum.setHumidity(new Humidity()
                     .type(Humidity.TypeEnum.PROPERTY)
                     .value(nuevoValorHum)
                     .unitCode("P1")
                 );
-                } else {
-                    editableHum.putAdditionalProperty(propiedad, nuevoValor);
-                }
-            }
+                
+            
 
                 Entity entidadActualizada = Entity.fromJson(editableHum.toJson());
 
-                ApiResponse<Void> response = apiInstance.updateEntityWithHttpInfo(entidad.getId(), null, null, null, null,entidadActualizada);
+                ApiResponse<Void> response = apiInstance.updateEntityWithHttpInfo(
+                    entityUri, null, null, null, null,entidadActualizada);
 
                 System.out.println("Código de respuesta: " + response.getStatusCode());
             } else {
-                System.out.println("Esa propiedad no existe en la entidad.");
+                System.out.println("Esa entidad no existe");
             }
         
 
