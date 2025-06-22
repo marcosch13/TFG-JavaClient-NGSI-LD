@@ -35,7 +35,8 @@ public class UpsertIotSensors {
 
                 System.out.print("ID numérico de la entidad: ");
                 String idNum = scanner.nextLine();
-                String idFormateado = String.format("%03d", Integer.parseInt(idNum));
+                int idNumero = Integer.parseInt(idNum);
+                String idFormateado = String.format("%03d", idNumero);
                 List<URI> entityIds = Collections.singletonList(new URI("urn:ngsi-ld:IotDevice:" + idFormateado));
 
                 ApiClient apiClient = Configuration.getDefaultApiClient();
@@ -107,25 +108,24 @@ public class UpsertIotSensors {
                 }
 
                 //Convertir a JSON
-                String json = IotEntity.toJson();
-                System.out.println("Payload JSON:\n" + json);
+                String jsonIot = IotEntity.toJson();
+                System.out.println("Payload JSON:\n" + jsonIot);
 
-                String json2 = tempEntity.toJson();
-                System.out.println("Payload JSON:\n" + json2);
+                String jsonTSensor = tempEntity.toJson();
+                System.out.println("Payload JSON:\n" + jsonTSensor);
 
-                String json3 = humEntity.toJson();
-                System.out.println("Payload JSON:\n" + json3);
+                String jsonHSensor = humEntity.toJson();
+                System.out.println("Payload JSON:\n" + jsonHSensor);
 
-                //Paso a entidad NGSI-LD genérica
-                QueryEntity200ResponseInner entity = QueryEntity200ResponseInner.fromJson(json);
+                QueryEntity200ResponseInner entity = QueryEntity200ResponseInner.fromJson(jsonIot);
                 entidades.add(entity);
 
                 if(actualizarTempSensor){
-                    QueryEntity200ResponseInner tempEntityQ = QueryEntity200ResponseInner.fromJson(json2);
+                    QueryEntity200ResponseInner tempEntityQ = QueryEntity200ResponseInner.fromJson(jsonTSensor);
                     entidades.add(tempEntityQ);
                 }
                 if(actualizarHumSensor){
-                    QueryEntity200ResponseInner humEntityQ = QueryEntity200ResponseInner.fromJson(json3);
+                    QueryEntity200ResponseInner humEntityQ = QueryEntity200ResponseInner.fromJson(jsonHSensor);
                     entidades.add(humEntityQ);
                 }
             }

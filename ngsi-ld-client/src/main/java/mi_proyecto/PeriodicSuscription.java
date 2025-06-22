@@ -6,13 +6,13 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.api.ContextInformationSubscriptionApi;
 import org.openapitools.client.model.CreateSubscriptionRequest;
 import org.openapitools.client.model.Endpoint;
 import org.openapitools.client.model.EntitySelector;
 import org.openapitools.client.model.NotificationParams;
-import org.openapitools.client.ApiResponse;
 
 public class PeriodicSuscription {
 
@@ -74,7 +74,7 @@ public class PeriodicSuscription {
             CreateSubscriptionRequest subscription = new CreateSubscriptionRequest();
 
             subscription.setType(CreateSubscriptionRequest.TypeEnum.SUBSCRIPTION);
-            //subscription.setId(new URI("urn:ngsi-ld:Subscription:Periodic:" + letra + NumeroId));
+            subscription.setId(new URI("urn:ngsi-ld:Subscription:Periodic:" + letra + NumeroId));
             subscription.setNotification(notificationParams);
             subscription.setEntities(Arrays.asList(Entity));
             subscription.setDescription("Subscripción periodica a :");
