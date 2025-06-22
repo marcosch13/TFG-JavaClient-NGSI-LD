@@ -46,18 +46,22 @@ public class UpdateIotAtributes {
                     QueryEntity200ResponseInner entidad = consumoApi.retrieveEntity(
                     entityUri, null, null, null, null, null, null, null, null);
                 
-                Entity entity = Entity.fromJson(entidad.toJson());
-                IotDevice editableIot = IotDevice.fromJson(entidad.toJson());
                 
-                Map<String, Object> atributos = entity.getAdditionalProperties();
-                for (String key : atributos.keySet()) {
-                    System.out.println("Atributo:" + key);
-                }
+                IotDevice editableIot = IotDevice.fromJson(entidad.toJson());
+
+                if(editableIot.getHasHumiditySensor() != null){   
+                    System.out.println("hasHumiditySensor: ");
+                } 
+                if (editableIot.getHasTemperatureSensor() != null) {
+                    System.out.println("hasTemperatureSensor: ");
+                }   
+
+                
 
                 System.out.print("¿Qué propiedad quieres actualizar?: ");
                 String propiedad = scanner.nextLine();
 
-                if (atributos.containsKey(propiedad)) {
+                if (propiedad.equals("hasHumiditySensor") || propiedad.equals("hasTemperatureSensor")) {
                     System.out.print("Introduce el nuevo valor para '" + propiedad + "': ");
                     String nuevoValor = scanner.nextLine();
 
