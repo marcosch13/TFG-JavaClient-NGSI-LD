@@ -15,18 +15,14 @@ public class consola{
             System.out.println("3: Crear sensor de humedad");
             System.out.println("4: Crear sensor de temperatura");
             System.out.println("5: Consultar entidades IoT");
-            System.out.println("6: Actualizar entidad IoT");
-            System.out.println("7: Actualizar sensor de temperatura");
-            System.out.println("8: Actualizar sensor de humedad");
-            System.out.println("9: Borrar entidad IoT");
-            System.out.println("10:Borrar sensor de temperatura");
-            System.out.println("11:Borrar sensor de humedad");
-            System.out.println("12:Upsert de entidad/es");
-            System.out.println("13:Borrar todas las entidades");
-            System.out.println("14:Actualizar atributos existentes");
-            System.out.println("15:Consultar entidad por ID");
-            System.out.println("16: Actualizar atributos del sensor de humedad");
-            System.out.println("17: Actualizar atributos del sensor de temperatura");
+            System.out.println("6: Consultar entidad por ID");
+            System.out.println("7: Actualizar atributos existentes de entidad IoT");
+            System.out.println("8: Actualizar atributos existentes de sensor de humedad");
+            System.out.println("9: Actualizar atributos existentes de sensor de temperatura");
+            System.out.println("10: Añadir atributos a una entidad IoT");
+            System.out.println("11: Upsert de entidad/es");
+            System.out.println("12:Borrar entidadU");
+            System.out.println("13:Borrar todas las entidades ");
             System.out.println("0: Salir");
             System.out.print("Selecciona una opción: ");
 
@@ -65,67 +61,42 @@ public class consola{
                 System.out.println("\n Consultar entidades IoT");
                 System.out.println(" Ejecutando QueryIotDevices\n");
                 QueryIotEntities.main(null); 
-            }else if(opcion == 6){
-                System.out.println("\n Actualizar entidad IoT");
-                System.out.print("Introduce el ID del dispositivo IoT ");
+            }else if(opcion == 6) {
                 System.out.print("Introduce el número de ID: ");
                 String idNum = scanner.nextLine();
-                UpdateIotEntity.main(new String[]{idNum});
-            }else if(opcion == 7){
-                System.out.println("\n Actualizar sensor de temperatura");
-                System.out.print("Introduce el número de ID: ");
-                String idNum = scanner.nextLine();
-                System.out.println(" Ejecutando UpdateTemperatureSensor con ID: " + idNum + "\n");
-                UpdateTemperatureSensor.main(new String[]{idNum}); 
-            }else if(opcion == 8){
-                System.out.println("\n Actualizar sensor de humedad");
-                System.out.print("Introduce el número de ID: ");
-                String idNum = scanner.nextLine();
-                System.out.println(" Ejecutando UpdateHUmiditySensor con ID: " + idNum + "\n");
-                UpdateHumiditySensor.main(new String[]{idNum}); 
-            }else if(opcion == 9) {
-                System.out.println("\n Borrar entidad IoT");
-                System.out.print("Introduce el número de ID: ");
-                String idNum = scanner.nextLine();
-                System.out.println(" Ejecutando DeleteIotEntity con ID: " + idNum + "\n");
-                DeleteIotEntity.main(new String[]{idNum}); 
-            }else if(opcion == 10) {
-                System.out.println("\n Borrar sensor de temperatura");
-                System.out.print("Introduce el número de ID: ");
-                String idNum = scanner.nextLine();
-                System.out.println(" Ejecutando deleteTemperatureSensor con ID: " + idNum + "\n");
-                deleteTemperatureSensor.main(new String[]{idNum}); 
-            }else if(opcion == 11) {
-                System.out.println("\n Borrar sensor de humedad");
-                System.out.print("Introduce el número de ID: ");
-                String idNum = scanner.nextLine();
-                System.out.println(" Ejecutando deleteHumiditySensor con ID: " + idNum + "\n");
-                deleteHumiditySensor.main(new String[]{idNum}); 
-            }else if(opcion == 12) {
-                System.out.println("\n Upsert entities");
-                UpsertIotSensors.main(null);
-            }else if(opcion == 13) {
-                System.out.println("\n Borrando todas las entidades");
-                DeleteAllEntities.main(null);
-            }else if(opcion == 14) {
+                retrieveEntityById.main(new String[]{idNum});
+            }else if(opcion == 7) {
                 System.out.println("\n Actualizar atributos existentes");
                 System.out.print("Introduce el número de ID: ");
                 String idNum = scanner.nextLine();
                 UpdateIotAtributes.main(new String[]{idNum});
-            }else if(opcion == 15) {
-                System.out.print("Introduce el número de ID: ");
-                String idNum = scanner.nextLine();
-                retrieveEntityById.main(new String[]{idNum});
-            }else if(opcion == 16) {
+            }else if(opcion == 8) {
                 System.out.println("\n Actualizar atributos existentes");
                 System.out.print("Introduce el número de ID: ");
                 String idNum = scanner.nextLine();
                 UpdateHumiditySensorAtributes.main(new String[]{idNum});
-            }else if(opcion == 17) {
+            }else if(opcion == 9) {
                 System.out.println("\n Actualizar atributos existentes");
                 System.out.print("Introduce el número de ID: ");
                 String idNum = scanner.nextLine();
                 UpdateTemperatureSensorAtributes.main(new String[]{idNum});
+            }else if(opcion == 10){
+                System.out.println("\n Añadir atributos a una entidad IoT");
+                System.out.print("Introduce el número de ID: ");
+                String idNum = scanner.nextLine();
+                UpdateIotEntity.main(new String[]{idNum});
+            }else if(opcion == 11) {
+                System.out.println("\n Upsert entities");
+                UpsertIotSensors.main(null);
+            }else if(opcion == 12) {
+                System.out.println("\n Borrar entidad ");
+                System.out.print("Introduce el número de ID: ");
+                String idNum = scanner.nextLine();
+                System.out.println(" Ejecutando DeleteIotEntity con ID: " + idNum + "\n");
+                deleteEntity.main(new String[]{idNum}); 
+            }else if(opcion == 13) {
+                System.out.println("\n Borrando todas las entidades");
+                DeleteAllEntities.main(null);
             }else if(opcion == 0) {
                 System.out.println("Saliendo del programa...");
                 System.exit(0);

@@ -24,7 +24,7 @@ public class UpdateTemperatureSensorAtributes {
             String idFormateado = String.format("%03d", num);
 
             ApiClient apiClient = Configuration.getDefaultApiClient();
-            apiClient.setBasePath("http://localhost:1026/ngsi-ld/v1");
+            apiClient.setBasePath("http://localhost:9090/ngsi-ld/v1");
             apiClient.addDefaultHeader("Link", "<http://context-catalog:8080/context.jsonld>; rel=\"http://www.w3.org/ns/json-ld#context\"; type=\"application/ld+json\"");
             apiClient.addDefaultHeader("Accept", "application/ld+json");
             ContextInformationConsumptionApi consumoApi = new ContextInformationConsumptionApi(apiClient);
@@ -46,36 +46,29 @@ public class UpdateTemperatureSensorAtributes {
                     entityUri, null, null, null, null, null, null, null, null);
                 
                 TemperatureSensor editableTemp = TemperatureSensor.fromJson(entidad.toJson());
-                Entity entity = Entity.fromJson(entidad.toJson());
                 
-                Map<String, Object> atributos = entity.getAdditionalProperties();
-                for (String key : atributos.keySet()) {
-                    System.out.println("Atributo:" + key);
-                }
 
                 System.out.print("¿Qué propiedad quieres actualizar?: ");
+                if(editableTemp.getTemperature() != null){   
+                    System.out.println("temperature: " );
+                }
                 String propiedad = scanner.nextLine();
 
-                if (atributos.containsKey(propiedad)) {
+                if (propiedad.equals("temperature")) {
                     System.out.print("Introduce el nuevo valor para '" + propiedad + "': ");
-                    String nuevoValor = scanner.nextLine();
-                    if (propiedad.equals("temperature")) {
-                        int nuevoValorTemp = Integer.parseInt(scanner.nextLine());
-                        editableTemp.setTemperature(new Temperature()
+                    int nuevoValorTemp = Integer.parseInt(scanner.nextLine());
+                    editableTemp.setTemperature(new Temperature()
                         .type(Temperature.TypeEnum.PROPERTY)
                         .value(BigDecimal.valueOf(nuevoValorTemp)) 
                         .unitCode("CEL"));
-                    }else{
-                        editableTemp.putAdditionalProperty(propiedad, nuevoValor);
-                    }
                 }
 
-                    Entity entidadActualizada = Entity.fromJson(editableTemp.toJson());
+                Entity entidadActualizada = Entity.fromJson(editableTemp.toJson());
+ 
+                ApiResponse<Void> response = apiInstance.updateEntityWithHttpInfo(entidad.getId(), null, null, null, null,entidadActualizada);
 
-                    
-                    ApiResponse<Void> response = apiInstance.updateEntityWithHttpInfo(entidad.getId(), null, null, null, null,entidadActualizada);
-
-                    System.out.println("Código de respuesta: " + response.getStatusCode());
+                System.out.println("Código de respuesta: " + response.getStatusCode());
+                
             } else {
                 System.out.println("Esa propiedad no existe en la entidad.");
             }

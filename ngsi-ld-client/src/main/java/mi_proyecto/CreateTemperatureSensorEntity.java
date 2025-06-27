@@ -39,17 +39,16 @@ public class CreateTemperatureSensorEntity {
             } catch (ApiException e){}
 
             if (existe) {
-                System.out.println("La entidad ya existe. ¿Desea sobreescribirla? (s/n)");
+                System.out.println("La entidad ya existe. ¿Desea actualizarla? (s/n)");
                 if (scanner.nextLine().equalsIgnoreCase("s")) {
-                    System.out.println("Se procederá a sobreescribir la entidad.");
-                    UpdateTemperatureSensor.main(new String[]{idFormateado});
+                    System.out.println("Se procederá a actualizar la entidad.");
+                    UpdateTemperatureSensorAtributes.main(new String[]{idFormateado});
                 } else {
-                    System.out.println("No se sobreescribirá la entidad.");
+                    System.out.println("No se actualizará la entidad.");
                     return;
                 }
             }else{
 
-                // Creo entidad TemperatureSensor
                 TemperatureSensor sensor = new TemperatureSensor();
                 sensor.setId(new URI("urn:ngsi-ld:TemperatureSensor:" + idFormateado));
                 sensor.setType(TemperatureSensor.TypeEnum.TEMPERATURE_SENSOR);
@@ -59,20 +58,15 @@ public class CreateTemperatureSensorEntity {
                     .unitCode("CEL")
                 );
 
-                // Convertir a JSON
                 String json = sensor.toJson();
                 System.out.println("Payload JSON:\n" + json);
 
-                
-                //Paso a entidad NGSI-LD genérica
                 QueryEntity200ResponseInner entity = QueryEntity200ResponseInner.fromJson(json);
 
                 ContextInformationProvisionApi api = new ContextInformationProvisionApi(apiClient);
 
-                //Crear la entidad usando la API
                 ApiResponse<Void> response = api.createEntityWithHttpInfo(null, null, null, entity);
 
-                //obtener respuesta del context broker y mostrarla
                 System.out.println("Código de respuesta: " + response.getStatusCode());
             }
         } catch (Exception e) {

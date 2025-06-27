@@ -67,13 +67,13 @@ public class UpdateIotEntity{
 
 
             
-            ContextInformationProvisionApi apiInstance = new ContextInformationProvisionApi(apiClient);
+                ContextInformationProvisionApi apiInstance = new ContextInformationProvisionApi(apiClient);
 
-            URI entityId = new URI("urn:ngsi-ld:IotDevice:" + idFormateado);
-            ApiResponse<Void> response = apiInstance.appendAttrsWithHttpInfo(entityId, null, null, null, null, null, fragmentoEntity);
-            System.out.println("respuesta: " + response.getStatusCode());
+                URI entityId = new URI("urn:ngsi-ld:IotDevice:" + idFormateado);
+                ApiResponse<Void> response = apiInstance.appendAttrsWithHttpInfo(entityId, null, null, null, null, null, fragmentoEntity);
+                System.out.println("respuesta: " + response.getStatusCode());
             
-        }  
+            }  
         }catch (Exception e) {
             System.err.println("Error al actualizar la entidad:");
             e.printStackTrace();

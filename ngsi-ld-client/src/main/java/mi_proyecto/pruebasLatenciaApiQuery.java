@@ -32,12 +32,7 @@ public class pruebasLatenciaApiQuery {
             for (int i = 0; i < repeticiones; i++) {
                 try {
                     long inicio = System.nanoTime();
-                    //Instant timestampInicio = Instant.now();
-    
-                    //query entidad
                     
-                    
-
                     URI entityId = new URI("urn:ngsi-ld:IotDevice:001");
 
                     List<URI> idList = Collections.singletonList(entityId);
@@ -45,19 +40,15 @@ public class pruebasLatenciaApiQuery {
                         idList, null, null, null, null, null, null, null, null, null, null, 
                         null, null, null, null, null, null, null, null
                     );
-
                     
                     //System.out.println("Número de entidades devueltas: " + response.size());
 
-    
-                    //Instant timestampFin = Instant.now();
                     long fin = System.nanoTime();
     
                     double duracionMs = (fin - inicio) / 1_000_000; // convertir ns → ms
     
                     writer.printf("%d;%.3f\n", i + 1,duracionMs);
                     
-    
                     Thread.sleep(100); 
                 } catch (Exception e) {
                     System.out.println("Error en la iteración " + (i + 1) + ": " + e.getMessage());
@@ -70,7 +61,4 @@ public class pruebasLatenciaApiQuery {
             System.out.println("Error al escribir el archivo CSV: " + e.getMessage());
         }
     }
-    
-
-
 }

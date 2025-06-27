@@ -25,15 +25,9 @@ public class pruebasLatenciaClienteHttpQuery {
             for (int i = 0; i < repeticiones; i++) {
                 try {
                     long inicio = System.nanoTime();
-                    //Instant timestampInicio = Instant.now();
-    
-                    //query entidad
                     
-                    
-
                     String entityId = "urn:ngsi-ld:IotDevice:001";
                     
-
                     HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("http://localhost:9090/ngsi-ld/v1/entities?id=" + entityId))
                     .timeout(Duration.ofSeconds(10))
@@ -44,17 +38,11 @@ public class pruebasLatenciaClienteHttpQuery {
 
                     HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-                    
                     //System.out.println("Response code"+ i+1 + ": " + response.statusCode());
                     
-
-
-
-    
-                    //Instant timestampFin = Instant.now();
                     long fin = System.nanoTime();
     
-                    double duracionMs = (fin - inicio) / 1_000_000; // convertir ns → ms
+                    double duracionMs = (fin - inicio) / 1_000_000; 
     
                     writer.printf("%d;%.3f\n", i + 1,duracionMs);
                     
@@ -71,7 +59,4 @@ public class pruebasLatenciaClienteHttpQuery {
             System.out.println("Error al escribir el archivo CSV: " + e.getMessage());
         }
     }
-    
-
-
 }

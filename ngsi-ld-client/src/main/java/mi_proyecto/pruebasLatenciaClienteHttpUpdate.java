@@ -37,10 +37,6 @@ public class pruebasLatenciaClienteHttpUpdate {
             for (int i = 0; i < repeticiones; i++) {
                 try {
                     long inicio = System.nanoTime();
-
-
-
-
                 
                     String entityJson = """
                         {
@@ -64,32 +60,24 @@ public class pruebasLatenciaClienteHttpUpdate {
                         }
                         """;
                     
-                HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create("http://localhost:9090/ngsi-ld/v1/entities/urn:ngsi-ld:IotDevice:001/attrs"))
-                        .timeout(Duration.ofSeconds(10))
-                        .header("Content-Type", "application/ld+json")
-                        .header("Accept", "application/ld+json")
-                        .method("PATCH", HttpRequest.BodyPublishers.ofString(entityJson))
-                        .build();
+                    HttpRequest request = HttpRequest.newBuilder()
+                            .uri(URI.create("http://localhost:9090/ngsi-ld/v1/entities/urn:ngsi-ld:IotDevice:001/attrs"))
+                            .timeout(Duration.ofSeconds(10))
+                            .header("Content-Type", "application/ld+json")
+                            .header("Accept", "application/ld+json")
+                            .method("PATCH", HttpRequest.BodyPublishers.ofString(entityJson))
+                            .build();
 
-                HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                    
+                    //System.out.println("Response code"+ i+1 + ": " + response.statusCode());
                 
-                //System.out.println("Response code"+ i+1 + ": " + response.statusCode());
-                
-                    
-                    
-                   
-
-
-
-                    
                     long fin = System.nanoTime();
     
-                    double duracionMs = (fin - inicio) / 1_000_000; // convertir ns --> ms
+                    double duracionMs = (fin - inicio) / 1_000_000; 
     
                     writer.printf("%d;%.3f\n", i + 1,duracionMs);
                     
-    
                     Thread.sleep(100); 
                 } catch (Exception e) {
                     System.out.println("Error en la iteración " + (i + 1) + ": " + e.getMessage());
@@ -102,7 +90,4 @@ public class pruebasLatenciaClienteHttpUpdate {
             System.out.println("Error al escribir el archivo CSV: " + e.getMessage());
         }
     }
-    
-
-
 }

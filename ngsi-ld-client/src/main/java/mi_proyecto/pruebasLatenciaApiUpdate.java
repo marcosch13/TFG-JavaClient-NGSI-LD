@@ -53,29 +53,18 @@ public class pruebasLatenciaApiUpdate {
                     device.setHasTemperatureSensor(tempSensor);
                     device.setHasHumiditySensor(humSensor);
 
-                    
                     Entity entidadActualizada = Entity.fromJson(device.toJson());
-
-
-                    
 
                     ApiResponse<Void> response = apiInstance.updateEntityWithHttpInfo(
                         id, null, null, null, null,entidadActualizada);
 
-                    
                     //System.out.println("Response code"+ i + ": " + response.getStatusCode());
-                    
-
-
-
-
                     
                     long fin = System.nanoTime();
     
-                    double duracionMs = (fin - inicio) / 1_000_000; // convertir ns --> ms
+                    double duracionMs = (fin - inicio) / 1_000_000; 
     
                     writer.printf("%d;%.3f\n", i + 1,duracionMs);
-                    
     
                     Thread.sleep(100); 
                 } catch (Exception e) {
@@ -89,7 +78,4 @@ public class pruebasLatenciaApiUpdate {
             System.out.println("Error al escribir el archivo CSV: " + e.getMessage());
         }
     }
-    
-
-
 }

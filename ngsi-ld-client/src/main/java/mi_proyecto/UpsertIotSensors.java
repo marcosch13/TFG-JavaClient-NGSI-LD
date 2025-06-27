@@ -59,8 +59,6 @@ public class UpsertIotSensors {
                     IotEntity.setId(new URI("urn:ngsi-ld:IotDevice:" + idFormateado));
                 }
                 TemperatureSensor tempEntity = new TemperatureSensor();
-                
-
                 HumiditySensor humEntity = new HumiditySensor();
                 
 
