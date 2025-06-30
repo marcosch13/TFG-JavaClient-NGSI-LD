@@ -14,7 +14,7 @@ import org.openapitools.client.model.*;
 
 
 public class UpdateIotAtributes {
-    @SuppressWarnings("ConvertToStringSwitch")
+    
     public static void main(String[] args){
         try {
             Scanner scanner = new Scanner(System.in);
@@ -49,6 +49,7 @@ public class UpdateIotAtributes {
                 
                 IotDevice editableIot = IotDevice.fromJson(entidad.toJson());
 
+                System.out.print("¿Qué propiedad quieres actualizar?: ");
                 if(editableIot.getHasHumiditySensor() != null){   
                     System.out.println("hasHumiditySensor: ");
                 } 
@@ -56,25 +57,26 @@ public class UpdateIotAtributes {
                     System.out.println("hasTemperatureSensor: ");
                 }  
                 System.out.println("description: ");
-
-                
-
-                System.out.print("¿Qué propiedad quieres actualizar?: ");
                 String propiedad = scanner.nextLine();
+                
 
                 if (propiedad.equals("hasHumiditySensor") || propiedad.equals("hasTemperatureSensor") || propiedad.equals("description")) {
                     System.out.print("Introduce el nuevo valor para '" + propiedad + "': ");
                     String nuevoValor = scanner.nextLine();
 
                     if(propiedad.equals("hasTemperatureSensor")){
+                        int numH = Integer.parseInt(nuevoValor);
+                        String idFormateadoH = String.format("%03d", numH);
                         HasTemperatureSensor tempSensor = new HasTemperatureSensor();
                         tempSensor.setType(HasTemperatureSensor.TypeEnum.RELATIONSHIP);
-                        tempSensor.setObject("urn:ngsi-ld:TemperatureSensor:" + nuevoValor);
+                        tempSensor.setObject("urn:ngsi-ld:TemperatureSensor:" + idFormateadoH);
                         editableIot.setHasTemperatureSensor(tempSensor);
                     }else if(propiedad.equals("hasHumiditySensor")){
+                        int numT = Integer.parseInt(nuevoValor);
+                        String idFormateadoT = String.format("%03d", numT);
                         HasHumiditySensor humSensor = new HasHumiditySensor();
                         humSensor.setType(HasHumiditySensor.TypeEnum.RELATIONSHIP);
-                        humSensor.setObject("urn:ngsi-ld:HumiditySensor:" + nuevoValor);
+                        humSensor.setObject("urn:ngsi-ld:HumiditySensor:" + idFormateadoT);
                         editableIot.setHasHumiditySensor(humSensor);
                     }else{
                         editableIot.setDescription(new IotDescription().value(nuevoValor));
@@ -86,6 +88,7 @@ public class UpdateIotAtributes {
                         entityUri, null, null, null, null,entidadActualizada);
 
                     System.out.println("Código de respuesta: " + response.getStatusCode());
+                    
                 } else {
                     System.out.println("Esa propiedad no existe en la entidad.");
                 }

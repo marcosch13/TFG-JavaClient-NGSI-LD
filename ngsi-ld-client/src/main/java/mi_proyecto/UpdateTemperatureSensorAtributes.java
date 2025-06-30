@@ -47,31 +47,29 @@ public class UpdateTemperatureSensorAtributes {
                 
                 TemperatureSensor editableTemp = TemperatureSensor.fromJson(entidad.toJson());
                 
-               
-                System.out.println("Atributo: temperature: " );
-                
-                
+                System.out.print("¿Qué propiedad quieres actualizar?: ");
+                if(editableTemp.getTemperature() != null){   
+                    System.out.println("temperature: " );
+                }
+                String propiedad = scanner.nextLine();
 
-                
-
-                
-                System.out.print("Introduce el nuevo valor de la temperatura: " );
-                String nuevoValor = scanner.nextLine();
-                int nuevoValorTemp = Integer.parseInt(nuevoValor);
-                editableTemp.setTemperature(new Temperature()
-                    .type(Temperature.TypeEnum.PROPERTY)
-                    .value(BigDecimal.valueOf(nuevoValorTemp)) 
-                    .unitCode("CEL"));
-                
+                if (propiedad.equals("temperature")) {
+                    System.out.print("Introduce el nuevo valor para '" + propiedad + "': ");
+                    int nuevoValorTemp = Integer.parseInt(scanner.nextLine());
+                    editableTemp.setTemperature(new Temperature()
+                        .type(Temperature.TypeEnum.PROPERTY)
+                        .value(BigDecimal.valueOf(nuevoValorTemp)) 
+                        .unitCode("CEL"));
+                }
 
                 Entity entidadActualizada = Entity.fromJson(editableTemp.toJson());
 
-                    
                 ApiResponse<Void> response = apiInstance.updateEntityWithHttpInfo(entidad.getId(), null, null, null, null,entidadActualizada);
 
                 System.out.println("Código de respuesta: " + response.getStatusCode());
+
             } else {
-                System.out.println("Esa entidad no existe");
+                System.out.println("Esa propiedad no existe en la entidad");
             }
             
         }catch (Exception e) {

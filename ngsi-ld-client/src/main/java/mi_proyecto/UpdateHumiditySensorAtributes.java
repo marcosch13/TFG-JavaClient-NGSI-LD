@@ -41,32 +41,31 @@ public class UpdateHumiditySensorAtributes {
 
             if (existe) {
 
-
-            URI entityUri = new URI("urn:ngsi-ld:HumiditySensor:" + idFormateado);
-                QueryEntity200ResponseInner entidad = consumoApi.retrieveEntity(
-                entityUri, null, null, null, null, null, null, null, null);
-            
-            HumiditySensor editableHum = HumiditySensor.fromJson(entidad.toJson());
-            
-            System.out.println("Atributo: humidity: " );
-
-           
-                System.out.print("Introduce el nuevo valor de la humedad: ");
-                String nuevoValor = scanner.nextLine();
+                URI entityUri = new URI("urn:ngsi-ld:HumiditySensor:" + idFormateado);
+                    QueryEntity200ResponseInner entidad = consumoApi.retrieveEntity(
+                    entityUri, null, null, null, null, null, null, null, null);
                 
-                BigDecimal nuevoValorHum = new BigDecimal(nuevoValor);
-                editableHum.setHumidity(new Humidity()
-                    .type(Humidity.TypeEnum.PROPERTY)
-                    .value(nuevoValorHum)
-                    .unitCode("P1")
-                );
+                HumiditySensor editableHum = HumiditySensor.fromJson(entidad.toJson());
                 
-            
+                System.out.print("¿Qué propiedad quieres actualizar?: ");
+                if(editableHum.getHumidity() != null){   
+                    System.out.println("humidity: " );
+                }
+                String propiedad = scanner.nextLine();
+
+                if (propiedad.equals("humidity")) {
+                    System.out.print("Introduce el nuevo valor para '" + propiedad + "': ");
+                    String nuevoValor = scanner.nextLine();
+                    BigDecimal nuevoValorHum = new BigDecimal(nuevoValor);
+                    editableHum.setHumidity(new Humidity()
+                        .type(Humidity.TypeEnum.PROPERTY)
+                        .value(nuevoValorHum)
+                        .unitCode("P1"));
+                }
 
                 Entity entidadActualizada = Entity.fromJson(editableHum.toJson());
 
-                ApiResponse<Void> response = apiInstance.updateEntityWithHttpInfo(
-                    entityUri, null, null, null, null,entidadActualizada);
+                ApiResponse<Void> response = apiInstance.updateEntityWithHttpInfo(entidad.getId(), null, null, null, null,entidadActualizada);
 
                 System.out.println("Código de respuesta: " + response.getStatusCode());
             } else {

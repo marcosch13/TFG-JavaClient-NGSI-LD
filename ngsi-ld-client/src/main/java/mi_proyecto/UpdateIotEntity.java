@@ -43,36 +43,35 @@ public class UpdateIotEntity{
                 System.out.print("¿Qué propiedad quieres añadir a la entidad? :  hasTemperatureSensor, hasHumiditySensor");
                 String propiedadElegida = scanner.nextLine();
 
-                Entity fragmento = new Entity();
+                IotDevice fragmento = new IotDevice();
 
                 if(propiedadElegida.equals("hasTemperatureSensor")){
                     System.out.println("Introduce el id del sensor de temperatura: ");
                     String identificador = scanner.nextLine();
+                    int numT = Integer.parseInt(identificador);
+                    String idFormateadoT = String.format("%03d", numT);
                     HasTemperatureSensor tempSensor = new HasTemperatureSensor();
                     tempSensor.setType(HasTemperatureSensor.TypeEnum.RELATIONSHIP);
-                    tempSensor.setObject("urn:ngsi-ld:TemperatureSensor:" + identificador);
-                    fragmento.putAdditionalProperty("hasTemperatureSensor", tempSensor);
+                    tempSensor.setObject("urn:ngsi-ld:TemperatureSensor:" + idFormateadoT);
+                    fragmento.setHasTemperatureSensor(tempSensor);
                 }else if(propiedadElegida.equals("hasHumiditySensor")){
                     System.out.println("Introduce el id del sensor de humedad: ");
                     String identificador = scanner.nextLine();
+                    int numH = Integer.parseInt(identificador);
+                    String idFormateadoH = String.format("%03d", numH);
                     HasHumiditySensor humSensor = new HasHumiditySensor();
                     humSensor.setType(HasHumiditySensor.TypeEnum.RELATIONSHIP);
-                    humSensor.setObject("urn:ngsi-ld:HumiditySensor:" + identificador);
-                    fragmento.putAdditionalProperty("hasHumiditySensor", humSensor);
+                    humSensor.setObject("urn:ngsi-ld:HumiditySensor:" + idFormateadoH);
+                    fragmento.setHasHumiditySensor(humSensor);
                 }
-                
-                /*else if(propiedad.equals("description")){
-                    System.out.print("Introduce la descripción para el dispositivo IoT: ");
-                    String descripcion = scanner.nextLine();   
-                    fragmento.putAdditionalProperty("description", descripcion);
-                }*/
 
-            
-            ContextInformationProvisionApi apiInstance = new ContextInformationProvisionApi(apiClient);
+                Entity fragmentoEntity = Entity.fromJson(fragmento.toJson());
 
-            URI entityId = new URI("urn:ngsi-ld:IotDevice:" + idFormateado);
-            ApiResponse<Void> response = apiInstance.appendAttrsWithHttpInfo(entityId, null, null, null, null, null, fragmento);
-            System.out.println("respuesta: " + response.getStatusCode());
+                ContextInformationProvisionApi apiInstance = new ContextInformationProvisionApi(apiClient);
+
+                URI entityId = new URI("urn:ngsi-ld:IotDevice:" + idFormateado);
+                ApiResponse<Void> response = apiInstance.appendAttrsWithHttpInfo(entityId, null, null, null, null, null, fragmentoEntity);
+                System.out.println("respuesta: " + response.getStatusCode());
             
         }  
         }catch (Exception e) {

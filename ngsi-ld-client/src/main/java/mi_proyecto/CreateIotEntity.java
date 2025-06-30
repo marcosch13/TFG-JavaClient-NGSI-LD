@@ -38,37 +38,29 @@ public class CreateIotEntity {
             } catch (ApiException e){}
 
             if (existe) {
-                System.out.println("La entidad ya existe. ¿Desea sobreescribirla? (s/n)");
+                System.out.println("La entidad ya existe. ¿Desea actualizarla? (s/n)");
                 if (scanner.nextLine().equalsIgnoreCase("s")) {
-                    System.out.println("Se procederá a sobreescribir la entidad.");
-                    UpdateIotEntity.main(new String[]{idFormateado});
+                    System.out.println("Se procederá a actualizar la entidad.");
+                    UpdateIotAtributes.main(new String[]{idFormateado});
                 } else {
                     System.out.println("No se sobreescribirá la entidad.");
                     return;
                 }
             }else{
-                //Creo entidad IotDevice
                 IotDevice device = new IotDevice();
                 device.setId(new URI("urn:ngsi-ld:IotDevice:" + idFormateado));
                 device.setType(IotDevice.TypeEnum.IOT_DEVICE);
                 device.setDescription(new IotDescription().value("IoT device **************"));
 
-                //Convertir a JSON
                 String json = device.toJson();
                 System.out.println("Payload JSON:\n" + json);
 
-                //Paso a entidad NGSI-LD genérica
                 QueryEntity200ResponseInner entity = QueryEntity200ResponseInner.fromJson(json);
 
-                // Crear cliente y api
                 ContextInformationProvisionApi api = new ContextInformationProvisionApi(apiClient);
 
-                // Crear la entidad usando la API
-                //api.createEntity(false, null, null, entity);
                 ApiResponse<Void> response = api.createEntityWithHttpInfo(null, null, null, entity);
 
-
-                //obtener respuesta del context broker y mostrarla
                 System.out.println("Código de respuesta: " + response.getStatusCode());
             }
         } catch (Exception e) {

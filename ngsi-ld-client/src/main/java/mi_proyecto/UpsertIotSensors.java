@@ -36,7 +36,7 @@ public class UpsertIotSensors {
             boolean actualizarHumSensor = false;
 
             for (int i = 0; i < total; i++) {
-                System.out.println("\n[+] Entidad " + (i + 1));
+                System.out.println("\n Entidad " + (i + 1));
 
                 System.out.print("ID numérico de la entidad: ");
                 String idNum = scanner.nextLine();
@@ -59,8 +59,6 @@ public class UpsertIotSensors {
                     IotEntity.setId(new URI("urn:ngsi-ld:IotDevice:" + idFormateado));
                 }
                 TemperatureSensor tempEntity = new TemperatureSensor();
-                
-
                 HumiditySensor humEntity = new HumiditySensor();
                 
 
@@ -75,7 +73,9 @@ public class UpsertIotSensors {
                 if (scanner.nextLine().equalsIgnoreCase("s")) {
                     actualizarTempSensor = true;
                     System.out.print("Introduce el numero final del ID del sensor: ");
-                    String tempId = scanner.nextLine(); //meter el formateo?dijimos que no hacia falta
+                    String tempId = scanner.nextLine(); 
+                    int numT = Integer.parseInt(tempId);
+                    String idFormateadoT = String.format("%03d", numT);
 
                     System.out.print("Introduce el valor de la temperatura: ");
                     BigDecimal nuevaTemperatura = new BigDecimal(scanner.nextLine());
@@ -83,12 +83,12 @@ public class UpsertIotSensors {
                         .type(Temperature.TypeEnum.PROPERTY)
                         .value(nuevaTemperatura) 
                         .unitCode("CEL"));
-                    tempEntity.setId(new URI("urn:ngsi-ld:TemperatureSensor:" + tempId));
+                    tempEntity.setId(new URI("urn:ngsi-ld:TemperatureSensor:" + idFormateadoT));
                     tempEntity.setType(TemperatureSensor.TypeEnum.TEMPERATURE_SENSOR);
 
                     HasTemperatureSensor tempSensor = new HasTemperatureSensor();
                     tempSensor.setType(HasTemperatureSensor.TypeEnum.RELATIONSHIP);
-                    tempSensor.setObject("urn:ngsi-ld:TemperatureSensor:" + tempId);
+                    tempSensor.setObject("urn:ngsi-ld:TemperatureSensor:" + idFormateadoT);
                     IotEntity.setHasTemperatureSensor(tempSensor);
                 }
 
@@ -97,6 +97,8 @@ public class UpsertIotSensors {
                     actualizarHumSensor = true;
                     System.out.print("ID del sensor: ");
                     String humId = scanner.nextLine();
+                    int numH = Integer.parseInt(humId);
+                    String idFormateadoH = String.format("%03d", numH);
 
                     System.out.print("Introduce el valor de humedad: ");
                     BigDecimal nuevaHumedad = new BigDecimal(scanner.nextLine());
@@ -105,51 +107,54 @@ public class UpsertIotSensors {
                     .value(nuevaHumedad)
                     .unitCode("P1"));
 
-                    humEntity.setId(new URI("urn:ngsi-ld:HumiditySensor:" + humId));
+                    humEntity.setId(new URI("urn:ngsi-ld:HumiditySensor:" + idFormateadoH));
                     humEntity.setType(HumiditySensor.TypeEnum.HUMIDITY_SENSOR);
 
                     HasHumiditySensor humSensor = new HasHumiditySensor();
                     humSensor.setType(HasHumiditySensor.TypeEnum.RELATIONSHIP);
-                    humSensor.setObject("urn:ngsi-ld:HumiditySensor:" + humId);
+                    humSensor.setObject("urn:ngsi-ld:HumiditySensor:" + idFormateadoH);
                     IotEntity.setHasHumiditySensor(humSensor);
                 }
 
                 //Convertir a JSON
-                String json = IotEntity.toJson();
-                System.out.println("Payload JSON:\n" + json);
+                String jsonIot = IotEntity.toJson();
+                System.out.println("Payload JSON:\n" + jsonIot);
 
-                String json2 = tempEntity.toJson();
-                System.out.println("Payload JSON:\n" + json2);
+                String jsonTSensor = tempEntity.toJson();
+                System.out.println("Payload JSON:\n" + jsonTSensor);
 
-                String json3 = humEntity.toJson();
-                System.out.println("Payload JSON:\n" + json3);
+                String jsonHSensor = humEntity.toJson();
+                System.out.println("Payload JSON:\n" + jsonHSensor);
 
                 //Paso a entidad NGSI-LD genérica
-                QueryEntity200ResponseInner entity = QueryEntity200ResponseInner.fromJson(json);
+                QueryEntity200ResponseInner entity = QueryEntity200ResponseInner.fromJson(jsonIot);
                 entidades.add(entity);
 
                 if(actualizarTempSensor){
-                    QueryEntity200ResponseInner tempEntityQ = QueryEntity200ResponseInner.fromJson(json2);
+                    QueryEntity200ResponseInner tempEntityQ = QueryEntity200ResponseInner.fromJson(jsonTSensor);
                     entidades.add(tempEntityQ);
                 }
                 if(actualizarHumSensor){
-                    QueryEntity200ResponseInner humEntityQ = QueryEntity200ResponseInner.fromJson(json3);
+                    QueryEntity200ResponseInner humEntityQ = QueryEntity200ResponseInner.fromJson(jsonHSensor);
                     entidades.add(humEntityQ);
                 }
             }
-
-            
             
 
             ApiResponse<List<String>> response = apiInstance.upsertBatchWithHttpInfo(null, null, null, null, entidades);
-            
-            
 
             System.out.println("\nCódigo de respuesta: " + response.getStatusCode());
             
-            
-
-            
+            if(response.getData() == null || response.getData().isEmpty()) {
+                System.out.println("La respuesta está vacía. No hay datos para procesar.");
+                
+            }else{
+                List<String> responseBody = response.getData();
+                System.out.println("Entidades creadas:");
+                for (String item : responseBody) {
+                    System.out.println(item);
+                }
+            }
 
         } catch (Exception e) {
             System.err.println("Error durante el upsert batch:");

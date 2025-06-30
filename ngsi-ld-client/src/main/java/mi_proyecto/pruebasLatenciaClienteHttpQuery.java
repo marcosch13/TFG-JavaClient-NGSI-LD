@@ -11,11 +11,11 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 
-public class pruebasLatenciaClienteHttp {
+public class pruebasLatenciaClienteHttpQuery {
 
     public static void main(String[] args) {
         int repeticiones = 1000;
-        String archivo = "latenciasClienteHttp.csv";
+        String archivo = "latenciasClienteHttpQuery.csv";
     
         try (PrintWriter writer = new PrintWriter(new FileWriter(archivo))) {
             writer.println("iteracion;latencia_ms");
@@ -25,15 +25,9 @@ public class pruebasLatenciaClienteHttp {
             for (int i = 0; i < repeticiones; i++) {
                 try {
                     long inicio = System.nanoTime();
-                    //Instant timestampInicio = Instant.now();
-    
-                    //query entidad
                     
-                    
-
                     String entityId = "urn:ngsi-ld:IotDevice:001";
                     
-
                     HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("http://localhost:1026/ngsi-ld/v1/entities?id=" + entityId))
                     .timeout(Duration.ofSeconds(10))
@@ -43,21 +37,12 @@ public class pruebasLatenciaClienteHttp {
 
                     HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-                    
-
-                    
-
-
-
-    
-                    //Instant timestampFin = Instant.now();
                     long fin = System.nanoTime();
     
-                    double duracionMs = (fin - inicio) / 1_000_000; // convertir ns → ms
+                    double duracionMs = (fin - inicio) / 1_000_000; 
     
                     writer.printf("%d;%.3f\n", i + 1,duracionMs);
                     
-    
                     Thread.sleep(100); 
                 } catch (Exception e) {
                     System.out.println("Error en la iteración " + (i + 1) + ": " + e.getMessage());
@@ -70,7 +55,4 @@ public class pruebasLatenciaClienteHttp {
             System.out.println("Error al escribir el archivo CSV: " + e.getMessage());
         }
     }
-    
-
-
 }
