@@ -55,10 +55,10 @@ public class UpdateTemperatureSensorAtributes {
 
                 if (propiedad.equals("temperature")) {
                     System.out.print("Introduce el nuevo valor para '" + propiedad + "': ");
-                    int nuevoValorTemp = Integer.parseInt(scanner.nextLine());
+                    BigDecimal nuevoValorTemp = new BigDecimal(scanner.nextLine());
                     editableTemp.setTemperature(new Temperature()
                         .type(Temperature.TypeEnum.PROPERTY)
-                        .value(BigDecimal.valueOf(nuevoValorTemp)) 
+                        .value(nuevoValorTemp) 
                         .unitCode("CEL"));
                 }
 
