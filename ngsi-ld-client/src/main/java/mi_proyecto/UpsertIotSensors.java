@@ -88,7 +88,7 @@ public class UpsertIotSensors {
 
                     HasTemperatureSensor tempSensor = new HasTemperatureSensor();
                     tempSensor.setType(HasTemperatureSensor.TypeEnum.RELATIONSHIP);
-                    tempSensor.setObject("urn:ngsi-ld:TemperatureSensor:" + tempId);
+                    tempSensor.setObject("urn:ngsi-ld:TemperatureSensor:" + idFormateadoT);
                     IotEntity.setHasTemperatureSensor(tempSensor);
                 }
 
@@ -112,7 +112,7 @@ public class UpsertIotSensors {
 
                     HasHumiditySensor humSensor = new HasHumiditySensor();
                     humSensor.setType(HasHumiditySensor.TypeEnum.RELATIONSHIP);
-                    humSensor.setObject("urn:ngsi-ld:HumiditySensor:" + humId);
+                    humSensor.setObject("urn:ngsi-ld:HumiditySensor:" + idFormateadoH);
                     IotEntity.setHasHumiditySensor(humSensor);
                 }
 
@@ -154,7 +154,6 @@ public class UpsertIotSensors {
                 
             }else{
                 List<String> responseBody = response.getData();
-                System.out.println(responseBody);
                 System.out.println("Entidades creadas:");
                 for (String item : responseBody) {
                     System.out.println(item);

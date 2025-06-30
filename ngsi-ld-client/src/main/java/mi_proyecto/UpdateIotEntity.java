@@ -49,16 +49,20 @@ public class UpdateIotEntity{
                 if(propiedadElegida.equals("hasTemperatureSensor")){
                     System.out.println("Introduce el id del sensor de temperatura: ");
                     String identificador = scanner.nextLine();
+                    int numT = Integer.parseInt(identificador);
+                    String idFormateadoT = String.format("%03d", numT);
                     HasTemperatureSensor tempSensor = new HasTemperatureSensor();
                     tempSensor.setType(HasTemperatureSensor.TypeEnum.RELATIONSHIP);
-                    tempSensor.setObject("urn:ngsi-ld:TemperatureSensor:" + identificador);
+                    tempSensor.setObject("urn:ngsi-ld:TemperatureSensor:" + idFormateadoT);
                     fragmento.setHasTemperatureSensor(tempSensor);
                 }else if(propiedadElegida.equals("hasHumiditySensor")){
                     System.out.println("Introduce el id del sensor de humedad: ");
                     String identificador = scanner.nextLine();
+                    int numH = Integer.parseInt(identificador);
+                    String idFormateadoH = String.format("%03d", numH);
                     HasHumiditySensor humSensor = new HasHumiditySensor();
                     humSensor.setType(HasHumiditySensor.TypeEnum.RELATIONSHIP);
-                    humSensor.setObject("urn:ngsi-ld:HumiditySensor:" + identificador);
+                    humSensor.setObject("urn:ngsi-ld:HumiditySensor:" + idFormateadoH);
                     fragmento.setHasHumiditySensor(humSensor);
                 }
                 

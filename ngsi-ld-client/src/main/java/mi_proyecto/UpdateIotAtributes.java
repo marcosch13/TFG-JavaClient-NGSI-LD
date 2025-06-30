@@ -50,7 +50,7 @@ public class UpdateIotAtributes {
 
                 System.out.print("¿Qué propiedad quieres actualizar?: ");
                 if(editableIot.getHasHumiditySensor() != null){   
-                    System.out.println("hasHumiditySensor: ");
+                    System.out.println("\n hasHumiditySensor: ");
                 } 
                 if (editableIot.getHasTemperatureSensor() != null) {
                     System.out.println("hasTemperatureSensor: ");
@@ -63,14 +63,18 @@ public class UpdateIotAtributes {
                     String nuevoValor = scanner.nextLine();
 
                     if(propiedad.equals("hasTemperatureSensor")){
+                        int numH = Integer.parseInt(nuevoValor);
+                        String idFormateadoH = String.format("%03d", numH);
                         HasTemperatureSensor tempSensor = new HasTemperatureSensor();
                         tempSensor.setType(HasTemperatureSensor.TypeEnum.RELATIONSHIP);
-                        tempSensor.setObject("urn:ngsi-ld:TemperatureSensor:" + nuevoValor);
+                        tempSensor.setObject("urn:ngsi-ld:TemperatureSensor:" + idFormateadoH);
                         editableIot.setHasTemperatureSensor(tempSensor);
                     }else if(propiedad.equals("hasHumiditySensor")){
+                        int numT = Integer.parseInt(nuevoValor);
+                        String idFormateadoT = String.format("%03d", numT);
                         HasHumiditySensor humSensor = new HasHumiditySensor();
                         humSensor.setType(HasHumiditySensor.TypeEnum.RELATIONSHIP);
-                        humSensor.setObject("urn:ngsi-ld:HumiditySensor:" + nuevoValor);
+                        humSensor.setObject("urn:ngsi-ld:HumiditySensor:" + idFormateadoT);
                         editableIot.setHasHumiditySensor(humSensor);
                     }else{
                         editableIot.setDescription(new IotDescription().value(nuevoValor));

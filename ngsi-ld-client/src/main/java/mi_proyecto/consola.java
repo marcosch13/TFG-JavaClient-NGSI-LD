@@ -21,7 +21,7 @@ public class consola{
             System.out.println("9: Actualizar atributos existentes de sensor de temperatura");
             System.out.println("10: Añadir atributos a una entidad IoT");
             System.out.println("11: Upsert de entidad/es");
-            System.out.println("12:Borrar entidadU");
+            System.out.println("12:Borrar entidades");
             System.out.println("13:Borrar todas las entidades ");
             System.out.println("0: Salir");
             System.out.print("Selecciona una opción: ");
@@ -62,9 +62,7 @@ public class consola{
                 System.out.println(" Ejecutando QueryIotDevices\n");
                 QueryIotEntities.main(null); 
             }else if(opcion == 6) {
-                System.out.print("Introduce el número de ID: ");
-                String idNum = scanner.nextLine();
-                retrieveEntityById.main(new String[]{idNum});
+                retrieveEntityById.main(null);
             }else if(opcion == 7) {
                 System.out.println("\n Actualizar atributos existentes");
                 System.out.print("Introduce el número de ID: ");
