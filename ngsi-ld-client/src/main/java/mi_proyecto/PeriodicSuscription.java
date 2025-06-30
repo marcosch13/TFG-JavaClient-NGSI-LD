@@ -30,16 +30,13 @@ public class PeriodicSuscription {
 
             Endpoint endpoint = new Endpoint();
             endpoint.setUri(new URI("http://scorpio-notifier-tester:8084/notify"));
-            endpoint.setNotifierInfo(null); //si no me da error
-            endpoint.setReceiverInfo(null); //si no me da error
-
+            endpoint.setNotifierInfo(null); 
+            endpoint.setReceiverInfo(null); 
 
             NotificationParams notificationParams = new NotificationParams();
             notificationParams.setEndpoint(endpoint);
             notificationParams.setFormat(NotificationParams.FormatEnum.NORMALIZED);
             notificationParams.setAttributes(Arrays.asList("humidity", "temperature")); 
-
-            //profe: attributes=["temperature", "humidity"], sysAttrs=True
             
             System.out.println("A que tipo de entidad quieres suscribirte? \n Iot \n humedad \n temperatura ");
             String tipoEntidad = scanner.nextLine();
@@ -56,12 +53,6 @@ public class PeriodicSuscription {
                 tipo = "IotDevice";
                 letra = "I";
             }
-            
-
-            System.out.println("Introduce el número final de ID de la entidad: ");
-            String NumeroId = scanner.nextLine();
-            String NumeroIdFormateado = String.format("%03d", Integer.parseInt(NumeroId));
-            URI entityUri = new URI("urn:ngsi-ld:" + tipo + ":"  +NumeroIdFormateado);
 
             System.out.println("Introduce el periodo de la subscripción en segundos: ");
             String periodo = scanner.nextLine();
@@ -69,12 +60,11 @@ public class PeriodicSuscription {
 
             EntitySelector Entity = new EntitySelector();
             Entity.setType(tipo);
-            //Entity.setId(entityUri);
 
             CreateSubscriptionRequest subscription = new CreateSubscriptionRequest();
 
             subscription.setType(CreateSubscriptionRequest.TypeEnum.SUBSCRIPTION);
-            subscription.setId(new URI("urn:ngsi-ld:Subscription:Periodic:" + letra + NumeroId));
+            subscription.setId(new URI("urn:ngsi-ld:Subscription:Periodic:" + letra ));
             subscription.setNotification(notificationParams);
             subscription.setEntities(Arrays.asList(Entity));
             subscription.setDescription("Subscripción periodica a :");

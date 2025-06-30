@@ -3,6 +3,7 @@ package mi_proyecto;
 import java.net.URI;
 import java.util.Map;
 import java.util.Scanner;
+import java.math.BigDecimal;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
@@ -10,10 +11,8 @@ import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.api.ContextInformationConsumptionApi;
 import org.openapitools.client.api.ContextInformationProvisionApi;
-import org.openapitools.client.model.Entity;
-import org.openapitools.client.model.HasHumiditySensor;
-import org.openapitools.client.model.HasTemperatureSensor;
-import org.openapitools.client.model.QueryEntity200ResponseInner;
+import org.openapitools.client.model.*;
+
 
 public class UpdateHumiditySensorAtributes {
     public static void main(String[] args){
@@ -43,30 +42,34 @@ public class UpdateHumiditySensorAtributes {
             if (existe) {
 
 
-            URI entityUri = new URI("urn:ngsi-ld:HumiditySensor:" + idFormateado);
-                QueryEntity200ResponseInner entidad = consumoApi.retrieveEntity(
-                entityUri, null, null, null, null, null, null, null, null);
-            
-            Entity editable = Entity.fromJson(entidad.toJson());
-            
-            Map<String, Object> atributos = editable.getAdditionalProperties();
-            for (String key : atributos.keySet()) {
-                System.out.println("Atributo:" + key);
-            }
+                URI entityUri = new URI("urn:ngsi-ld:HumiditySensor:" + idFormateado);
+                    QueryEntity200ResponseInner entidad = consumoApi.retrieveEntity(
+                    entityUri, null, null, null, null, null, null, null, null);
+                
+                HumiditySensor editableHum = HumiditySensor.fromJson(entidad.toJson());
+                
+                System.out.print("¿Qué propiedad quieres actualizar?: ");
+                if(editableHum.getHumidity() != null){   
+                    System.out.println("humidity: " );
+                }
+                String propiedad = scanner.nextLine();
 
-            System.out.print("¿Qué propiedad quieres actualizar?: ");
-            String propiedad = scanner.nextLine();
-
-            if (atributos.containsKey(propiedad)) {
-                System.out.print("Introduce el nuevo valor para '" + propiedad + "': ");
-                String nuevoValor = scanner.nextLine();
-                editable.putAdditionalProperty(propiedad, nuevoValor);
+                if (propiedad.equals("humidity")) {
+                    System.out.print("Introduce el nuevo valor para '" + propiedad + "': ");
+                    String nuevoValor = scanner.nextLine();
+                    BigDecimal nuevoValorHum = new BigDecimal(nuevoValor);
+                    editableHum.setHumidity(new Humidity()
+                        .type(Humidity.TypeEnum.PROPERTY)
+                        .value(nuevoValorHum)
+                        .unitCode("P1"));
                 }
 
-                
-                ApiResponse<Void> response = apiInstance.updateEntityWithHttpInfo(entidad.getId(), null, null, null, null,editable);
+                Entity entidadActualizada = Entity.fromJson(editableHum.toJson());
+
+                ApiResponse<Void> response = apiInstance.updateEntityWithHttpInfo(entidad.getId(), null, null, null, null,entidadActualizada);
 
                 System.out.println("Código de respuesta: " + response.getStatusCode());
+
             } else {
                 System.out.println("Esa propiedad no existe en la entidad.");
             }

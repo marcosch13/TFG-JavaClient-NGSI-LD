@@ -9,13 +9,10 @@ import org.openapitools.client.Configuration;
 import org.openapitools.client.api.ContextInformationConsumptionApi;
 import org.openapitools.client.model.QueryEntity200ResponseInner;
 
-public class retrieveEntitysById {
+public class retrieveEntityById {
 
     public static void main(String[] args) {
         try {
-            String idNumero = (args != null && args.length > 0) ? args[0] : "1";
-            int num = Integer.parseInt(idNumero);
-            String idFormateado = String.format("%03d", num);
 
             ApiClient apiClient = Configuration.getDefaultApiClient();
             apiClient.setBasePath("http://localhost:9090/ngsi-ld/v1");
@@ -25,8 +22,13 @@ public class retrieveEntitysById {
 
             Scanner scanner = new Scanner(System.in);
 
-            System.out.println("Elige el tipo de entidad (1: IotDevice   2: HumiditySensor    3: TemperatureSensor)");
+            System.out.println("Elige el tipo de entidad (1: IotDevice  2: HumiditySensor  3: TemperatureSensor)");
             String tipo = scanner.nextLine();
+            System.out.println("Indica el número final del id de la entidad: ");
+            String id = scanner.nextLine();
+            int idNumero = Integer.parseInt(id);
+            String idFormateado = String.format("%03d", idNumero);
+
             URI entityUri = null;
             if(tipo.equals("1")){
                 entityUri = new URI("urn:ngsi-ld:IotDevice:" + idFormateado);
@@ -36,7 +38,7 @@ public class retrieveEntitysById {
                 entityUri = new URI("urn:ngsi-ld:TemperatureSensor:" + idFormateado);
             }
 
-            System.out.println("\n[+] Consultando entidad con id: " + entityUri);
+            System.out.println("\n Consultando entidad con id: " + entityUri);
             try {
                 QueryEntity200ResponseInner entidad = apiInstance.retrieveEntity(
                 entityUri, null, null, null, null, null, null, null, null); 

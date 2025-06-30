@@ -24,6 +24,7 @@ public class CreateHumiditySensorEntity {
             int num = Integer.parseInt(idNumero);
             String idFormateado = String.format("%03d", num);
 
+            
             ApiClient apiClient = Configuration.getDefaultApiClient();
             apiClient.setBasePath("http://localhost:9090/ngsi-ld/v1");
             apiClient.addDefaultHeader("Link", "<http://context-catalog:8080/context.jsonld>; rel=\"http://www.w3.org/ns/json-ld#context\"; type=\"application/ld+json\"");
@@ -39,17 +40,16 @@ public class CreateHumiditySensorEntity {
             } catch (ApiException e){}
 
             if (existe) {
-                System.out.println("La entidad ya existe. ¿Desea sobreescribirla? (s/n)");
+                System.out.println("La entidad ya existe. ¿Desea actualizarla? (s/n)");
                 if (scanner.nextLine().equalsIgnoreCase("s")) {
-                    System.out.println("Se procederá a sobreescribir la entidad.");
-                    UpdateHumiditySensor.main(new String[]{idFormateado});
+                    System.out.println("Se procederá a actualizar la entidad.");
+                    UpdateHumiditySensorAtributes.main(new String[]{idFormateado});
                 } else {
-                    System.out.println("No se sobreescribirá la entidad.");
+                    System.out.println("No se actualizará la entidad.");
                     return;
                 }
             }else{
 
-                //Creo entidad HumiditySensor
                 HumiditySensor sensor = new HumiditySensor();
                 sensor.setId(new URI("urn:ngsi-ld:HumiditySensor:" + idFormateado));
                 sensor.setType(HumiditySensor.TypeEnum.HUMIDITY_SENSOR);
@@ -57,21 +57,17 @@ public class CreateHumiditySensorEntity {
                     .type(Humidity.TypeEnum.PROPERTY)
                     .value(BigDecimal.valueOf(30.8)) 
                     .unitCode("P1")
-                );//unitcode se va al actualizar***************************************************************************************
+                );
 
-                // Convertir a JSON
                 String json = sensor.toJson();
                 System.out.println("Payload JSON:\n" + json);
 
-                //Paso a entidad NGSI-LD genérica
                 QueryEntity200ResponseInner entity = QueryEntity200ResponseInner.fromJson(json);
 
                 ContextInformationProvisionApi api = new ContextInformationProvisionApi(apiClient);
 
-                //Crear la entidad usando la API
                 ApiResponse<Void> response = api.createEntityWithHttpInfo(null, null, null, entity);
 
-                //obtener respuesta del context broker y mostrarla
                 System.out.println("Código de respuesta: " + response.getStatusCode());
             }
             

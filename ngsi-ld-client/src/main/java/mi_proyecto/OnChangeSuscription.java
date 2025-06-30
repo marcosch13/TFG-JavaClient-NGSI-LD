@@ -29,8 +29,6 @@ public class OnChangeSuscription {
 
             Endpoint endpoint = new Endpoint();
             endpoint.setUri(new URI("http://scorpio-notifier-tester:8084/notify"));
-            //endpoint.setAccept(AcceptEnum.APPLICATION_LD_JSON);
-            //endpoint.setUri(new URI("http://localhost:8084/notify"));
             endpoint.setNotifierInfo(null); 
             endpoint.setReceiverInfo(null); 
 
@@ -38,11 +36,7 @@ public class OnChangeSuscription {
             NotificationParams notificationParams = new NotificationParams();
             notificationParams.setEndpoint(endpoint);
             notificationParams.setFormat(NotificationParams.FormatEnum.NORMALIZED);
-            notificationParams.setAttributes(Arrays.asList("humidity", "temperature")); 
-            //poner sysattrs ponerlo a true y probar
-            //profe: attributes=["temperature", "humidity"], sysAttrs=True
-            
-
+            notificationParams.setAttributes(Arrays.asList("humidity", "temperature", "description")); 
             
             System.out.println("A que tipo de entidad quieres suscribirte? \n Iot \n humedad \n temperatura ");
             String tipoEntidad = scanner.nextLine();
@@ -70,7 +64,6 @@ public class OnChangeSuscription {
             Entity.setType(tipo);
             Entity.setId(entityUri);
 
-
             CreateSubscriptionRequest subscription = new CreateSubscriptionRequest();
 
             subscription.setType(CreateSubscriptionRequest.TypeEnum.SUBSCRIPTION);
@@ -91,7 +84,6 @@ public class OnChangeSuscription {
             e.printStackTrace();
             System.out.println("Error al crear la suscripción: " + e.getMessage());
         }
-
         
     }
 }
