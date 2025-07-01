@@ -24,9 +24,9 @@ Contiene el cliente con el caso de vehicular y el Context Broker Scorpio.
 ## Cómo ejecutar los distintos escenarios
 
 ### 1. Situarse en el caso que se desea ejecutar
-    ```bash
+```bash
     cd cliente-java-IoT-Scorpio
-    ```
+```
 ### 2. Desde la carpeta ngsi-ld-client(en dos terminales distintas) levantar los servicios Docker y compilar el proyecto.
 ```bash
     cd ngsi-ld-client
