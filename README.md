@@ -6,19 +6,19 @@ Este repositorio contiene 4 ramas en las que se encuentra el cliente java desarr
 
 ### - Cliente-java-Iot-OrionLD
 
-    Contiene el cliente para el caso de uso de Iot y el Context Broker Orion-LD.
+Contiene el cliente para el caso de uso de Iot y el Context Broker Orion-LD.
 
 ### - Cliente-java-Iot-Scorpio
 
-    Contiene el cliente con el caso de uso de Iot y el Context Broker Scorpio.
+Contiene el cliente con el caso de uso de Iot y el Context Broker Scorpio.
 
 ### - Cliente-java-Iot-Subscriptions
 
-    Contiene el cliente con el caso de uso de Iot y el Context Broker Scorpio con el servicio de recepción de notifiaciones de las subscripciones a entidades.
+Contiene el cliente con el caso de uso de Iot y el Context Broker Scorpio con el servicio de recepción de notifiaciones de las subscripciones a entidades.
 
 ### - Cliente-java-Vehicle-Scorpio
 
-    Contiene el cliente con el caso de vehicular y el Context Broker Scorpio.
+Contiene el cliente con el caso de vehicular y el Context Broker Scorpio.
 
 
 ## Cómo ejecutar los distintos escenarios
