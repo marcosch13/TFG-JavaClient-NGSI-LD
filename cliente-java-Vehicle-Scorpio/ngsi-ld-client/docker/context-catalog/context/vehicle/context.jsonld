@@ -1,0 +1,13 @@
+{
+    "@context": {
+        "Vehicle": "https://vehicles.org/vehicles/Vehicle",
+        "brandName": "https://vehicles.org/vehicles/Vehicle/brandName",
+        "street": "https://https://vehicles.org/vehicles/Vehicle/street",
+        "isParked": "https://https://vehicles.org/vehicles/Vehicle/isParked",
+        "isProvidedBy": "https://https://vehicles.org/vehicles/Vehicle/isProvidedBy",
+        "category": "https://https://vehicles.org/vehicles/Vehicle/category",
+        "tyreTreadDepths": "https://https://vehicles.org/vehicles/Vehicle/tyreTreadDepths",
+        "passengers": "https://https://vehicles.org/vehicles/Vehicle/passengers",
+        "router": "https://https://vehicles.org/vehicle/Vehicles/route"
+    }
+}

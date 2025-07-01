@@ -1,0 +1,6 @@
+{
+    "@context": {
+        "Company": "https://vehicles.org/vehicles/Company",
+        "name": "https://vehicles.org/vehicles/Company/name"
+    }
+}
