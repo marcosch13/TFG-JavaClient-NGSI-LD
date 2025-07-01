@@ -4,21 +4,21 @@ Este repositorio contiene 4 ramas en las que se encuentra el cliente java desarr
 
 ## Contenido del repositorio
 
-### cliente-java-Iot-OrionLD
+### - Cliente-java-Iot-OrionLD
 
-Contiene el cliente para el caso de uso de Iot y el Context Broker Orion-LD.
+    Contiene el cliente para el caso de uso de Iot y el Context Broker Orion-LD.
 
-### cliente-java-Iot-Scorpio
+### - Cliente-java-Iot-Scorpio
 
-Contiene el cliente con el caso de uso de Iot y el Context Broker Scorpio.
+    Contiene el cliente con el caso de uso de Iot y el Context Broker Scorpio.
 
-### cliente-java-Iot-Subscriptions
+### - Cliente-java-Iot-Subscriptions
 
-Contiene el cliente con el caso de uso de Iot y el Context Broker Scorpio con el servicio de recepción de notifiaciones de las subscripciones a entidades.
+    Contiene el cliente con el caso de uso de Iot y el Context Broker Scorpio con el servicio de recepción de notifiaciones de las subscripciones a entidades.
 
-### cliente-java-Vehicle-Scorpio
+### - Cliente-java-Vehicle-Scorpio
 
-Contiene el cliente con el caso de vehicular y el Context Broker Scorpio.
+    Contiene el cliente con el caso de vehicular y el Context Broker Scorpio.
 
 
 ## Cómo ejecutar los distintos escenarios
@@ -29,16 +29,17 @@ Contiene el cliente con el caso de vehicular y el Context Broker Scorpio.
 ```
 ### 2. Desde la carpeta ngsi-ld-client(en dos terminales distintas) levantar los servicios Docker y compilar el proyecto.
 ```bash
+    #Situarse en la carpeta:
     cd ngsi-ld-client
 
-    #compilar
+    #Levantar servicios Docker:
+    docker compose up 
+
+    #Compilar:
     mvn clean compile 
 
-    #Consola interactiva para scripts de prueba del cliente
+    #Ejecutar el script de consola interactiva para poder utilziar los diferentes scripts de prueba del cliente
     mvn exec:java -Dexec.mainClass="mi_proyecto.consola"
-    
-    #Levantar servicios
-    docker compose up 
 ```
 
 ### 3. En caso de que el servicio Context Broker no arranque correctamente ejecutar este comando antes de ejecutar "docker compose up"
