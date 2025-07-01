@@ -58,7 +58,7 @@ public class consola {
 
             }else if(opcion == 8) {
                 
-                retrieveEntitiesById.main(null);
+                retrieveEntityById.main(null);
 
             }else if(opcion == 0) {
                 System.out.println("Saliendo del programa...");

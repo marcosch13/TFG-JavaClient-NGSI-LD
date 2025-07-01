@@ -27,11 +27,9 @@ public class deleteAllEntities {
             for (QueryEntity200ResponseInner e : entidades) {
                 api.deleteEntityWithHttpInfo(e.getId(), null, null, null, null);
             }
+
         }catch (Exception e) {
-        System.out.println("Error al eliminar las entidades: " + e.getMessage());
+            System.out.println("Error al eliminar las entidades: " + e.getMessage());
         } 
-
-
-
-
-}}
+    }
+}

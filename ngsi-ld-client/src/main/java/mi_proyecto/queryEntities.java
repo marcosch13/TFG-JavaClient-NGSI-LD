@@ -29,10 +29,10 @@ public class queryEntities {
                     null, tipo, null, null, null, null, null, null, null,
                     null, null, null, null, null, null, null, null, null, null);
                 
-                    System.out.println(" ->Total: " + entidades.size() + " entidades encontradas.");
-                        for (QueryEntity200ResponseInner entidad : entidades) {
-                            System.out.println(entidad.toJson());
-                        }
+                System.out.println(" ->Total: " + entidades.size() + " entidades encontradas.");
+                for (QueryEntity200ResponseInner entidad : entidades) {
+                    System.out.println(entidad.toJson());
+                }
             }
         }
        catch (Exception e) {

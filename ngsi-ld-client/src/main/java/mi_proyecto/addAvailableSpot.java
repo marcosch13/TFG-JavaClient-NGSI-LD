@@ -20,7 +20,6 @@ public class addAvailableSpot {
     public static void main(String[] args){
         try {
             Scanner scanner = new Scanner(System.in);
-            //OffsetDateTime observedAt = OffsetDateTime.now().withNano(0);
             OffsetDateTime observedAt = OffsetDateTime.now(ZoneOffset.UTC).withNano(0);
 
             ApiClient apiClient = Configuration.getDefaultApiClient();
@@ -50,7 +49,7 @@ public class addAvailableSpot {
             }
 
             
-            System.out.println("Indica los spots disponibles del parking");
+            System.out.println("Indica cuántos spots disponibles hay en el parking");
             int numSpots = Integer.parseInt(scanner.nextLine());
             OffStreetParking fragment0 = new OffStreetParking();
             for(int i = 0; i < numSpots; i++) {
@@ -58,7 +57,6 @@ public class addAvailableSpot {
                 System.out.print("Introduce el id de la cámara que registra el AvailableSpot: ");
                 String idCamara = scanner.nextLine();
                 
-                //Comprobar si la cámara existe
                 boolean existeCamara = false;
                 try {
                     URI entityUri2 = new URI("urn:ngsi-ld:Camera:C" + idCamara);
@@ -77,10 +75,8 @@ public class addAvailableSpot {
 
                 AvailableSpotNumber availableSpotNumber = new AvailableSpotNumber();
                 availableSpotNumber.setValue(spotNumber);
-                availableSpotNumber.setReliability(new Reliability().value(new BigDecimal(0.9)));//VER BIEN QUE ES LA RELIABILITY
+                availableSpotNumber.setReliability(new Reliability().value(new BigDecimal(0.95)));
                 availableSpotNumber.setObservedAt(observedAt); 
-                
-                
 
                 URI entityUriProvidedBy = new URI("urn:ngsi-ld:Camera:C" + idCamara);
 
@@ -89,25 +85,14 @@ public class addAvailableSpot {
 
                 availableSpotNumber.setProvidedBy(providedBy);
 
-                
                 fragment0.addAvailableSpotNumbersItem( availableSpotNumber );
-
-                
             }
 
+            Entity fragmento = Entity.fromJson(fragment0.toJson());
             
-            Entity fragmento = new Entity();
-            fragmento.putAdditionalProperty("availableSpotNumbers", fragment0.getAvailableSpotNumbers());
-            
-
-
             ApiResponse<Void> responsePr = apiInstance.updateEntityWithHttpInfo(entityUri3, null, null, null, null, fragmento);
 
             System.out.println("Código de respuesta: " + responsePr.getStatusCode());
-
-
-
-            
 
         }catch (Exception e) {
             e.printStackTrace();

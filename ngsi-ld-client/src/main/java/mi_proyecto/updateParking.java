@@ -1,5 +1,3 @@
-
-
 package mi_proyecto;
 
 import java.net.URI;
@@ -21,7 +19,7 @@ public class updateParking{
             Scanner scanner = new Scanner(System.in);
 
             ApiClient apiClient = Configuration.getDefaultApiClient();
-            apiClient.setBasePath("http://localhost:1026/ngsi-ld/v1");
+            apiClient.setBasePath("http://localhost:9090/ngsi-ld/v1");
             apiClient.addDefaultHeader("Link", "<http://context-catalog:8080/context.jsonld>; rel=\"http://www.w3.org/ns/json-ld#context\"; type=\"application/ld+json\"");
             apiClient.addDefaultHeader("Accept", "application/ld+json");
             ContextInformationConsumptionApi consumoApi = new ContextInformationConsumptionApi(apiClient);
@@ -44,10 +42,6 @@ public class updateParking{
                 return;
             }
 
-           
-
-
-            
             QueryEntity200ResponseInner entidad = consumoApi.retrieveEntity(
                 entityUri3, null, null, null, null, null, null, null, null);
             
@@ -62,7 +56,7 @@ public class updateParking{
                 System.out.print("¿Qué propiedad quieres actualizar?: ");
                 String propiedad = scanner.nextLine();
                 if (atributos.containsKey(propiedad)) {
-                    if(propiedad.equals("name")){ //el id no se puede cambiar...
+                    if(propiedad.equals("name")){ 
                         Name name = new Name();
                         System.out.println("Introduce el nuevo nombre del parking");
                         String nuevoValor = scanner.nextLine();
@@ -102,10 +96,6 @@ public class updateParking{
             ApiResponse<Void> response = apiInstance.updateEntityWithHttpInfo(entidad.getId(), null, null, null, null,editable);
 
             System.out.println("Código de respuesta: " + response.getStatusCode());
-
-        
-        
-
             
         }catch (Exception e) {
             System.err.println("Error al actualizar la entidad:");

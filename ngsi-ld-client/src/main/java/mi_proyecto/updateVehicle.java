@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.time.ZoneOffset;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
@@ -24,10 +25,10 @@ public class updateVehicle {
     public static void main(String[] args){
         try {
             Scanner scanner = new Scanner(System.in);
-            OffsetDateTime observedAt = OffsetDateTime.now().withNano(0);
+            OffsetDateTime observedAt = OffsetDateTime.now(ZoneOffset.UTC).withNano(0);
 
             ApiClient apiClient = Configuration.getDefaultApiClient();
-            apiClient.setBasePath("http://localhost:1026/ngsi-ld/v1");
+            apiClient.setBasePath("http://localhost:9090/ngsi-ld/v1");
             apiClient.addDefaultHeader("Link", "<http://context-catalog:8080/context.jsonld>; rel=\"http://www.w3.org/ns/json-ld#context\"; type=\"application/ld+json\"");
             apiClient.addDefaultHeader("Accept", "application/ld+json");
             ContextInformationConsumptionApi consumoApi = new ContextInformationConsumptionApi(apiClient);
@@ -49,16 +50,11 @@ public class updateVehicle {
                 System.out.println("El vehículo no existe, por favor registrelo primero");
                 return;
             }
-
-           
-
-
-            
+      
             QueryEntity200ResponseInner entidad = consumoApi.retrieveEntity(
                 entityUri3, null, null, null, null, null, null, null, null);
             
             Entity editable = Entity.fromJson(entidad.toJson());
-            Vehicle editableVehicle = Vehicle.fromJson(entidad.toJson());
 
             //imprimir entidad para poder verla antes de modificarla
             
@@ -77,8 +73,7 @@ public class updateVehicle {
                         System.out.println("Introduce el nuevo nombre de la marca");
                         String nuevoValor = scanner.nextLine();
                         brandname.setValue(nuevoValor);
-                        //editable.putAdditionalProperty("brandName", brandname);
-                        editableVehicle.setBrandName(brandname);
+                        editable.putAdditionalProperty("brandName", brandname);
 
                     }else if(propiedad.equals("passengers")){
                         Passengers passengers = new Passengers();
@@ -94,34 +89,31 @@ public class updateVehicle {
                             passengerUris.add(pasajeroUri);
                         }
                         passengers.setObject(passengerUris);
-                        //editable.putAdditionalProperty("passengers", passengers);
-                        editableVehicle.setPassengers(passengers);
+                        editable.putAdditionalProperty("passengers", passengers);
 
                     }else if(propiedad.equals("route")){
                         System.out.println("¿Por cuantas ciudades pasa tu ruta?");
                         int numCiudadesRuta = Integer.parseInt(scanner.nextLine());
 
-                        List<String> rutaUris = new ArrayList<>();
-                        for (int k = 0; k < numCiudadesRuta; k++) {
-                            System.out.print("Introduce el nombre de la " + (k+1) + "ª ciudad: ");
+                        Route route = new Route();
+                        List<Object> rutaUris = new ArrayList<>();
+                        for (int j = 0; j < numCiudadesRuta; j++) {
+                            System.out.print("Introduce el nombre de la " + (j+1) + "ª ciudad: ");
                             String nombreCiudad = scanner.nextLine();
                             rutaUris.add("urn:ngsi-ld:City:" + nombreCiudad);
                         }
-                        Map<String,Object> routeAttr = new HashMap<>();
-                        routeAttr.put("type", "Relationship");
-                        routeAttr.put("object", rutaUris);
-                        editableVehicle.putAdditionalProperty("route", routeAttr);
+                        route.setObjectList(rutaUris);
+                        editable.putAdditionalProperty("route", route);
     
                     }else if(propiedad.equals("street")){
-                        System.out.println("Introduce la nueva calle: "); 
+                        System.out.println("Introduce la calle: "); 
                         String calle = scanner.nextLine();
-                        
-                        Map<String,Object> street = new HashMap<>();
-                        street.put("type",  "Property");
-                        Map<String,String> lm = new HashMap<>();
-                        lm.put("@none", calle);
-                        street.put("value", lm);
-                        editableVehicle.putAdditionalProperty("street", street);
+                        Street street = new Street();
+                        street.setType(Street.TypeEnum.LANGUAGE_PROPERTY);
+                        Map<String, String> streetLanguageMap = new HashMap<>();
+                        streetLanguageMap.put("es", calle);
+                        street.setLanguageMap(streetLanguageMap);
+                        editable.putAdditionalProperty("street", street);
                         
                     }else if(propiedad.equals("isParked")){
                         System.out.println("En que parking esta aparcado el vehículo?");
@@ -152,38 +144,33 @@ public class updateVehicle {
                         isParked.setObservedAt(observedAt);
                         isParked.setProvidedBy(providedBy);
 
-                        //editable.putAdditionalProperty("isParked", isParked);    
-                        editableVehicle.setIsParked(isParked);                                                                                   
-
-                        
+                        editable.putAdditionalProperty("isParked", isParked);    
                         
                     }else if(propiedad.equals("category")){
-                        System.out.println("Introduce la nueva categoría: "); 
+                        System.out.println("Introduce la categoría del vehículo: ");
                         String categoria = scanner.nextLine();
-                        Map<String, Object> categoryAttr = new HashMap<>();
-                        categoryAttr.put("type", "Property");
-                        categoryAttr.put("value", categoria);
-                        editableVehicle.putAdditionalProperty("category", categoryAttr);
+                        Category category = new Category();
+                        category.setVocab(categoria);
+                        editable.putAdditionalProperty("category", category);
                         
                     }else if(propiedad.equals("tyreTreadDepths")){
                         System.out.println("Introduce la profundidad de los neumáticos delanteros: ");
                         String nuevoValorDelanteros = scanner.nextLine();
                         System.out.println("Introduce la profundidad de los neumáticos traseros: ");
                         String nuevoValorTraseros = scanner.nextLine();
-                        
-                        Map<String,Object> tyreAttr = new HashMap<>();
-                        tyreAttr.put("type",  "Property");
-                        tyreAttr.put("value", Arrays.asList(nuevoValorDelanteros,nuevoValorDelanteros,nuevoValorTraseros,nuevoValorTraseros));
-                        tyreAttr.put("unitCode", "MMT");
-                        editableVehicle.putAdditionalProperty("tyreTreadDepths", tyreAttr);
+                        TyreTreadDepths depths = new TyreTreadDepths();
+                        depths.addValueListItem(nuevoValorDelanteros);
+                        depths.addValueListItem(nuevoValorDelanteros);
+                        depths.addValueListItem(nuevoValorTraseros);
+                        depths.addValueListItem(nuevoValorTraseros);
+                        editable.putAdditionalProperty("tyreTreadDepths", depths);
                     }
                 }else {
                     System.out.println("Esa propiedad no existe en la entidad.");
                 }
             }
-            Entity editableEntity = Entity.fromJson(editableVehicle.toJson());
 
-            ApiResponse<Void> response = apiInstance.updateEntityWithHttpInfo(entidad.getId(), null, null, null, null,editableEntity);
+            ApiResponse<Void> response = apiInstance.updateEntityWithHttpInfo(entidad.getId(), null, null, null, null,editable);
 
             System.out.println("Código de respuesta: " + response.getStatusCode());
 
